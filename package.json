@@ -1,0 +1,42 @@
+{
+  "name": "vite_study",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@vueuse/components": "^11.1.0",
+    "@vueuse/core": "^11.1.0",
+    "animate.css": "^4.1.1",
+    "axios": "^1.7.7",
+    "element-plus": "^2.8.3",
+    "js-cookie": "^3.0.5",
+    "normalize.css": "^8.0.1",
+    "nprogress": "^0.2.0",
+    "path-browserify": "^1.0.1",
+    "pinia": "^2.2.2",
+    "screenfull": "^6.0.2",
+    "vue": "^3.4.37",
+    "vue-i18n": "^10.0.3",
+    "vue-router": "^4.4.5"
+  },
+  "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
+    "@types/nprogress": "^0.2.3",
+    "@types/path-browserify": "^1.0.3",
+    "@vitejs/plugin-vue": "^5.1.2",
+    "autoprefixer": "^10.4.20",
+    "sass": "^1.79.3",
+    "typescript": "^5.5.3",
+    "unocss": "^0.62.4",
+    "unplugin-auto-import": "^0.18.3",
+    "unplugin-vue-components": "^0.27.4",
+    "vite": "^5.4.1",
+    "vite-plugin-svg-icons": "^2.0.1",
+    "vue-tsc": "^2.0.29"
+  }
+}

@@ -1,3 +1,4 @@
+/* 专门用来配置vite.config.json */
 {
   "compilerOptions": {
     "target": "ES2022",

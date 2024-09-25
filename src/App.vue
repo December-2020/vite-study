@@ -1,11 +1,12 @@
 <template>
-  <div>
+  <div class="wrap">
     <el-button @click="toggleDark()">主题切换</el-button>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useDark, useToggle } from "@vueuse/core";
+
 
 const isDark = useDark({
   selector: "html",
@@ -19,4 +20,10 @@ const toggleDark = useToggle(isDark);
 // };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+
+.wrap {
+  @include background_color('nav-bg-color');
+  height: 100px;
+}
+</style>

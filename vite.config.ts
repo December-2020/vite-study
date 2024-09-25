@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-23 15:08:24
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-09-25 11:51:45
+ * @LastEditTime: 2024-09-25 16:42:19
  */
 import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
@@ -129,7 +129,7 @@ export default defineConfig(({ mode }) => {
            * !不能使用@import来导入, sass团队将废弃该语法
            */
           additionalData: `
-            @use "./src/styles/variable.scss" as *;
+            @use "./src/styles/handle.scss" as *;
           `,
         },
       },

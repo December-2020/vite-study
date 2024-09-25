@@ -1,0 +1,59 @@
+@import "./theme.scss";
+
+// 从主题色map中取出对应颜色
+@function themed($key) {
+  // 获取变量key所对应的键值
+  @return map-get($theme-map, $key);
+}
+
+/**
+* 切换主题时 获取不同的主题色值
+* 定义复用的样式代码，接受传参，搭配@include使用
+*/
+@mixin themeify {
+  /**
+  * @each 指令的格式是 $var in <list>
+  */
+  @each $theme-name, $theme-map in $themes {
+    // !global 把局部变量强升为全局变量
+    $theme-map: $theme-map !global;
+    /**
+    * 判断html的class的属性值
+    * 暗色主题是html的class的值为dark
+    * # {} 是sass的差值表达式
+    * & sass嵌套里的父容器标识
+    * @content是混合器插槽, 像vue的slot
+    */
+    [class="#{$theme-name}"] & {
+      @content;
+    }
+  }
+}
+
+/**
+* 在sass中使用
+* @include background_color(theme文件下的属性名);
+* 如: @include background_color('nav-bg-color');
+*/
+// 获取背景颜色
+@mixin background_color($color) {
+  @include themeify {
+    background-color: themed($color) !important;
+  }
+}
+// 获取字体颜色
+@mixin font_color($color) {
+  @include themeify {
+    color: themed($color) !important;
+  }
+}
+
+// https://www.bluematador.com/blog/how-to-share-variables-between-js-and-sass
+// :export {}
+
+// 修改菜单颜色
+// @mixin test_color($color) {
+//   @include themeify {
+//     --el-menu-hover-bg-color: themed($color) !important;
+//   }
+// }

@@ -3,6 +3,22 @@
     <el-button @click="toggleDark()">主题切换</el-button>
     <el-date-picker type="date" placeholder="Pick a day" />
     <el-button @click="toggleLocale">语言切换</el-button>
+    <base-input
+      v-model="iptVal"
+      width="298"
+      clearable
+      @clear="handleClear"
+      ref="testRef"
+    >
+      <template #prepend>Http://</template>
+      <template #append>.com</template>
+    </base-input>
+    <base-input
+      v-model="iptVal"
+      clearable
+      ref="testRef1"
+    ></base-input>
+    <el-button @click="handleTestRef">清空输入框</el-button>
   </el-config-provider>
 </template>
 
@@ -45,6 +61,18 @@ const toggleLocale = () => {
       ? LanguageEnum.ENGLISH
       : LanguageEnum.CHINESE;
   store.appSet.setLang(_lang);
+};
+
+const iptVal = ref("");
+watchEffect(() => console.log(iptVal.value));
+const handleClear = () => {
+  console.log(1111);
+};
+const testRef = ref();
+const testRef1 = ref();
+const handleTestRef = () => {
+  testRef.value?.clear();
+  testRef1.value?.focus();
 };
 </script>
 

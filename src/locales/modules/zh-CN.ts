@@ -1,4 +1,9 @@
 export default {
+  // 通用组件
+  Components: {
+    inputPlaceholder: "请输入内容",
+  },
+
   // 路由模块 (侧边导航栏)
   Route: {
     // 公共路由
@@ -23,7 +28,7 @@ export default {
     inputPassword: "请输入密码",
     title: "用户登录",
   },
-  
+
   // 404页面
   404: {
     title: "页面未找到!",

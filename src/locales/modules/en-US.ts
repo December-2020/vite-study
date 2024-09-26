@@ -1,4 +1,8 @@
 export default {
+  Components: {
+    inputPlaceholder: "Please enter content",
+  },
+
   Route: {
     common: {
       login: "Login",

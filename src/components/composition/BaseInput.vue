@@ -19,6 +19,13 @@ import i18n from "@/locales";
 import { h } from "vue";
 import { ElInput } from "element-plus";
 
+
+// import { ElInput, inputProps } from "element-plus";
+
+// type Props = typeof inputProps & {
+//   width?: number | string;
+// };
+
 // h(ElInput, $attrs, $slots)
 /**
  * * h 函数的3个参数详解
@@ -26,7 +33,6 @@ import { ElInput } from "element-plus";
  * * 第二个参数是要传递的 prop，
  * * 第三个参数是子节点。
  */
-
 interface Props {
   // 修饰符
   //   modelModifiers?: {

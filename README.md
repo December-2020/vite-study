@@ -275,6 +275,8 @@ methods: {
 - [VueUse中文文档](https://www.vueusejs.com/guide/)
 12. 抓包工具 whistle
 - [whistle官网](https://wproxy.org/whistle/)
+13. 根据模板生成相应的代码片段
+- [模板网站](https://snippet-generator.app/?description=&tabtrigger=&snippet=&mode=vscode)
 
 
 ## 十一、github上一些有趣开源的项目

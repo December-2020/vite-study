@@ -16,6 +16,8 @@ import "element-plus/theme-chalk/dark/css-vars.css";
 import { registerI18n } from "@/locales";
 // 引入pinia
 import { registerStore } from "@/store";
+// 引入router
+import { registerRouter } from "@/router";
 
 
 async function bootstrap() {
@@ -23,6 +25,7 @@ async function bootstrap() {
 
   registerI18n(app);
   registerStore(app);
+  registerRouter(app);
 
   app.mount("#app");
 }

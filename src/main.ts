@@ -2,12 +2,17 @@
  * @Author: Komorebi
  * @Date: 2024-09-23 15:08:24
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-09-26 11:14:40
+ * @LastEditTime: 2024-09-27 15:58:13
  */
 import { createApp } from "vue";
 import App from "./App.vue";
+
+// 统一浏览器的样式
+import "normalize.css/normalize.css";
 // 注册svg图标
 import "virtual:svg-icons-register";
+// element plus 调用api需要引入
+import "element-plus/es/components/message/style/css";
 // 导入UnoCss
 import "uno.css";
 // 引入element内组件的暗色主题
@@ -18,7 +23,6 @@ import { registerI18n } from "@/locales";
 import { registerStore } from "@/store";
 // 引入router
 import { registerRouter } from "@/router";
-
 
 async function bootstrap() {
   const app = createApp(App);

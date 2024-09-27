@@ -1,19 +1,4 @@
 <template>
-  <!-- 写法一 -->
-  <!-- <el-input
-    v-model="model"
-    v-bind="props"
-    @clear="emit('clear')"
-    @blur="emit('blur')"
-    @focus="emit('focus')"
-    class="base-input"
-    ref="inputRef"
-  >
-    <template v-for="(_, slot) in $slots" :key="slot" v-slot:[slot]="slotProps">
-      <slot :name="slot" v-bind="slotProps"></slot>
-    </template>
-  </el-input> -->
-  <!-- 写法二 -->
   <component
     :is="h(ElInput, props, $slots)"
     v-model="model"
@@ -28,7 +13,6 @@
 <script setup lang="ts">
 // Component, StyleValue
 import type { Component } from "vue";
-// import type { EpPropMergeType } from "element-plus/es/utils/index.mjs";
 
 // ts中使用i18n
 import i18n from "@/locales";
@@ -69,7 +53,6 @@ interface Props {
   // 是否显示切换密码图标
   showPassword?: boolean;
   disabled?: boolean;
-  // size?: String as PropType<EpPropMergeType<StringConstructor,"large" | "default" | "small",unknown>>;
   size?: "large" | "default" | "small";
   prefixIcon?: string | Component;
   rows?: number;

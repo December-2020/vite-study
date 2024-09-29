@@ -28,8 +28,8 @@ export type Component<T = any> =
  *    RouteRecordRaw 剔除掉 meta
  * 第二个 Omit (ts报错)
  *    在第一个的基础上 再剔除 children
- * 
- * 在路由无匹配时(例如: 404), 
+ *
+ * 在路由无匹配时(例如: 404),
  * 是不需要name和meta的
  */
 export interface AppRouteRecordRaw

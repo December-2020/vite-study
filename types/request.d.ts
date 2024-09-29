@@ -21,7 +21,7 @@ export interface RequestConfig extends AxiosRequestConfig {
   interceptors?: RequestInterceptors;
 }
 
-/** 
+/**
  * * 调用接口返回的数据类型
  * ? 仅该服务后端返回的数据类型是这种
  * ? 后续可根据需求自行调整

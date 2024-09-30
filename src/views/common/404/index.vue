@@ -38,7 +38,7 @@
           {{ $t("404.notBeAccessed") }}
         </div>
         <div class="bullshit__info">{{ $t("404.tips") }}</div>
-        <a href="" class="bullshit__return-home">{{ $t("404.backButton") }}</a>
+        <a href="/" class="bullshit__return-home">{{ $t("404.backButton") }}</a>
       </div>
     </div>
   </div>

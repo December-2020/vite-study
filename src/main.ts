@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-23 15:08:24
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-09-27 15:58:13
+ * @LastEditTime: 2024-09-29 16:11:28
  */
 import { createApp } from "vue";
 import App from "./App.vue";
@@ -14,7 +14,7 @@ import "virtual:svg-icons-register";
 // element plus 调用api需要引入
 import "element-plus/es/components/message/style/css";
 // 导入UnoCss
-import "uno.css";
+import 'virtual:uno.css'
 // 引入element内组件的暗色主题
 import "element-plus/theme-chalk/dark/css-vars.css";
 // 引入i18n

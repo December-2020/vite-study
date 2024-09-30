@@ -2,46 +2,40 @@
  * @Author: Komorebi
  * @Date: 2024-09-29 16:29:45
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-09-30 09:23:34
+ * @LastEditTime: 2024-09-30 13:53:41
 -->
 <template>
   <component :is="h(ElButton, props, $slots)" />
 </template>
 
 <script setup lang="ts">
-// import type { EpPropMergeType } from "element-plus/es/utils/index.mjs";
+import type { Component } from "vue";
 
 import { h } from "vue";
-import { ElButton, buttonProps } from "element-plus";
+import { ElButton } from "element-plus";
 
-type Props = typeof buttonProps & { content?: String };
-// const props = defineProps(
-//   Object.assign(buttonProps, {
-//     // type: {
-//     //   type: String as PropType<
-//     //     EpPropMergeType<
-//     //       StringConstructor,
-//     //       "primary"| "success"| "warning"| "danger"| "info",
-//     //       unknown
-//     //     >
-//     //   >,
-//     //   default: "primary",
-//     //   validator: (value: string) => {
-//     //     return ["primary", "success", "warning", "danger", "info"].includes(
-//     //       value
-//     //     );
-//     //   },
-//     // },
-//     content: {
-//       type: String,
-//       default: "111",
-//     },
-//   })
-// );
+interface Props {
+  size?: "large" | "default" | "small";
+  type?: "" | "primary" | "success" | "warning" | "danger" | "info";
+  plain?: boolean;
+  text?: boolean;
+  bg?: boolean;
+  link?: boolean;
+  round?: boolean;
+  circle?: boolean;
+  loading?: boolean;
+  loadingIcon?: string | Component;
+  disabled?: boolean;
+  icon?: string | Component;
+  autofocus?: boolean;
+  nativeType?: "button" | "submit" | "reset";
+  autoInsertSpace?: boolean;
+  color?: string;
+  dark?: boolean;
+  tag?: string | Component;
+}
 
-const props = withDefaults(defineProps<Props>(),{
-  type:"primary"
-})
+const props = withDefaults(defineProps<Props>(), {
+  type: "primary",
+});
 </script>
-
-<style scoped lang="scss"></style>

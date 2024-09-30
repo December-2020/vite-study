@@ -11,19 +11,16 @@
 </template>
 
 <script setup lang="ts">
-// Component, StyleValue
 import type { Component } from "vue";
 
 // ts中使用i18n
 import i18n from "@/locales";
 import { h } from "vue";
+/** 
+ * * 使用这种方式引入组件
+ * * 需要额外在main.ts中引入css
+ */
 import { ElInput } from "element-plus";
-
-// import { ElInput, inputProps } from "element-plus";
-
-// type Props = typeof inputProps & {
-//   width?: number | string;
-// };
 
 // h(ElInput, $attrs, $slots)
 /**

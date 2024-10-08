@@ -37,6 +37,8 @@ npm run build
             |__ options 选项式写法
         |__ enums 枚举相关
         |__ icons svg相关
+            |__ common 通用svg
+            |__ nav 仅导航栏使用
         |__ layout 全局布局文件
         |__ locals 国际化语言包
         |__ router 全局路由

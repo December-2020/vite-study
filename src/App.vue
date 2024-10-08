@@ -25,8 +25,7 @@
       <el-button @click="toggleRoute('404')">404</el-button>
       <el-button @click="toggleRoute('Line')">Line</el-button>
     </div> -->
-    <!-- <router-view v-element-size="onResize" /> -->
-    <router-view v-element-size="onResize" />
+    <router-view v-element-size="onResize" class="h-100vh"/>
   </el-config-provider>
 </template>
 
@@ -62,9 +61,12 @@ const locale = computed(() => {
  * 该方法并不100%准确
  * 因为用户可以pc浏览器模拟手机ua
  * 也能使用移动端浏览器访问pc网站
+ * 
+ * Bootstrap 中定义的桌面显示器 > 992px
+ * 判断页面是移动端还是PC端
+ * 移动默认是小于768(暂不考虑横屏)
  */
-// Bootstrap 中定义的桌面显示器 > 992px
-const Min_Width = 992;
+const Min_Width = 768;
 // 监听页面宽度变化
 const onResize = ({ width }: { width: number }) => {
   // 宽度为 0 时, 页面隐藏
@@ -116,6 +118,9 @@ const onResize = ({ width }: { width: number }) => {
 
 <style lang="scss" scoped>
 // .wrap {
+/**
+ * *  必须先设定当前主题, 才能使用
+ */
 //   @include background_color("nav-bg-color");
 //   height: 100px;
 // }

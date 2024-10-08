@@ -7,12 +7,13 @@
 import i18n from "@/locales";
 import { defineStore } from "pinia";
 // import { getRawRoute } from "@/utils/route";
-import { LanguageEnum } from "@/enums/app";
+import { LanguageEnum, ThemeEnum } from "@/enums/app";
 
 const useAppSet = defineStore("appSet", {
   // 官方推荐使用 完整类型推断的箭头函数
   state: () => ({
     lang: LanguageEnum.CHINESE,
+    theme: ThemeEnum.DARK,
   }),
 
   actions: {

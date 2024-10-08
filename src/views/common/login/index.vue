@@ -2,20 +2,21 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:28:06
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-08 14:35:07
+ * @LastEditTime: 2024-10-08 16:41:18
 -->
 <template>
   <div class="wrapper w-100% h-100% flex justify-center items-center">
     <div class="login-wrapper h-240px w-400px">
       <!-- <h2 class="text-center">{{ $t("Login.title") }}</h2> -->
-      <base-switch>
+      <!-- <base-switch>
         <template #active-action>
           <span class="custom-active-action">T</span>
         </template>
         <template #inactive-action>
           <span class="custom-inactive-action">F</span>
         </template>
-      </base-switch>
+      </base-switch> -->
+      <theme-switch />
     </div>
   </div>
 </template>

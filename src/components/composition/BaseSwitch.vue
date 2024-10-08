@@ -1,5 +1,10 @@
 <template>
-  <el-switch class="base-switch" v-model="model" v-bind="props">
+  <el-switch
+    class="base-switch"
+    v-model="model"
+    v-bind="props"
+    @change="emit('change')"
+  >
     <template v-for="(_, slot) in $slots" :key="slot" v-slot:[slot]="slotProps">
       <slot :name="slot" v-bind="slotProps"></slot>
     </template>
@@ -39,6 +44,8 @@ const props = withDefaults(defineProps<Props>(), {
 const model = defineModel({
   default: false,
 });
+
+const emit = defineEmits(["change"]);
 </script>
 
 <style scoped lang="scss"></style>

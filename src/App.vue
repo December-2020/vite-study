@@ -1,9 +1,8 @@
 <template>
   <el-config-provider :locale="locale">
-    <!-- <el-button @click="toggleDark()">主题切换</el-button>
-    <el-date-picker type="date" placeholder="Pick a day" />
-    <el-button @click="toggleLocale">语言切换</el-button>
-    <base-input
+    <!-- <el-date-picker type="date" placeholder="Pick a day" /> -->
+    <!-- <el-button @click="toggleLocale">语言切换</el-button> -->
+    <!-- <base-input
       v-model="iptVal"
       width="298"
       clearable
@@ -12,13 +11,13 @@
     >
       <template #prepend>Http://</template>
       <template #append>.com</template>
-    </base-input>
-    <base-input
+    </base-input> -->
+    <!-- <base-input
       v-model="iptVal"
       clearable
       ref="testRef1"
-    ></base-input>
-    <el-button @click="handleTestRef">清空输入框</el-button> -->
+    ></base-input> -->
+    <!-- <el-button @click="handleTestRef">清空输入框</el-button> -->
     <!-- <div>
       <h3>测试路由导航</h3>
       <el-button @click="toggleRoute('Login')">login</el-button>
@@ -33,7 +32,6 @@
 // 引入 element-plus 中的语言包
 import zhCn from "element-plus/es/locale/lang/zh-cn";
 import en from "element-plus/es/locale/lang/en";
-// import { useDark, useToggle } from "@vueuse/core";
 import { vElementSize } from "@vueuse/components";
 // pinia中使用解构
 import { storeToRefs } from "pinia";
@@ -76,17 +74,6 @@ const onResize = ({ width }: { width: number }) => {
   }
 };
 
-// // 测试代码
-// const isDark = useDark({
-//   selector: "html",
-//   valueDark: "dark",
-//   valueLight: "light",
-// });
-// // console.log("🚀 ~ changeTest ~ isDark:", isDark);
-// const toggleDark = useToggle(isDark);
-// // console.log("🚀 ~ changeTest ~ toggleDark:", toggleDark)
-// // const changeTest = () => {
-// // };
 
 // const toggleLocale = () => {
 //   const { lang } = storeToRefs(store.appSet);

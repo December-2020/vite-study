@@ -12,11 +12,12 @@
 
 <script setup lang="ts">
 import type { Component } from "vue";
+import type { ComponentSize } from "element-plus";
 
 // ts中使用i18n
 import i18n from "@/locales";
 import { h } from "vue";
-/** 
+/**
  * * 使用这种方式引入组件
  * * 需要额外在main.ts中引入css
  */
@@ -55,7 +56,7 @@ interface Props {
   // 是否显示切换密码图标
   showPassword?: boolean;
   disabled?: boolean;
-  size?: "large" | "default" | "small";
+  size?: ComponentSize;
   prefixIcon?: string | Component;
   rows?: number;
   // textarea 高度是否自适应

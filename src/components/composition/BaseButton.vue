@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-29 16:29:45
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-09-30 13:53:41
+ * @LastEditTime: 2024-10-08 09:57:05
 -->
 <template>
   <component :is="h(ElButton, props, $slots)" />
@@ -10,13 +10,14 @@
 
 <script setup lang="ts">
 import type { Component } from "vue";
+import type { ComponentSize, ButtonType, ButtonNativeType } from "element-plus";
 
 import { h } from "vue";
 import { ElButton } from "element-plus";
 
 interface Props {
-  size?: "large" | "default" | "small";
-  type?: "" | "primary" | "success" | "warning" | "danger" | "info";
+  size?: ComponentSize;
+  type?: ButtonType;
   plain?: boolean;
   text?: boolean;
   bg?: boolean;
@@ -28,7 +29,7 @@ interface Props {
   disabled?: boolean;
   icon?: string | Component;
   autofocus?: boolean;
-  nativeType?: "button" | "submit" | "reset";
+  nativeType?: ButtonNativeType;
   autoInsertSpace?: boolean;
   color?: string;
   dark?: boolean;

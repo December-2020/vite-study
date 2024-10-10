@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:08:25
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-09-27 15:16:30
+ * @LastEditTime: 2024-10-10 14:29:02
 -->
 <template>
   <div class="wrapper">
@@ -10,6 +10,7 @@
     <el-button @click="handleSend">测试请求</el-button>
     <SvgIcon icon-class="common-language" class-name="text-16 c-red" />
     <SvgIcon icon-class="nav-charts" class-name="text-16 c-blue" />
+    <theme-switch />
   </div>
 </template>
 

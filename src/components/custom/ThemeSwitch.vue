@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-08 16:42:53
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-10 14:24:12
+ * @LastEditTime: 2024-10-10 14:36:38
 -->
 <template>
   <BaseSwitch
@@ -36,7 +36,7 @@ const toggleDark = useToggle(isDark);
    * *element plus 修改颜色变量 
    */
   --el-switch-on-color: #eee;
-  --el-switch-off-color: #1b1b1f;
-  --el-switch-border-color: #fafafa;
+  --el-switch-off-color: #303133;
+  // --el-switch-border-color: #fafafa;
 }
 </style>

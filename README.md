@@ -33,8 +33,10 @@ npm run build
         |__ apis api相关
         |__ assets 静态资源
         |__ components 全局组件
-            |__ composition 组合式写法
-            |__ options 选项式写法
+            |__ composition 组合式写法(全局组件)
+            |__ custom 定制组件(可以说是业务组件)
+            |__ once 非全局组件(为业务组件服务的组件, 如: svg等)
+            |__ options 选项式写法(部分组件的写法,仅供学习)
         |__ enums 枚举相关
         |__ icons svg相关
             |__ common 通用svg

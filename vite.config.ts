@@ -53,8 +53,10 @@ export default defineConfig(({ mode }) => {
          * 借用插件可使组件自动注册
          * composition 组合式写法
          * options 选项式写法
+         * 
+         * custom 是定制的组件
          */
-        dirs: ["src/components/composition"],
+        dirs: ["src/components/composition","src/components/custom"],
         extensions: ["vue", "tsx"],
         dts: "types/components.d.ts",
       }),

@@ -37,7 +37,6 @@ export default {
     login: "登录",
     inputUsername: "请输入用户名",
     inputPassword: "请输入密码",
-    title: "用户登录",
   },
 
   // 404页面

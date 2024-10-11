@@ -27,7 +27,6 @@ export default {
     login: "Login",
     inputUsername: "Please enter your username",
     inputPassword: "Please enter your password",
-    title: "User Login",
   },
 
   404: {

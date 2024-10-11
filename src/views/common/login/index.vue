@@ -2,34 +2,109 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:28:06
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-11 09:52:23
+ * @LastEditTime: 2024-10-11 14:15:07
 -->
 <template>
-  <div class="wrapper w-100% h-100% flex justify-center items-center">
-    <div class="login-wrapper h-240px w-400px">
-      <!-- <h2 class="text-center">{{ $t("Login.title") }}</h2> -->
-      <theme-switch />
+  <div class="wrapper w-100% h-100% flex flex-col">
+    <div class="header-wrap flex flex-justify-end p-16px">
+      <theme-switch class="m-r-8px" />
       <lang-dropdown />
-      <el-date-picker
-        type="date"
-        :placeholder="$t('Components.inputPlaceholder')"
-      />
+    </div>
+    <div class="content-wrap flex-1 flex justify-center items-center">
+      <div
+        class="login-wrapper h-240px w-400px border-rd-8px p-16px box-border"
+      >
+        <h2 class="text-center mt-12px">{{ $t("Login.login") }}</h2>
+        <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules">
+          <el-form-item prop="username">
+            <BaseInput
+              v-model="ruleForm.username"
+              :placeholder="$t(`Login.inputUsername`)"
+              width="100%"
+            />
+          </el-form-item>
+          <el-form-item prop="password">
+            <BaseInput
+              v-model="ruleForm.password"
+              :placeholder="$t(`Login.inputPassword`)"
+              width="100%"
+              type="password"
+              show-password
+            />
+          </el-form-item>
+          <el-form-item>
+            <BaseButton class="w-100%" @click="submitForm(ruleFormRef)">{{
+              $t("Login.login")
+            }}</BaseButton>
+          </el-form-item>
+        </el-form>
+      </div>
     </div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import type { FormInstance, FormRules } from "element-plus";
+
+import i18n from "@/locales";
+import { useRouter } from "vue-router";
+
+interface RuleForm {
+  username: string;
+  password: string;
+}
+
+const { t } = i18n.global;
+const ruleFormRef = ref<FormInstance>();
+const ruleForm = reactive<RuleForm>({
+  username: "admin",
+  password: "123",
+});
+/**
+ * * 国际化必须把校验规则放在computed中
+ */
+const rules = computed(() => {
+  return reactive<FormRules<RuleForm>>({
+    username: [
+      {
+        required: true,
+        message: t(`Login.inputUsername`),
+        trigger: "blur",
+      },
+      // { min: 3, max: 5, message: "Length should be 3 to 5", trigger: "blur" },
+    ],
+    password: [
+      {
+        required: true,
+        message: t(`Login.inputPassword`),
+        trigger: "blur",
+      },
+    ],
+  });
+});
+/** 
+ * * 必须放在setup下
+ */
+const router = useRouter();
+const submitForm = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  await formEl.validate((valid, fields) => {
+    if (valid) {
+      // router.replace({ name: "Line" });
+      router.push({ name: "Line" });
+    } else {
+      console.log("error submit!", fields);
+    }
+  });
+};
+</script>
 
 <style scoped lang="scss">
 .wrapper {
-  // background: url("@/assets/images/login_bg.webp");
+  background: url("@/assets/images/login_bg.webp");
   .login-wrapper {
     @include background_color("content-bg-color");
     @include font_color("content-font-color");
-    h2 {
-      // @include font_color("content-font-color");
-      border: solid 1px red;
-    }
   }
 }
 </style>

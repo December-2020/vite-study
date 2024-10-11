@@ -57,3 +57,18 @@
 //     --el-menu-hover-bg-color: themed($color) !important;
 //   }
 // }
+@mixin nav_bg_color() {
+  @include themeify {
+    --el-menu-bg-color: themed("nav-bg-color");
+  }
+}
+@mixin nav_font_color() {
+  @include themeify {
+    --el-menu-text-color: themed("nav-font-color");
+  }
+}
+@mixin nav_active_font_color() {
+  @include themeify {
+    --el-menu-active-color: themed("nav-active-font-color");
+  }
+}

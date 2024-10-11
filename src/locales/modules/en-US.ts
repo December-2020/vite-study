@@ -20,7 +20,7 @@ export default {
 
   // 提示弹窗
   ToolTip: {
-    langSuccess: "Successfully switched",
+    langSuccess: "Replace successfully",
   },
 
   Login: {

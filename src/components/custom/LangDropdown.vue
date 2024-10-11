@@ -5,7 +5,9 @@
     @command="toggleLanguage"
     trigger="click"
   >
-    <SvgIcon icon-class="common-language" class-name="text-4" />
+    <div class="cursor-pointer p-8px">
+      <SvgIcon icon-class="common-language" class-name="text-4" />
+    </div>
   </base-dropdown>
 </template>
 

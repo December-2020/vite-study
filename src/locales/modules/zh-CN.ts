@@ -29,7 +29,7 @@ export default {
 
   // 提示弹窗
   ToolTip: {
-    langSuccess: "已成功切换",
+    langSuccess: "更换成功",
   },
 
   // 登录页面

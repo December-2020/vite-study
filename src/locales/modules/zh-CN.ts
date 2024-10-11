@@ -1,3 +1,9 @@
+/*
+ * @Author: Komorebi
+ * @Date: 2024-09-26 09:15:04
+ * @LastEditors: Komorebi
+ * @LastEditTime: 2024-10-11 09:42:01
+ */
 export default {
   // 通用组件
   Components: {
@@ -19,6 +25,11 @@ export default {
       test1: "测试路由1",
       test2: "测试路由2",
     },
+  },
+
+  // 提示弹窗
+  ToolTip: {
+    langSuccess: "已成功切换",
   },
 
   // 登录页面

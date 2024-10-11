@@ -8,13 +8,18 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     BaseButton: typeof import('./../src/components/composition/BaseButton.vue')['default']
+    BaseDropdown: typeof import('./../src/components/composition/BaseDropdown.vue')['default']
     BaseInput: typeof import('./../src/components/composition/BaseInput.vue')['default']
     BaseSwitch: typeof import('./../src/components/composition/BaseSwitch.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
     ElDatePicker: typeof import('element-plus/es')['ElDatePicker']
+    ElDropdown: typeof import('element-plus/es')['ElDropdown']
+    ElDropdownItem: typeof import('element-plus/es')['ElDropdownItem']
+    ElDropdownMenu: typeof import('element-plus/es')['ElDropdownMenu']
     ElInput: typeof import('element-plus/es')['ElInput']
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
+    LangDropdown: typeof import('./../src/components/custom/LangDropdown.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SvgIcon: typeof import('./../src/components/composition/SvgIcon.vue')['default']

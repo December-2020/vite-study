@@ -1,6 +1,5 @@
 <template>
   <el-config-provider :locale="locale">
-    <!-- <el-date-picker type="date" placeholder="Pick a day" /> -->
     <!-- <el-button @click="toggleLocale">语言切换</el-button> -->
     <!-- <base-input
       v-model="iptVal"
@@ -103,12 +102,3 @@ const onResize = ({ width }: { width: number }) => {
 // };
 </script>
 
-<style lang="scss" scoped>
-// .wrap {
-/**
- * *  必须先设定当前主题, 才能使用
- */
-//   @include background_color("nav-bg-color");
-//   height: 100px;
-// }
-</style>

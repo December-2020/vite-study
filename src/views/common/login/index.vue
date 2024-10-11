@@ -17,6 +17,11 @@
         </template>
       </base-switch> -->
       <theme-switch />
+      <lang-dropdown />
+      <el-date-picker
+        type="date"
+        :placeholder="$t('Components.inputPlaceholder')"
+      />
     </div>
   </div>
 </template>

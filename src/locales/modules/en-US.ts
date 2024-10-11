@@ -18,6 +18,11 @@ export default {
     },
   },
 
+  // 提示弹窗
+  ToolTip: {
+    langSuccess: "Successfully switched",
+  },
+
   Login: {
     login: "Login",
     inputUsername: "Please enter your username",

@@ -31,9 +31,15 @@ export const constantRoutes: AppRouteRecordRaw[] = [
   Login_Route,
   Error_404_Route,
 ];
+
 /**
  * 白名单 通用页面
  * "404", "401"
  * 路由的name具有唯一性
  */
 export const WHITE_NAME_LIST = ["Login", "404", "Redirect"];
+
+/**
+ * @description: 通用页面布局
+ */
+export const LeftLayout = () => import("@/layout/left.vue");

@@ -6,7 +6,7 @@
 -->
 <template>
   <div class="wrapper">
-    line page
+    测试折线图
     <el-button @click="handleSend">测试请求</el-button>
     <SvgIcon icon-class="common-language" class-name="text-16 c-red" />
     <SvgIcon icon-class="nav-charts" class-name="text-16 c-blue" />

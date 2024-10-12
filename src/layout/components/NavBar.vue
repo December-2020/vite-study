@@ -2,11 +2,15 @@
  * @Author: Komorebi
  * @Date: 2024-10-11 14:43:02
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-11 16:41:00
+ * @LastEditTime: 2024-10-12 10:52:53
 -->
 <template>
   <el-scrollbar wrap-class="nav-scroll">
-    <el-menu v-bind="menuProps" class="nav-scroll-menu">
+    <el-menu
+      v-bind="menuProps"
+      :default-active="activeMenu"
+      class="nav-scroll-menu"
+    >
       <NavBarItem
         v-for="item in menuList"
         :key="item.path"
@@ -34,7 +38,6 @@ interface MenuProps {
   popperOffset?: number;
   uniqueOpened?: boolean;
   router?: boolean;
-  defaultActive?: string;
   popperClass?: string;
 }
 
@@ -44,11 +47,10 @@ const routes = Router.options.routes as unknown as AppRouteRecordRaw[];
 const menuList = computed(() => {
   return routes.filter((item) => !item.meta?.hidden);
 });
+
 // 活动的菜单
+const { path } = useRoute();
 const activeMenu = computed(() => {
-  const route = useRoute();
-  // console.log(route);
-  const { path } = route;
   return path;
 });
 
@@ -56,7 +58,6 @@ const menuProps = withDefaults(defineProps<MenuProps>(), {
   mode: "vertical",
   uniqueOpened: true,
   router: true,
-  defaultActive: activeMenu.value,
   popperClass: "menu-popper",
 });
 </script>

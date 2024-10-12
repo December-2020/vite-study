@@ -90,8 +90,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
-      // router.replace({ name: "Line" });
-      router.push({ name: "Line" });
+      // router.replace({ name: "Charts" });
+      router.push({ name: "Charts" });
     } else {
       console.log("error submit!", fields);
     }

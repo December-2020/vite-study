@@ -2,14 +2,14 @@
  * @Author: Komorebi
  * @Date: 2024-10-11 14:43:02
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-12 10:52:53
+ * @LastEditTime: 2024-10-12 11:57:52
 -->
 <template>
   <el-scrollbar wrap-class="nav-scroll">
     <el-menu
       v-bind="menuProps"
       :default-active="activeMenu"
-      class="nav-scroll-menu"
+      class="nav-scroll-menu h-100%"
     >
       <NavBarItem
         v-for="item in menuList"
@@ -63,6 +63,13 @@ const menuProps = withDefaults(defineProps<MenuProps>(), {
 </script>
 
 <style scoped lang="scss">
+/**
+  * 深度选择器(官方) 
+  * 样式穿透
+  */
+:deep(.el-scrollbar__view) {
+  height: 100%;
+}
 .nav-scroll {
   &-menu {
     /**
@@ -71,9 +78,12 @@ const menuProps = withDefaults(defineProps<MenuProps>(), {
     // --el-menu-bg-color: #eee;
     // --el-menu-text-color: #303133;
     // --el-menu-active-color: #fafafa;
-    @include nav_bg_color();
-    @include nav_font_color();
-    @include nav_active_font_color();
+    /** 
+    * ! 未生效
+    */
+    // @include nav_bg_color("nav-bg-color");
+    // @include nav_font_color();
+    // @include nav_active_font_color();
   }
 }
 </style>

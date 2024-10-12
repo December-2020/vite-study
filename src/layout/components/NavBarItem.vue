@@ -83,7 +83,6 @@ const resolvePath = (routePath: string): string => {
 // 当前路由
 const { path: routePath } = useRoute();
 const currRoute = computed(() => {
-  // console.log("🚀 ~ currRoute ~ path:", path);
   return !!~routePath.indexOf(resolvePath(route.path));
 });
 </script>

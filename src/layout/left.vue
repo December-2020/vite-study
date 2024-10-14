@@ -11,7 +11,7 @@
       <el-aside width="200px">
         <NavBar />
       </el-aside>
-      <el-main>
+      <el-main class="wrapper-main">
         <AppMain />
       </el-main>
     </el-container>
@@ -23,4 +23,11 @@ import NavBar from "./components/NavBar.vue";
 import AppMain from "./components/AppMain.vue";
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.wrapper {
+  &-main {
+    @include background_color("content-bg-color");
+    @include font_color("content-font-color");
+  }
+}
+</style>

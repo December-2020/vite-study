@@ -53,6 +53,12 @@ $curTheme: dark;
     color: getVar($color) !important;
   }
 }
+// 获取边框颜色
+@mixin border_color($color) {
+  @include useTheme {
+    border-color: getVar($color) !important;
+  }
+}
 
 // https://www.bluematador.com/blog/how-to-share-variables-between-js-and-sass
 // :export {}

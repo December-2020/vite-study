@@ -2,14 +2,15 @@
  * @Author: Komorebi
  * @Date: 2024-10-11 14:43:02
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-14 10:44:40
+ * @LastEditTime: 2024-10-14 16:57:48
 -->
 <template>
   <el-scrollbar wrap-class="nav-scroll">
     <el-menu
       v-bind="menuProps"
       :default-active="activeMenu"
-      class="nav-scroll-menu h-100%"
+      class="nav-scroll-menu h-100% w-210px"
+      :collapse="store.appSet.isCollapse"
     >
       <NavBarItem
         v-for="item in menuList"
@@ -26,6 +27,7 @@ import type { Component } from "vue";
 import type { AppRouteRecordRaw } from "#/route";
 
 import NavBarItem from "./NavBarItem.vue";
+import store from "@/store";
 import { useRouter, useRoute } from "vue-router";
 
 interface MenuProps {
@@ -60,6 +62,7 @@ const menuProps = withDefaults(defineProps<MenuProps>(), {
   router: true,
   popperClass: "menu-popper",
 });
+// const menuWidth = menuProps.mode === "vertical" ? "210px" : "auto";
 </script>
 
 <style scoped lang="scss">

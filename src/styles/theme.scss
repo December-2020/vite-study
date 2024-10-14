@@ -13,6 +13,8 @@ $themes: (
     content-bg-color: #1b1b1f,
     // 内容字体颜色
     content-font-color: #dfdfd6,
+    // 内容边框颜色
+    content-border-color: #4c4d4f,
   ),
 
   light: (
@@ -29,5 +31,7 @@ $themes: (
     content-bg-color: #eee,
     // 内容字体颜色
     content-font-color: #3c3c43,
+    // 内容边框颜色
+    content-border-color: #dcdfe6,
   ),
 );

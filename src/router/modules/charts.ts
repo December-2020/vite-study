@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 11:11:18
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-12 10:03:39
+ * @LastEditTime: 2024-10-14 16:54:34
  */
 import type { AppRouteRecordRaw } from "#/route";
 
@@ -14,6 +14,7 @@ const Charts: AppRouteRecordRaw = {
   redirect: "/charts/line",
   meta: {
     title: "图表",
+    icon: "charts",
   },
   component: LeftLayout,
   children: [

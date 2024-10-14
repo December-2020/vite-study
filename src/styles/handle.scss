@@ -1,22 +1,21 @@
 @import "./theme.scss";
 
-// 从主题色map中取出对应颜色
-@function themed($key) {
-  // 获取变量key所对应的键值
-  @return map-get($theme-map, $key);
-}
-
+/**
+* 定义一个全局变量
+* 表示当前处于什么主题下
+*/
+$curTheme: dark;
 /**
 * 切换主题时 获取不同的主题色值
 * 定义复用的样式代码，接受传参，搭配@include使用
 */
-@mixin themeify {
+@mixin useTheme {
   /**
   * @each 指令的格式是 $var in <list>
   */
-  @each $theme-name, $theme-map in $themes {
+  @each $key, $value in $themes {
     // !global 把局部变量强升为全局变量
-    $theme-map: $theme-map !global;
+    $curTheme: $key !global;
     /**
     * 判断html的class的属性值
     * 暗色主题是html的class的值为dark
@@ -24,10 +23,17 @@
     * & sass嵌套里的父容器标识
     * @content是混合器插槽, 像vue的slot
     */
-    [class="#{$theme-name}"] & {
+    html[class="#{$key}"] & {
       @content;
     }
   }
+}
+
+// 从主题色map中取出对应颜色
+@function getVar($key) {
+  // 获取变量key所对应的键值
+  $themeMap: map-get($themes, $curTheme);
+  @return map-get($themeMap, $key);
 }
 
 /**
@@ -37,14 +43,14 @@
 */
 // 获取背景颜色
 @mixin background_color($color) {
-  @include themeify {
-    background-color: themed($color) !important;
+  @include useTheme {
+    background-color: getVar($color) !important;
   }
 }
 // 获取字体颜色
 @mixin font_color($color) {
-  @include themeify {
-    color: themed($color) !important;
+  @include useTheme {
+    color: getVar($color) !important;
   }
 }
 
@@ -52,23 +58,21 @@
 // :export {}
 
 // 修改菜单颜色
-// @mixin test_color($color) {
-//   @include themeify {
-//     --el-menu-hover-bg-color: themed($color) !important;
-//   }
-// }
-@mixin nav_bg_color($color) {
-  @include themeify {
-    --el-menu-bg-color: themed($color);
+// 暂未实现, 先挂起
+@mixin nav_bg_color() {
+  @include useTheme {
+    --el-menu-bg-color: getVar("nav-bg-color") !important;
   }
 }
 @mixin nav_font_color() {
-  @include themeify {
-    --el-menu-text-color: themed("nav-font-color");
+  @include useTheme {
+    $color: getVar("nav-font-color");
+    // color: getVar("nav-font-color") !important;
+    --el-menu-text-color: $color;
   }
 }
 @mixin nav_active_font_color() {
-  @include themeify {
-    --el-menu-active-color: themed("nav-active-font-color");
+  @include useTheme {
+    --el-menu-active-color: getVar("nav-active-font-color") !important;
   }
 }

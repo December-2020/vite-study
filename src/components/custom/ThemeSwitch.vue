@@ -22,8 +22,12 @@ import { useDark, useToggle } from "@vueuse/core";
 import Sun from "@/components/once/SvgSun.vue";
 import Moon from "@/components/once/SvgMoon.vue";
 
+/** 
+ * *在没有该组件的页面刷新, 会丢失主题
+ */
 const isDark = useDark({
   selector: "html",
+  attribute:"class",
   valueDark: "dark",
   valueLight: "light",
 });

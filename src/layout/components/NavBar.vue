@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-11 14:43:02
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-12 11:57:52
+ * @LastEditTime: 2024-10-14 10:44:40
 -->
 <template>
   <el-scrollbar wrap-class="nav-scroll">
@@ -80,8 +80,13 @@ const menuProps = withDefaults(defineProps<MenuProps>(), {
     // --el-menu-active-color: #fafafa;
     /** 
     * ! 未生效
+    * 为什么没生效?
+    * "--el-menu-bg-color" 没有解析 "getVar('nav-bg-color')"
+    * 而是把这整体当做一个颜色值
+    *
+    * 暂未实现, 先挂起
     */
-    // @include nav_bg_color("nav-bg-color");
+    // @include nav_bg_color();
     // @include nav_font_color();
     // @include nav_active_font_color();
   }

@@ -1,3 +1,9 @@
+<!--
+ * @Author: Komorebi
+ * @Date: 2024-10-08 15:15:18
+ * @LastEditors: Komorebi
+ * @LastEditTime: 2024-10-17 16:48:02
+-->
 <template>
   <el-switch
     class="base-switch"
@@ -5,6 +11,7 @@
     v-bind="props"
     @change="emit('change')"
   >
+    <!-- ref="switchRef" -->
     <template v-for="(_, slot) in $slots" :key="slot" v-slot:[slot]="slotProps">
       <slot :name="slot" v-bind="slotProps"></slot>
     </template>
@@ -46,6 +53,22 @@ const model = defineModel({
 });
 
 const emit = defineEmits(["change"]);
+
+// 获取子组件的 ref
+// const switchRef = ref();
+// defineExpose(
+//   new Proxy(
+//     {},
+//     {
+//       get(_target, prop) {
+//         return switchRef.value?.[prop];
+//       },
+//       has(_target, prop) {
+//         return prop in switchRef.value;
+//       },
+//     }
+//   )
+// );
 </script>
 
 <style scoped lang="scss"></style>

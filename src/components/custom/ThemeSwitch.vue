@@ -2,39 +2,90 @@
  * @Author: Komorebi
  * @Date: 2024-10-08 16:42:53
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-10 14:36:38
+ * @LastEditTime: 2024-10-17 17:21:25
 -->
 <template>
   <BaseSwitch
     :modelValue="isDark"
-    @click="toggleDark()"
+    @click="toggleTheme"
     class="theme-switch"
     :active-value="true"
     :inactive-value="false"
     inline-prompt
     :active-icon="Sun"
     :inactive-icon="Moon"
+    ref="themeRef"
   ></BaseSwitch>
 </template>
 
 <script setup lang="ts">
-import { useDark, useToggle } from "@vueuse/core";
+import { useDark, useToggle, useMouseInElement } from "@vueuse/core";
 import Sun from "@/components/once/SvgSun.vue";
 import Moon from "@/components/once/SvgMoon.vue";
 
-/** 
+/**
  * *在没有该组件的页面刷新, 会丢失主题
  */
 const isDark = useDark({
   selector: "html",
-  attribute:"class",
+  attribute: "class",
   valueDark: "dark",
   valueLight: "light",
 });
-const toggleDark = useToggle(isDark);
+
+const themeRef = ref();
+// 获取鼠标的坐标
+const { x, y } = useMouseInElement(themeRef);
+
+const toggleTheme = () => {
+  // 获取到 transition API 实例
+  const transition = document.startViewTransition(() => {
+    // 传递参数并执行该函数
+    useToggle(isDark)();
+  });
+
+  // 在 transition.ready 的 Promise 完成后，执行自定义动画
+  transition.ready.then(() => {
+    // 计算半径，以鼠标点击的位置为圆心，到四个角的距离中最大的那个作为半径
+    const radius = Math.hypot(
+      Math.max(x.value, innerWidth - x.value),
+      Math.max(y.value, innerHeight - y.value)
+    );
+
+    const clipPath = [
+      `circle(0% at ${x.value}px ${y.value}px)`,
+      `circle(${radius}px at ${x.value}px ${y.value}px)`,
+    ];
+    // 如果要切换到暗色主题, 应该裁剪old的内容
+    let pseudoElement = `::view-transition-${
+      isDark.value ? "old" : "new"
+    }(root)`;
+
+    // 自定义动画
+    document.documentElement.animate(
+      {
+        clipPath: isDark.value ? clipPath.reverse() : clipPath,
+      },
+      {
+        duration: 500,
+        pseudoElement,
+      }
+    );
+  });
+};
 </script>
 
 <style scoped lang="scss">
+::view-transition-new(root),
+::view-transition-old(root) {
+  /* 关闭默认动画，否则影响自定义动画的执行 */
+  animation: none;
+}
+html[class="dark"] {
+  &::view-transition-old(root) {
+    z-index: 100 !important;
+  }
+}
 .theme-switch {
   /**
    * *element plus 修改颜色变量 

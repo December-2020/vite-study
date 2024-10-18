@@ -30,6 +30,8 @@ import Moon from "@/components/once/SvgMoon.vue";
 
 /**
  * *在没有该组件的页面刷新, 会丢失主题
+ * element-plus的暗黑模式是通过在
+ * html的class中添加dark来实现的
  */
 const isDark = useDark({
   selector: "html",

@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 11:14:49
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-18 11:04:32
+ * @LastEditTime: 2024-10-18 17:00:34
  */
 import type { Router } from "vue-router";
 
@@ -27,7 +27,10 @@ export const routerGuard = (router: Router) => {
     // if (document.getElementById("app-main")) {
     //   NProgress.configure({ parent: "#app-main" });
     // }
-    // 开始进度条
+    /** 
+     * 开始进度条
+     * TODO: nprogress 会在导航栏切换的一瞬间影响页面主题色, 待后续完善吧
+     */
     NProgress.start();
     useTitle(useI18n(to.meta.title, "Route"));
   });

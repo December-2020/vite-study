@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-08 16:42:53
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-17 17:21:25
+ * @LastEditTime: 2024-10-18 13:48:47
 -->
 <template>
   <BaseSwitch
@@ -19,7 +19,12 @@
 </template>
 
 <script setup lang="ts">
-import { useDark, useToggle, useMouseInElement } from "@vueuse/core";
+import {
+  useDark,
+  useToggle,
+  useMouseInElement,
+  useAnimate,
+} from "@vueuse/core";
 import Sun from "@/components/once/SvgSun.vue";
 import Moon from "@/components/once/SvgMoon.vue";
 
@@ -52,24 +57,21 @@ const toggleTheme = () => {
       Math.max(y.value, innerHeight - y.value)
     );
 
-    const clipPath = [
+    const _clipPath = [
       `circle(0% at ${x.value}px ${y.value}px)`,
       `circle(${radius}px at ${x.value}px ${y.value}px)`,
     ];
+    const clipPath = isDark.value ? _clipPath.reverse() : _clipPath;
     // 如果要切换到暗色主题, 应该裁剪old的内容
     let pseudoElement = `::view-transition-${
       isDark.value ? "old" : "new"
     }(root)`;
 
     // 自定义动画
-    document.documentElement.animate(
-      {
-        clipPath: isDark.value ? clipPath.reverse() : clipPath,
-      },
-      {
-        duration: 500,
-        pseudoElement,
-      }
+    useAnimate(
+      document.documentElement,
+      { clipPath },
+      { pseudoElement, duration: 500 }
     );
   });
 };

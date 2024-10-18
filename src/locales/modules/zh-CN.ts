@@ -24,6 +24,7 @@ export default {
       test: "测试路由",
       test1: "测试路由1",
       test2: "测试路由2",
+      test3: "测试路由3",
     },
   },
 

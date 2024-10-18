@@ -1,3 +1,9 @@
+/*
+ * @Author: Komorebi
+ * @Date: 2024-09-26 09:14:33
+ * @LastEditors: Komorebi
+ * @LastEditTime: 2024-10-18 15:02:06
+ */
 export default {
   Components: {
     inputPlaceholder: "Please enter content",
@@ -15,6 +21,7 @@ export default {
       test: "Test Route",
       test1: "Test Route 1",
       test2: "Test Route 2",
+      test3: "Test Route 3",
     },
   },
 

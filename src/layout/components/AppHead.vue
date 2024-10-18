@@ -7,7 +7,8 @@
       </div>
     </div>
     <div class="wrapper-rt">
-      <theme-switch />
+      <theme-switch class="m-r-8px" />
+      <lang-dropdown />
     </div>
   </div>
 </template>

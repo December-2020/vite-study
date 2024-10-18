@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-11 16:35:02
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-12 11:15:19
+ * @LastEditTime: 2024-10-18 15:32:21
 -->
 <template>
   <!-- el-menu 标签下只能有 el-menu-item 或者 el-sub-menu 标签 -->
@@ -41,7 +41,7 @@
               :icon-class="`nav-${route.meta.icon}`"
             />
           </el-icon>
-          <span>{{ route.meta.title }}</span>
+          <span>{{ $t(`Route.${route.meta.title}`) }}</span>
         </template>
         <!-- 默认插槽 -->
         <template v-for="child in route.children" :key="child.path">
@@ -57,7 +57,7 @@
           :icon-class="`nav-${route.meta.icon}`"
         />
       </el-icon>
-      <template #title>{{ route.meta.title }}</template>
+      <template #title>{{ $t(`Route.${route.meta.title}`) }}</template>
     </el-menu-item>
   </template>
 </template>

@@ -10,6 +10,7 @@ import type { Router } from "vue-router";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import { useTitle } from "@vueuse/core";
+import { useI18n } from "@/hooks/useI18n";
 
 // 隐藏右上角的进度环
 NProgress.configure({ showSpinner: false });
@@ -28,8 +29,7 @@ export const routerGuard = (router: Router) => {
     // }
     // 开始进度条
     NProgress.start();
-    // 设置页面标题
-    useTitle(to.meta.title);
+    useTitle(useI18n(to.meta.title, "Route"));
   });
 
   // 路由后置钩子

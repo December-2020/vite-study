@@ -1,3 +1,9 @@
+<!--
+ * @Author: Komorebi
+ * @Date: 2024-10-11 09:20:48
+ * @LastEditors: Komorebi
+ * @LastEditTime: 2024-10-18 15:54:26
+-->
 <template>
   <base-dropdown
     class="lang-dropdown"
@@ -15,6 +21,9 @@
 import store from "@/store";
 import i18n from "@/locales";
 import { ElMessage } from "element-plus";
+import { useTitle } from "@vueuse/core";
+import { useRoute } from "vue-router";
+import { useI18n } from "@/hooks/useI18n";
 import { LanguageEnum } from "@/enums/app";
 
 // 国际化
@@ -31,11 +40,14 @@ const langList = computed(() =>
   }))
 );
 const { t } = i18n.global;
+const { meta } = useRoute();
 const toggleLanguage = (lang: LanguageEnum) => {
   store.appSet.setLang(lang);
   ElMessage({
     message: t(`ToolTip.langSuccess`),
     type: "success",
   });
+  // 切换语言后需第一时间更新页面标题
+  useTitle(useI18n(meta.title, "Route"));
 };
 </script>

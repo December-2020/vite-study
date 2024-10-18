@@ -1,3 +1,9 @@
+/*
+ * @Author: Komorebi
+ * @Date: 2024-09-26 09:14:14
+ * @LastEditors: Komorebi
+ * @LastEditTime: 2024-10-18 14:50:22
+ */
 import type { App } from "vue";
 
 // 引入自定义的语言包
@@ -13,31 +19,6 @@ const messages = {
   [LanguageEnum.ENGLISH]: enLocale,
   [LanguageEnum.CHINESE]: zhLocale,
 };
-
-// 自动引入会在使用的过程中报t实例化过深
-// 引入同级目录下的语言包
-// const modules = import.meta.glob("./modules/*.ts", { eager: true });
-// const messages = getLangFiles(modules);
-
-// // 格式 文件名:{文件内容}
-// function getLangFiles(mList: any) {
-//   let msg: any = {};
-//   for (let path in mList) {
-//     if (mList[path].default) {
-//       // 文件名称
-//       let pathName = path.slice(path.lastIndexOf("/") + 1, -3);
-//       if (msg[pathName]) {
-//         msg[pathName] = {
-//           ...mList[pathName],
-//           ...mList[path].default,
-//         };
-//       } else {
-//         msg[pathName] = mList[path].default;
-//       }
-//     }
-//   }
-//   return msg;
-// }
 
 // 注册i18n并引入语言包
 const i18n = createI18n({

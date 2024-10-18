@@ -13,7 +13,7 @@ const Charts: AppRouteRecordRaw = {
   name: "Charts",
   redirect: "/charts/line",
   meta: {
-    title: "图表",
+    title: "chart.title",
     icon: "charts",
   },
   component: LeftLayout,
@@ -22,7 +22,7 @@ const Charts: AppRouteRecordRaw = {
       path: "line",
       name: "Line",
       meta: {
-        title: "折线图",
+        title: "chart.line",
       },
       component: () => import("@/views/charts/line/index.vue"),
     },
@@ -30,7 +30,7 @@ const Charts: AppRouteRecordRaw = {
       path: "histogram",
       name: "Histogram",
       meta: {
-        title: "柱状图",
+        title: "chart.histogram",
       },
       component: () => import("@/views/charts/histogram/index.vue"),
     },
@@ -40,14 +40,14 @@ const Charts: AppRouteRecordRaw = {
       path: "test",
       name: "Test",
       meta: {
-        title: "测试路由",
+        title: "chart.test",
       },
       children: [
         {
           path: "test1",
           name: "Test-1",
           meta: {
-            title: "路由1",
+            title: "chart.test1",
           },
           component: () => import("@/views/test/index1.vue"),
         },
@@ -55,7 +55,7 @@ const Charts: AppRouteRecordRaw = {
           path: "test2",
           name: "Test-2",
           meta: {
-            title: "路由2",
+            title: "chart.test2",
             hidden: true,
           },
           component: () => import("@/views/test/index2.vue"),
@@ -64,7 +64,7 @@ const Charts: AppRouteRecordRaw = {
           path: "test3",
           name: "Test-3",
           meta: {
-            title: "路由3",
+            title: "chart.test3",
             hidden: false,
           },
           component: () => import("@/views/test/index3.vue"),

@@ -16,7 +16,9 @@
         <el-header class="wrapper-head b-b-1 b-b-solid">
           <AppHead showCollapse />
         </el-header>
-        <el-main class="wrapper-main">
+        <!-- 这里的id是为 NProgress 准备的 -->
+        <!--  id="app-main" -->
+        <el-main class="wrapper-main" id="app-main">
           <AppMain />
         </el-main>
       </el-container>
@@ -28,12 +30,6 @@
 import NavBar from "./components/NavBar.vue";
 import AppMain from "./components/AppMain.vue";
 import AppHead from "./components/AppHead.vue";
-// import store from "@/store";
-
-// // 左侧导航栏展开与收起
-// let menuWidth = computed(
-//   () => `${store.appSet.isCollapse ? "63.2" : "200"}px`
-// );
 </script>
 
 <style scoped lang="scss">

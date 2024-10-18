@@ -2,6 +2,36 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 11:14:49
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-09-30 11:44:45
+ * @LastEditTime: 2024-10-18 11:04:32
  */
-// import type { Router } from "vue-router";
+import type { Router } from "vue-router";
+
+// NProgress是页面跳转或者发生异步请求是浏览器顶部的进度条
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
+
+// 隐藏右上角的进度环
+NProgress.configure({ showSpinner: false });
+
+export const routerGuard = (router: Router) => {
+  // 路由前置守卫
+  router.beforeEach(() => {
+    /** 
+     * 控制进度条显示位置
+     * 可以通过 parent 更改进度条显示位置
+     * 这里由于 header 底部有边框
+     * 如果再设置会重合在一起, 不太好看就不设置了
+     */
+    // if (document.getElementById("app-main")) {
+    //   NProgress.configure({ parent: "#app-main" });
+    // }
+    // 开始进度条
+    NProgress.start();
+  });
+
+  // 路由后置钩子
+  router.afterEach(() => {
+    // 完成进度条
+    NProgress.done();
+  });
+};

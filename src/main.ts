@@ -22,7 +22,9 @@ import { registerI18n } from "@/locales";
 // 引入pinia
 import { registerStore } from "@/store";
 // 引入router
-import { registerRouter } from "@/router";
+import { registerRouter, default as router } from "@/router";
+// 引入全局路由守卫
+import { routerGuard } from "@/router/guard";
 
 /**
  * * 因为在input基础组件中使用了
@@ -38,6 +40,8 @@ async function bootstrap() {
   registerI18n(app);
   registerStore(app);
   registerRouter(app);
+
+  routerGuard(router);
 
   app.mount("#app");
 }

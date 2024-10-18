@@ -9,14 +9,15 @@ import type { Router } from "vue-router";
 // NProgress是页面跳转或者发生异步请求是浏览器顶部的进度条
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
+import { useTitle } from "@vueuse/core";
 
 // 隐藏右上角的进度环
 NProgress.configure({ showSpinner: false });
 
 export const routerGuard = (router: Router) => {
   // 路由前置守卫
-  router.beforeEach(() => {
-    /** 
+  router.beforeEach((to) => {
+    /**
      * 控制进度条显示位置
      * 可以通过 parent 更改进度条显示位置
      * 这里由于 header 底部有边框
@@ -27,6 +28,8 @@ export const routerGuard = (router: Router) => {
     // }
     // 开始进度条
     NProgress.start();
+    // 设置页面标题
+    useTitle(to.meta.title);
   });
 
   // 路由后置钩子

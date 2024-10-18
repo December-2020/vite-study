@@ -1,3 +1,9 @@
+/*
+ * @Author: Komorebi
+ * @Date: 2024-09-27 11:02:36
+ * @LastEditors: Komorebi
+ * @LastEditTime: 2024-10-18 11:32:50
+ */
 import type { AppRouteRecordRaw } from "#/route";
 
 /**
@@ -7,8 +13,8 @@ export const Login_Route: AppRouteRecordRaw = {
   path: "/login",
   name: "Login",
   meta: {
-    // title: "登录",
-    title: "common.login",
+    title: "登录",
+    // title: "common.login",
     hidden: true,
   },
   component: () => import("@/views/common/login/index.vue"),

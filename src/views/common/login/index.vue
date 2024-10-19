@@ -7,7 +7,7 @@
 <template>
   <div class="wrapper w-100% h-100% flex flex-col">
     <div class="header-wrap flex flex-justify-end p-16px">
-      <theme-switch class="m-r-8px" />
+      <theme-switch class="m-r-10px" />
       <lang-dropdown />
     </div>
     <div class="content-wrap flex-1 flex justify-center items-center">

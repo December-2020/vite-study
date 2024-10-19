@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 11:11:18
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-14 16:54:34
+ * @LastEditTime: 2024-10-19 14:28:02
  */
 import type { AppRouteRecordRaw } from "#/route";
 
@@ -51,15 +51,15 @@ const Charts: AppRouteRecordRaw = {
           },
           component: () => import("@/views/test/index1.vue"),
         },
-        {
-          path: "test2",
-          name: "Test-2",
-          meta: {
-            title: "chart.test2",
-            hidden: true,
-          },
-          component: () => import("@/views/test/index2.vue"),
-        },
+        // {
+        //   path: "test2",
+        //   name: "Test-2",
+        //   meta: {
+        //     title: "chart.test2",
+        //     hidden: true,
+        //   },
+        //   component: () => import("@/views/test/index2.vue"),
+        // },
         {
           path: "test3",
           name: "Test-3",

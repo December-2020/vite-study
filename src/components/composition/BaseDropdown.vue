@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-10 16:12:47
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-11 09:16:53
+ * @LastEditTime: 2024-10-19 16:36:05
 -->
 <template>
   <el-dropdown
@@ -41,7 +41,7 @@ import type {
   TooltipTriggerType,
 } from "element-plus";
 
-interface ItemProps {
+export interface DropdownItemProps {
   command?: string | number | object;
   disabled?: boolean;
   divided?: boolean;
@@ -54,7 +54,7 @@ interface ItemProps {
   // 循环的key
   key?: string | number;
   // 带有任意数量的其它属性
-  //   [propName: string]: any;
+  [propName: string]: any;
 }
 interface Props {
   type?: ButtonType;
@@ -81,7 +81,7 @@ interface Props {
   /**
    * 自定义参数
    */
-  options?: ItemProps[];
+  options?: DropdownItemProps[];
 }
 
 const props = withDefaults(defineProps<Props>(), {

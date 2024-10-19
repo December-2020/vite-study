@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-14 11:31:48
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-19 17:00:43
+ * @LastEditTime: 2024-10-19 17:11:54
 -->
 <template>
   <div class="wrapper flex justify-between items-center h-100%">
@@ -109,9 +109,6 @@ watchEffect(() => {
   routeList.value = list as RouteType[];
 });
 // 面包屑路由跳转
-/** 
- * TODO: 侧边菜单没有跟着动态变化
- */
 const handleBreadGo = (routeName: string) => {
   /**
    * ! dropdown-item 动态更新的bug

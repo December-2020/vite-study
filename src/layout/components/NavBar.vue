@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-11 14:43:02
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-14 16:57:48
+ * @LastEditTime: 2024-10-19 17:10:28
 -->
 <template>
   <el-scrollbar wrap-class="nav-scroll">
@@ -50,10 +50,14 @@ const menuList = computed(() => {
   return routes.filter((item) => !item.meta?.hidden);
 });
 
-// 活动的菜单
-const { path } = useRoute();
+/** 
+ * 活动的菜单
+ * bug修复: 面包屑导航时, 菜单无响应
+ * ! 不能解构, 解构会丢失响应性
+ */
+const route = useRoute();
 const activeMenu = computed(() => {
-  return path;
+  return route.path;
 });
 
 const menuProps = withDefaults(defineProps<MenuProps>(), {

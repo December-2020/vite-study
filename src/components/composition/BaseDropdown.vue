@@ -2,10 +2,11 @@
  * @Author: Komorebi
  * @Date: 2024-10-10 16:12:47
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-19 16:36:05
+ * @LastEditTime: 2024-10-21 09:47:08
 -->
 <template>
   <el-dropdown
+    ref="dropdownRef"
     class="base-dropdown"
     v-bind="props"
     @click="emit('click')"
@@ -90,4 +91,24 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const emit = defineEmits(["click", "command", "visible-change"]);
+
+/**
+ * 获取子组件的 ref
+ * * 必须通过defineExpose 暴露子组件
+ * * 才能在父组件中通过ref调用
+ */
+const dropdownRef = ref();
+defineExpose(
+  new Proxy(
+    {},
+    {
+      get(_target, prop) {
+        return dropdownRef.value?.[prop];
+      },
+      has(_target, prop) {
+        return prop in dropdownRef.value;
+      },
+    }
+  )
+);
 </script>

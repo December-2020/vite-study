@@ -172,7 +172,11 @@ const inputWidth = computed(() => {
   }
 });
 
-// 获取子组件的 ref
+/**
+ * 获取子组件的 ref
+ * * 必须通过defineExpose 暴露子组件
+ * * 才能在父组件中通过ref调用
+ */
 const inputRef = ref();
 defineExpose(
   new Proxy(

@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-10 16:12:47
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-21 09:47:08
+ * @LastEditTime: 2024-10-21 11:38:34
 -->
 <template>
   <el-dropdown
@@ -112,3 +112,16 @@ defineExpose(
   )
 );
 </script>
+
+<style lang="scss" scoped>
+.base-dropdown {
+  :deep(.el-tooltip__trigger) {
+    &:focus {
+      outline: none;
+    }
+    &:focus-visible {
+      outline: none;
+    }
+  }
+}
+</style>

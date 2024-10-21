@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-14 11:31:48
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-19 17:11:54
+ * @LastEditTime: 2024-10-21 11:41:08
 -->
 <template>
   <div class="wrapper flex justify-between items-center h-100%">
@@ -16,7 +16,7 @@
         <el-breadcrumb-item v-for="item in routeList" :key="item.path">
           <template v-if="item.childList.length">
             <BaseDropdown :options="item.childList" @command="handleBreadGo">
-              <div>{{ item.title }}</div>
+              <span>{{ item.title }}</span>
             </BaseDropdown>
           </template>
           <template v-else>{{ item.title }}</template>

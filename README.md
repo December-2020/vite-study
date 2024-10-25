@@ -16,6 +16,11 @@ npm install
 npm run bootstrap
 ```
 2. 本地运行
+由于修改了node_modules中的包
+运行之前请先执行
+```
+npm run postinstall
+```
 将测试环境文件里面的 VITE_BASE_URL 请求路径改成服务器地址
 然后执行命令
 ```
@@ -239,6 +244,10 @@ methods: {
   - js-cookie 使用cookie
     npm i js-cookie
     npm i @types/js-cookie -D
+  - 添加临时补丁, 修改node_modules
+    npm i patch-package postinstall-postinstall
+  - 修改第三方组件, 修改nprogress/nprogress.js
+    npx patch-package nprogress
 
 
 ## 十、其他相关

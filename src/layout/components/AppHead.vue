@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-14 11:31:48
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-21 11:41:08
+ * @LastEditTime: 2024-10-21 11:55:20
 -->
 <template>
   <div class="wrapper flex justify-between items-center h-100%">
@@ -112,7 +112,10 @@ watchEffect(() => {
 const handleBreadGo = (routeName: string) => {
   /**
    * ! dropdown-item 动态更新的bug
-   * 详情见: https://github.com/element-plus/element-plus/issues/7603
+   * 详情见: https://github.com/element-plus/element-plus/issues/16639
+   * 有点类似, 但实际并不相同
+   * 方案一: 用 setTimeout 执行 handleClose
+   * 方案二: 改用 popover 组件
    */
   router.push({ name: routeName });
 };

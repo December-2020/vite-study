@@ -1,0 +1,22 @@
+diff --git a/node_modules/nprogress/nprogress.js b/node_modules/nprogress/nprogress.js
+index b23b300..11db902 100644
+--- a/node_modules/nprogress/nprogress.js
++++ b/node_modules/nprogress/nprogress.js
+@@ -219,7 +219,7 @@
+   NProgress.render = function(fromStart) {
+     if (NProgress.isRendered()) return document.getElementById('nprogress');
+ 
+-    addClass(document.documentElement, 'nprogress-busy');
++    addClass(document.body, 'nprogress-busy');
+     
+     var progress = document.createElement('div');
+     progress.id = 'nprogress';
+@@ -253,7 +253,7 @@
+    */
+ 
+   NProgress.remove = function() {
+-    removeClass(document.documentElement, 'nprogress-busy');
++    removeClass(document.body, 'nprogress-busy');
+     removeClass(document.querySelector(Settings.parent), 'nprogress-custom-parent');
+     var progress = document.getElementById('nprogress');
+     progress && removeElement(progress);

@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-08 16:42:53
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-18 13:48:47
+ * @LastEditTime: 2024-10-25 09:55:19
 -->
 <template>
   <BaseSwitch
@@ -32,6 +32,10 @@ import Moon from "@/components/once/SvgMoon.vue";
  * *在没有该组件的页面刷新, 会丢失主题
  * element-plus的暗黑模式是通过在
  * html的class中添加dark来实现的
+ *
+ * vueuse-color-scheme
+ * 如果值是 auto 则处于暗黑模式下
+ * 如果是 light 则处白天模式
  */
 const isDark = useDark({
   selector: "html",

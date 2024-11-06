@@ -2,10 +2,11 @@
  * @Author: Komorebi
  * @Date: 2024-10-14 11:31:48
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-21 11:55:20
+ * @LastEditTime: 2024-11-06 16:43:49
 -->
 <template>
   <div class="wrapper flex justify-between items-center h-100%">
+    <!-- 左侧菜单功能 -->
     <div class="wrapper-lt flex">
       <!-- 收起菜单的svg -->
       <div class="icon" v-if="props.showCollapse" @click="toggleCollapse">
@@ -16,6 +17,7 @@
         <el-breadcrumb-item v-for="item in routeList" :key="item.path">
           <template v-if="item.childList.length">
             <BaseDropdown :options="item.childList" @command="handleBreadGo">
+              <!-- ref="breadRefList" -->
               <span>{{ item.title }}</span>
             </BaseDropdown>
           </template>
@@ -23,16 +25,28 @@
         </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div class="wrapper-rt">
+    <!-- 右侧用户头像等信息 -->
+    <div class="wrapper-rt flex items-center">
+      <!-- 主题切换 -->
       <theme-switch class="m-r-10px" />
+      <!-- 国际化 -->
       <lang-dropdown />
+      <!-- 用户头像 -->
+      <BaseDropdown :options="operationList" @command="operationCommand">
+        <div class="user flex items-center m-l-10px">
+          <el-avatar :size="24" :src="UserPhoto" />
+          <span class="inline-block m-l-8px font-size-14px">Admin</span>
+        </div>
+      </BaseDropdown>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { DropdownItemProps } from "@/components/composition/BaseDropdown.vue";
+
 import store from "@/store";
+import UserPhoto from "@/assets/images/user_photo.gif";
 import { useRouter } from "vue-router";
 import { useI18n } from "@/hooks/useI18n";
 
@@ -108,8 +122,10 @@ watchEffect(() => {
   // console.log(list, "list ~~~");
   routeList.value = list as RouteType[];
 });
+// const breadRefList = ref([]);
 // 面包屑路由跳转
 const handleBreadGo = (routeName: string) => {
+  // console.log("🚀 ~ breadRefList:", breadRefList);
   /**
    * ! dropdown-item 动态更新的bug
    * 详情见: https://github.com/element-plus/element-plus/issues/16639
@@ -118,6 +134,21 @@ const handleBreadGo = (routeName: string) => {
    * 方案二: 改用 popover 组件
    */
   router.push({ name: routeName });
+  // let _list = breadRefList.value;
+  // if (_list && _list.length) {
+  //   _list.forEach((item) => {
+  //     console.log(1111, { item });
+  //     setTimeout(() => {
+  //       item.handleClose();
+  //     }, 100);
+  //   });
+  // }
+};
+
+// 用户操作(用户头像下的)
+const operationList = [{ label: "退出系统", command: "logout" }];
+const operationCommand = (command: string) => {
+  console.log("🚀 ~ command:", command);
 };
 </script>
 

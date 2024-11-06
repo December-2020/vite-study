@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-11 09:20:48
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-18 15:54:26
+ * @LastEditTime: 2024-11-06 16:36:56
 -->
 <template>
   <base-dropdown
@@ -12,7 +12,7 @@
     trigger="click"
   >
     <div class="cursor-pointer p-8px">
-      <SvgIcon icon-class="common-language" class-name="text-4" />
+      <SvgIcon icon-class="common-language" class-name="text-4.5" />
     </div>
   </base-dropdown>
 </template>

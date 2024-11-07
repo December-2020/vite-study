@@ -248,8 +248,10 @@ methods: {
     npm i patch-package postinstall-postinstall
   - 修改第三方组件, 修改nprogress/nprogress.js
     npx patch-package nprogress
-  - 使用mock模拟请求, vite中使用还需安装插件
-    npm i mockjs vite-plugin-mock
+  - 使用mock模拟请求
+    npm i mockjs
+    vite中使用还需安装插件, 但是3.0.2(2024.11.7)最新版本不支持生产环境使用
+    npm i vite-plugin-mock@2.9.8
 
 
 ## 十、其他相关

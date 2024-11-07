@@ -11,7 +11,6 @@ declare module 'vue' {
     BaseDropdown: typeof import('./../src/components/composition/BaseDropdown.vue')['default']
     BaseInput: typeof import('./../src/components/composition/BaseInput.vue')['default']
     BaseSwitch: typeof import('./../src/components/composition/BaseSwitch.vue')['default']
-    ElAside: typeof import('element-plus/es')['ElAside']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']

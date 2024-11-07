@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-23 15:08:24
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-11-07 09:57:03
+ * @LastEditTime: 2024-11-07 16:16:59
  */
 import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
@@ -30,12 +30,18 @@ import { presetUno, presetAttributify } from "unocss";
 import { viteMockServe } from "vite-plugin-mock";
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ command, mode }) => {
   // 根据当前工作目录中的 `mode` 加载 .env 文件
   // 设置第三个参数为 '' 来加载所有环境变量，而不管是否有 `VITE_` 前缀。
   // const Env = loadEnv(mode, process.cwd(), '');
   const Env = loadEnv(mode, process.cwd());
   // console.log("🚀 ~ defineConfig ~ Env:", Env);
+  /**
+   * 判断当前执行指令
+   * serve 是 本地运行
+   * build 是 打包
+   */
+  const isDev = command === "serve";
 
   return {
     /* 共享选项 */
@@ -92,8 +98,17 @@ export default defineConfig(({ mode }) => {
         logger: true,
         // 设置是否监视mockPath对应的文件夹内文件中的更改 (默认值 true)
         watchFiles: true,
-        // 是否启用 mock 功能 (默认值 true)
-        enable: true,
+        // 是否启用 mock 功能 (默认值 true 3.0版本以上支持)
+        // enable: true,
+        /* 2.9.8 版本才有下列配置 */
+        // 本地运行启用
+        localEnabled: isDev,
+        // 生产环境启用mock
+        prodEnabled: !isDev,
+        // injectCode: `
+        //   import { setupProdMockServer } from '../mock/_createProductionSever.ts';
+        //   setupProdMockServer();
+        // `,
       }),
     ],
     resolve: {

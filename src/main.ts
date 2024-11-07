@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-23 15:08:24
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-09-29 16:11:28
+ * @LastEditTime: 2024-11-07 16:34:14
  */
 import { createApp } from "vue";
 import App from "./App.vue";
@@ -25,6 +25,8 @@ import { registerStore } from "@/store";
 import { registerRouter, default as router } from "@/router";
 // 引入全局路由守卫
 import { routerGuard } from "@/router/guard";
+// 引入mock服务器(仅生产环境下使用)
+import { setupProdMockServer } from "../mock/_createProductionSever";
 
 /**
  * * 因为在input基础组件中使用了
@@ -42,6 +44,12 @@ async function bootstrap() {
   registerRouter(app);
 
   routerGuard(router);
+
+  // 获取环境变量
+  const Env = import.meta.env;
+  if (!Env.DEV) {
+    setupProdMockServer();
+  }
 
   app.mount("#app");
 }

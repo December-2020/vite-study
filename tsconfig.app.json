@@ -29,9 +29,8 @@
       "#/*": ["types/*"]
     },
     /**
-    * 使用Volar(现已更名为 Vue-Official)
-    * 指定全局组件类型(element官方建议)
-    */
+     * 指定全局组件类型(element官方建议)
+     */
     "types": ["element-plus/global"]
   },
   "include": [

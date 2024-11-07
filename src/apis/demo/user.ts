@@ -1,6 +1,6 @@
 import type { Response } from "#/request";
 
-import { get } from "@/utils/requestMock";
+import { post } from "@/utils/requestMock";
 
 enum Api {
   // 获取用户信息
@@ -8,8 +8,8 @@ enum Api {
 }
 
 const User = {
-  Get_User_Info() {
-    return get(Api.User_Info) as unknown as Response;
+  Get_User_Info(params: object) {
+    return post(Api.User_Info, params) as unknown as Response;
   },
 };
 

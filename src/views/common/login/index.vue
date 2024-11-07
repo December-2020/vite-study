@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:28:06
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-11-07 11:58:52
+ * @LastEditTime: 2024-11-07 14:25:38
 -->
 <template>
   <div class="wrapper w-100% h-100% flex flex-col">
@@ -15,17 +15,17 @@
         class="login-wrapper h-240px w-400px border-rd-8px p-16px box-border"
       >
         <h2 class="text-center mt-12px">{{ $t("Login.login") }}</h2>
-        <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules">
+        <el-form ref="formRef" :model="formData" :rules="rules">
           <el-form-item prop="username">
             <BaseInput
-              v-model="ruleForm.username"
+              v-model="formData.username"
               :placeholder="$t(`Login.inputUsername`)"
               width="100%"
             />
           </el-form-item>
           <el-form-item prop="password">
             <BaseInput
-              v-model="ruleForm.password"
+              v-model="formData.password"
               :placeholder="$t(`Login.inputPassword`)"
               width="100%"
               type="password"
@@ -33,7 +33,7 @@
             />
           </el-form-item>
           <el-form-item>
-            <BaseButton class="w-100%" @click="submitForm(ruleFormRef)">{{
+            <BaseButton class="w-100%" @click="submitForm(formRef)">{{
               $t("Login.login")
             }}</BaseButton>
           </el-form-item>
@@ -47,14 +47,9 @@
 import type { FormInstance, FormRules } from "element-plus";
 
 import i18n from "@/locales";
-import { useRouter } from "vue-router";
+// import { useRouter } from "vue-router";
 
 import API from "@/apis/demo/user";
-
-onMounted(async () => {
-  const res = await API.Get_User_Info();
-  console.log("🚀 ~ res:", res);
-});
 
 interface RuleForm {
   username: string;
@@ -62,8 +57,8 @@ interface RuleForm {
 }
 
 const { t } = i18n.global;
-const ruleFormRef = ref<FormInstance>();
-const ruleForm = reactive<RuleForm>({
+const formRef = ref<FormInstance>();
+const formData = reactive<RuleForm>({
   username: "admin",
   password: "123",
 });
@@ -92,13 +87,16 @@ const rules = computed(() => {
 /**
  * * 必须放在setup下
  */
-const router = useRouter();
+// const router = useRouter();
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
-  await formEl.validate((valid, fields) => {
+  await formEl.validate(async (valid, fields) => {
     if (valid) {
+      const res = await API.Get_User_Info(formData);
+      console.log("🚀 ~ awaitformEl.validate ~ res:", res)
+
       // router.replace({ name: "Charts" });
-      router.push({ name: "Charts" });
+      // router.push({ name: "Charts" });
     } else {
       console.log("error submit!", fields);
     }

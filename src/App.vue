@@ -2,11 +2,11 @@
  * @Author: Komorebi
  * @Date: 2024-09-23 15:08:24
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-11 09:50:57
+ * @LastEditTime: 2024-11-07 17:24:52
 -->
 <template>
   <el-config-provider :locale="locale">
-    <router-view v-element-size="onResize" class="h-100vh"/>
+    <router-view v-element-size="onResize" class="h-100vh" />
   </el-config-provider>
 </template>
 
@@ -29,17 +29,7 @@ const locale = computed(() => {
   const { lang } = storeToRefs(store.appSet);
   return elFile[lang.value];
 });
-// 判断移动端还是pc端
-// console.log(navigator.userAgent, "userAgent");
 /**
- * 判断移动端还是pc端
- * navigator.userAgent
- * 检测是否包含 iPhone iPad iPod Android 这些关键字
- * 如果包含则是移动端
- * 该方法并不100%准确
- * 因为用户可以pc浏览器模拟手机ua
- * 也能使用移动端浏览器访问pc网站
- * 
  * Bootstrap 中定义的桌面显示器 > 992px
  * 判断页面是移动端还是PC端
  * 移动默认是小于768(暂不考虑横屏)
@@ -49,9 +39,23 @@ const Min_Width = 768;
 const onResize = ({ width }: { width: number }) => {
   // 宽度为 0 时, 页面隐藏
   if (width > 0) {
-    let device = width > Min_Width ? DeviceEnum.PC : DeviceEnum.MOBILE;
+    // 判断移动端还是pc端
+    let device = DeviceEnum.PC;
+    /**
+     * navigator.userAgent
+     * 检测是否包含 iPhone iPad iPod Android iOS 这些关键字
+     * 如果包含则是移动端
+     * 该方法并不100%准确
+     * 因为用户可以pc浏览器模拟手机ua
+     * 也能使用移动端浏览器访问pc网站
+     */
+    if (
+      width < Min_Width ||
+      /(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)
+    ) {
+      device = DeviceEnum.MOBILE;
+    }
     console.log("🚀 ~ onResize ~ device:", device);
   }
 };
 </script>
-

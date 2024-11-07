@@ -25,3 +25,15 @@ export enum ContentTypeEnum {
   // form-data  upload
   //   FORM_DATA = "multipart/form-data;charset=UTF-8",
 }
+
+/**
+ * @description: Request result set
+ * 为mock 模拟请求设置的请求结果
+ * 后续可根据需求自行修改
+ */
+export enum ResultEnum {
+  SUCCESS = 0,
+  ERROR = -1,
+  TIMEOUT = 401,
+  TYPE = "success",
+}

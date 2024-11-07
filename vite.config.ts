@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-23 15:08:24
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-09-25 16:42:19
+ * @LastEditTime: 2024-11-07 09:57:03
  */
 import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
@@ -26,6 +26,8 @@ import UnoCss from "unocss/vite";
  * eg. <div hover="color-white bg-orange"></div>
  */
 import { presetUno, presetAttributify } from "unocss";
+// mock 插件
+import { viteMockServe } from "vite-plugin-mock";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -53,10 +55,10 @@ export default defineConfig(({ mode }) => {
          * 借用插件可使组件自动注册
          * composition 组合式写法
          * options 选项式写法
-         * 
+         *
          * custom 是定制的组件
          */
-        dirs: ["src/components/composition","src/components/custom"],
+        dirs: ["src/components/composition", "src/components/custom"],
         extensions: ["vue", "tsx"],
         dts: "types/components.d.ts",
       }),
@@ -80,6 +82,18 @@ export default defineConfig(({ mode }) => {
         // },
         // 使用预设
         presets: [presetUno(), presetAttributify()],
+      }),
+      viteMockServe({
+        // mock文件夹路径 (默认值: mock)
+        mockPath: "mock",
+        // 忽略已_开头的文件 (默认值 undefined)
+        ignore: /^\_/,
+        // 是否在控制台显示请求日志 (默认值 true)
+        logger: true,
+        // 设置是否监视mockPath对应的文件夹内文件中的更改 (默认值 true)
+        watchFiles: true,
+        // 是否启用 mock 功能 (默认值 true)
+        enable: true,
       }),
     ],
     resolve: {
@@ -150,7 +164,7 @@ export default defineConfig(({ mode }) => {
       // 设置代理  https://github.com/http-party/node-http-proxy#options
       proxy: {
         // 正则表达式写法：http://localhost:5173/api/bar -> http://192.168.2.221:8500/bar
-        "^/api": {
+        "^/API": {
           // 代理目标
           target: Env.VITE_BASE_URL,
           //

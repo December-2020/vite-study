@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:28:06
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-11 14:15:07
+ * @LastEditTime: 2024-11-07 11:58:52
 -->
 <template>
   <div class="wrapper w-100% h-100% flex flex-col">
@@ -49,6 +49,13 @@ import type { FormInstance, FormRules } from "element-plus";
 import i18n from "@/locales";
 import { useRouter } from "vue-router";
 
+import API from "@/apis/demo/user";
+
+onMounted(async () => {
+  const res = await API.Get_User_Info();
+  console.log("🚀 ~ res:", res);
+});
+
 interface RuleForm {
   username: string;
   password: string;
@@ -82,7 +89,7 @@ const rules = computed(() => {
     ],
   });
 });
-/** 
+/**
  * * 必须放在setup下
  */
 const router = useRouter();

@@ -248,6 +248,8 @@ methods: {
     npm i patch-package postinstall-postinstall
   - 修改第三方组件, 修改nprogress/nprogress.js
     npx patch-package nprogress
+  - 使用mock模拟请求, vite中使用还需安装插件
+    npm i mockjs vite-plugin-mock
 
 
 ## 十、其他相关
@@ -291,6 +293,8 @@ methods: {
 - [whistle官网](https://wproxy.org/whistle/)
 13. 根据模板生成相应的代码片段
 - [模板网站](https://snippet-generator.app/?description=&tabtrigger=&snippet=&mode=vscode)
+14. Mock.js参考示例
+- [Mock.js demo](http://mockjs.com/examples.html)
 
 
 ## 十一、github上一些有趣开源的项目

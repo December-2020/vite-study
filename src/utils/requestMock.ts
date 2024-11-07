@@ -1,12 +1,6 @@
-/*
- * @Author: Komorebi
- * @Date: 2024-09-27 15:07:01
- * @LastEditors: Komorebi
- * @LastEditTime: 2024-11-07 11:13:43
- */
 /**
  * 请求实例
- * 该实例是测试后端的正式请求
+ * mock c测试
  */
 import type { Response } from "#/request";
 
@@ -14,17 +8,9 @@ import Request from "./request";
 import { ElMessage } from "element-plus";
 import { RequestEnum, ContentTypeEnum } from "@/enums/http";
 
-// 获取环境变量
-const Env = import.meta.env;
-/** 
- * 如果是开发环境则使用代理
- * 否则使用环境变量中预存的url
- */
-const baseURL = Env.DEV ? "/API" : Env.VITE_BASE_URL;
-
 const requestInstance = new Request({
-  baseURL,
-  timeout: 1000 * 60 * 10,
+  baseURL: "",
+  timeout: 1000 * 60 * 3,
 });
 
 export const get = (url: string, params?: string | object) => {

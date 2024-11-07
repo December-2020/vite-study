@@ -17,6 +17,7 @@
     "axios": "^1.7.7",
     "element-plus": "^2.8.3",
     "js-cookie": "^3.0.5",
+    "mockjs": "^1.1.0",
     "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0",
     "patch-package": "^8.0.0",
@@ -24,6 +25,7 @@
     "pinia": "^2.2.2",
     "postinstall-postinstall": "^2.1.0",
     "screenfull": "^6.0.2",
+    "vite-plugin-mock": "^3.0.2",
     "vue": "^3.4.37",
     "vue-i18n": "^10.0.3",
     "vue-router": "^4.4.5"

@@ -27,10 +27,14 @@
     </div>
     <!-- 右侧用户头像等信息 -->
     <div class="wrapper-rt flex items-center">
+      <!-- 搜索icon -->
+      <div class="m-r-10px p-6px cursor-pointer">
+        <SvgIcon icon-class="common-search" />
+      </div>
       <!-- 主题切换 -->
-      <theme-switch class="m-r-10px" />
+      <ThemeSwitch class="m-r-10px" />
       <!-- 国际化 -->
-      <lang-dropdown />
+      <LangDropdown />
       <!-- 用户头像 -->
       <BaseDropdown :options="operationList" @command="operationCommand">
         <div class="user flex items-center m-l-10px">

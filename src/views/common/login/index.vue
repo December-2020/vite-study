@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:28:06
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-11-08 11:14:49
+ * @LastEditTime: 2024-11-08 14:17:56
 -->
 <template>
   <div class="wrapper w-100% h-100% flex flex-col">
@@ -105,8 +105,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       }
       const res = await API.Get_User_Info(formData);
       if (res.success) {
-        // @ts-ignore
-        store.user.login(res.data.token);
+        store.user.login(res.data);
         router.replace(path);
       }
     } else {

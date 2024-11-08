@@ -35,7 +35,9 @@
       <BaseDropdown :options="operationList" @command="operationCommand">
         <div class="user flex items-center m-l-10px">
           <el-avatar :size="24" :src="UserPhoto" />
-          <span class="inline-block m-l-8px font-size-14px">Admin</span>
+          <span class="inline-block m-l-8px font-size-14px">
+            {{ username }}
+          </span>
         </div>
       </BaseDropdown>
     </div>
@@ -145,6 +147,8 @@ const handleBreadGo = (routeName: string) => {
   // }
 };
 
+// @ts-ignore 用户名称
+let username = store.user.userInfo.name || "Admin";
 // 用户操作(用户头像下的)
 const operationList = [{ label: "退出系统", command: "logout" }];
 const operationCommand = (command: string) => {

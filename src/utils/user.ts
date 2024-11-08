@@ -2,11 +2,15 @@
  * @Author: Komorebi
  * @Date: 2024-11-08 10:33:21
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-11-08 10:42:27
+ * @LastEditTime: 2024-11-08 14:12:02
  */
 import Cookies from "js-cookie";
+import { useStorage } from "@vueuse/core";
 
+// 用户相关信息
+const UserInfoKey = "vue_userinfo";
 const TokenKey = "vue_token";
+
 /**
  * 过期时间
  * js-cookie 的过期时间是以天数为单位
@@ -27,15 +31,23 @@ const twoHours = 2 * 60;
 const expires = new Date(
   date.getTime() + (twoHours + Math.abs(timezoneOffset)) * 60 * 1000
 );
-
 export const getToken = () => {
   return Cookies.get(TokenKey);
 };
-
 export const setToken = (token: string) => {
   return Cookies.set(TokenKey, token, { expires });
 };
-
 export const removeToken = () => {
   return Cookies.remove(TokenKey);
+};
+
+/**
+ * 用户信息相关
+ */
+const userInfo = useStorage(UserInfoKey, {}, sessionStorage);
+export const getUserInfo = () => {
+  return userInfo.value;
+};
+export const setUserInfo = (info: object | null) => {
+  userInfo.value = info;
 };

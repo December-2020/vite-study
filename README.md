@@ -241,9 +241,12 @@ methods: {
   - nprogress 网页顶部进度条
     npm i nprogress
     npm i @types/nprogress -D
-  - js-cookie 使用cookie
+  - 使用cookie
+    js-cookie (仅浏览器中使用)
     npm i js-cookie
     npm i @types/js-cookie -D
+    universal-cookie (浏览器和node.js环境下都可使用, 可结合VueUse)
+    npm uninstall universal-cookie@^7
   - 添加临时补丁, 修改node_modules
     npm i patch-package postinstall-postinstall
   - 修改第三方组件, 修改nprogress/nprogress.js

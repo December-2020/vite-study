@@ -148,7 +148,20 @@ const handleBreadGo = (routeName: string) => {
 // 用户操作(用户头像下的)
 const operationList = [{ label: "退出系统", command: "logout" }];
 const operationCommand = (command: string) => {
-  console.log("🚀 ~ command:", command);
+  switch (command) {
+    case "logout": {
+      store.user.logout();
+      /**
+       * *清空路由记录栈
+       */
+      // 路由回退到最开始的路由
+      router.replace({ name: "Login" });
+      break;
+    }
+    default: {
+      console.log("🚀 ~ command:", command);
+    }
+  }
 };
 </script>
 

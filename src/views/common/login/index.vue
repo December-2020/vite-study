@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:28:06
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-11-07 14:25:38
+ * @LastEditTime: 2024-11-08 11:14:49
 -->
 <template>
   <div class="wrapper w-100% h-100% flex flex-col">
@@ -47,9 +47,9 @@
 import type { FormInstance, FormRules } from "element-plus";
 
 import i18n from "@/locales";
-// import { useRouter } from "vue-router";
-
+import store from "@/store";
 import API from "@/apis/demo/user";
+import { useRouter, useRoute } from "vue-router";
 
 interface RuleForm {
   username: string;
@@ -87,16 +87,28 @@ const rules = computed(() => {
 /**
  * * 必须放在setup下
  */
-// const router = useRouter();
+const router = useRouter();
+const route = useRoute();
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     if (valid) {
+      // 路由跳转是异步操作，所以需要await
+      /**
+       * * 请求路径中是否有redirect
+       * * 无则走 "/"
+       */
+      let path = "/";
+      let redirect = route.query?.redirect;
+      if (typeof redirect === "string") {
+        path = redirect;
+      }
       const res = await API.Get_User_Info(formData);
-      console.log("🚀 ~ awaitformEl.validate ~ res:", res)
-
-      // router.replace({ name: "Charts" });
-      // router.push({ name: "Charts" });
+      if (res.success) {
+        // @ts-ignore
+        store.user.login(res.data.token);
+        router.replace(path);
+      }
     } else {
       console.log("error submit!", fields);
     }

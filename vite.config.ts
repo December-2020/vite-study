@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-23 15:08:24
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-11-07 16:16:59
+ * @LastEditTime: 2024-11-08 09:16:50
  */
 import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
@@ -179,7 +179,7 @@ export default defineConfig(({ command, mode }) => {
       // 设置代理  https://github.com/http-party/node-http-proxy#options
       proxy: {
         // 正则表达式写法：http://localhost:5173/api/bar -> http://192.168.2.221:8500/bar
-        "^/API": {
+        "^/api": {
           // 代理目标
           target: Env.VITE_BASE_URL,
           //

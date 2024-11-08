@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-23 15:08:24
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-11-07 17:24:52
+ * @LastEditTime: 2024-11-08 10:36:00
 -->
 <template>
   <el-config-provider :locale="locale">

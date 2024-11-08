@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 11:02:36
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-18 11:32:50
+ * @LastEditTime: 2024-11-08 11:21:20
  */
 import type { AppRouteRecordRaw } from "#/route";
 
@@ -31,10 +31,19 @@ export const Error_404_Route: AppRouteRecordRaw = {
   },
   component: () => import("@/views/common/404/index.vue"),
 };
+export const Redirect_Route: AppRouteRecordRaw = {
+  path: "/redirect/:path(.*)*",
+  name: "Redirect",
+  meta: {
+    hidden: true,
+  },
+  component: () => import("@/views/common/redirect/index.vue"),
+};
 
 export const constantRoutes: AppRouteRecordRaw[] = [
   Login_Route,
   Error_404_Route,
+  Redirect_Route,
 ];
 
 /**

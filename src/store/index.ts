@@ -7,12 +7,14 @@
 import type { App } from "vue";
 
 import appSet from "./modules/appSet";
+import user from "./modules/user";
 
 // 使用pinia
 import { createPinia } from "pinia";
 
 interface IAppStore {
   appSet: ReturnType<typeof appSet>;
+  user: ReturnType<typeof user>;
 }
 const appStore: IAppStore = {} as IAppStore;
 
@@ -22,4 +24,5 @@ export const registerStore = (app: App) => {
   const pinia = createPinia();
   app.use(pinia);
   appStore.appSet = appSet();
+  appStore.user = user();
 };

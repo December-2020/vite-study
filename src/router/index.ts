@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-26 11:26:00
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-09-27 14:23:54
+ * @LastEditTime: 2024-11-08 11:24:13
  */
 import type { App } from "vue";
 import type { RouteRecordRaw } from "vue-router";
@@ -33,13 +33,21 @@ Object.keys(modules).forEach((key) => {
 const routeList: AppRouteRecordRaw[] = [
   {
     path: "/",
-    redirect: "/login",
+    redirect: "/charts",
     meta: {
       hidden: true,
     },
   },
   ...constantRoutes,
   ...asyncRoutes,
+  // 无匹配时404路由必须放最后
+  {
+    path: "/:pathMatch(.*)*",
+    redirect: "/404",
+    meta: {
+      hidden: true,
+    },
+  },
 ];
 
 const router = createRouter({

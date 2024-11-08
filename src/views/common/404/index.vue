@@ -1,5 +1,5 @@
 <template>
-  <div class="container position-absolute top-40% left-50%">
+  <div class="container position-absolute top-40% left-50% h-auto">
     <div class="http-404 flex position-relative w-100% overflow-hidden">
       <div class="pic-404 position-relative w-600px overflow-hidden float-left">
         <img
@@ -50,7 +50,8 @@
 .container {
   transform: translate(-50%, -50%);
   .http-404 {
-    padding: 0 50px;
+    display: flex;
+    justify-content: center;
     .pic-404 {
       &__child {
         position: absolute;
@@ -154,6 +155,11 @@
           }
         }
       }
+      &::after {
+        content: "";
+        clear: both;
+        display: block;
+      }
     }
     .bullshit {
       padding: {
@@ -215,6 +221,11 @@
           transform: translateY(0);
           opacity: 1;
         }
+      }
+      &::after {
+        content: "";
+        clear: both;
+        display: block;
       }
     }
   }

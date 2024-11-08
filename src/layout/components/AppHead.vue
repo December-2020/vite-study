@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-14 11:31:48
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-11-06 16:43:49
+ * @LastEditTime: 2024-11-08 17:15:36
 -->
 <template>
   <div class="wrapper flex justify-between items-center h-100%">
@@ -31,6 +31,12 @@
       <div class="m-r-10px p-6px cursor-pointer">
         <SvgIcon icon-class="common-search" />
       </div>
+      <!-- 全屏 -->
+      <ElTooltip placement="bottom" :content="fullScreen.tip">
+        <div class="m-r-10px p-6px cursor-pointer" @click="toggleFullScreen">
+          <SvgIcon :icon-class="fullScreen.svg" />
+        </div>
+      </ElTooltip>
       <!-- 主题切换 -->
       <ThemeSwitch class="m-r-10px" />
       <!-- 国际化 -->
@@ -53,6 +59,7 @@ import type { DropdownItemProps } from "@/components/composition/BaseDropdown.vu
 
 import store from "@/store";
 import UserPhoto from "@/assets/images/user_photo.gif";
+import screenfull from "screenfull";
 import { useRouter } from "vue-router";
 import { useI18n } from "@/hooks/useI18n";
 
@@ -169,6 +176,28 @@ const operationCommand = (command: string) => {
     default: {
       console.log("🚀 ~ command:", command);
     }
+  }
+};
+
+// 全屏切换
+const isFullScreen = ref(screenfull.isFullscreen);
+const fullScreen = computed(() => {
+  let _val = isFullScreen.value;
+  let svg = `common-fullscreen${_val ? "-exit" : ""}`;
+  let tip = `${_val ? useI18n(`ToolTip.exit`) : ""}${useI18n(
+    `ToolTip.fullScreen`
+  )}`;
+  return { svg, tip };
+});
+const toggleFullScreen = async () => {
+  // 浏览器是否支持全屏
+  if (screenfull.isEnabled) {
+    // TODO: 无效果
+    /** 
+     * !无效果
+     */
+    await screenfull.toggle();
+    isFullScreen.value = !isFullScreen.value;
   }
 };
 </script>

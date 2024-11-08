@@ -5,10 +5,12 @@
  * @LastEditTime: 2024-10-18 15:02:06
  */
 export default {
+  // 通用组件
   Components: {
     inputPlaceholder: "Please enter content",
   },
 
+  // 页面路由
   Route: {
     common: {
       login: "Login",
@@ -28,14 +30,18 @@ export default {
   // 提示弹窗
   ToolTip: {
     langSuccess: "Replace successfully",
+    fullScreen: "Full screen",
+    exit: "Exit",
   },
 
+  // 登录页面
   Login: {
     login: "Login",
     inputUsername: "Please enter your username",
     inputPassword: "Please enter your password",
   },
 
+  // 404页面
   404: {
     title: "Page Not Found!",
     openNewPage: "Open new page",

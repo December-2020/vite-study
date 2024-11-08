@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-11 09:20:48
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-11-06 16:36:56
+ * @LastEditTime: 2024-11-08 16:46:56
 -->
 <template>
   <base-dropdown
@@ -19,7 +19,6 @@
 
 <script setup lang="ts">
 import store from "@/store";
-import i18n from "@/locales";
 import { ElMessage } from "element-plus";
 import { useTitle } from "@vueuse/core";
 import { useRoute } from "vue-router";
@@ -39,12 +38,11 @@ const langList = computed(() =>
     disabled: item.value === store.appSet.lang,
   }))
 );
-const { t } = i18n.global;
 const { meta } = useRoute();
 const toggleLanguage = (lang: LanguageEnum) => {
   store.appSet.setLang(lang);
   ElMessage({
-    message: t(`ToolTip.langSuccess`),
+    message: useI18n(`ToolTip.langSuccess`),
     type: "success",
   });
   // 切换语言后需第一时间更新页面标题

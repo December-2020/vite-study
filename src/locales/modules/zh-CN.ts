@@ -31,6 +31,8 @@ export default {
   // 提示弹窗
   ToolTip: {
     langSuccess: "更换成功",
+    fullScreen: "全屏",
+    exit: "退出",
   },
 
   // 登录页面

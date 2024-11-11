@@ -15,6 +15,8 @@ import "virtual:svg-icons-register";
 import "element-plus/es/components/message/style/css";
 // 导入UnoCss
 import "virtual:uno.css";
+// 引入 animate.css 动画库
+import "animate.css";
 // 引入element内组件的暗色主题
 import "element-plus/theme-chalk/dark/css-vars.css";
 // 引入i18n

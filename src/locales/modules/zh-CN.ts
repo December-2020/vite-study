@@ -33,6 +33,7 @@ export default {
     langSuccess: "更换成功",
     fullScreen: "全屏",
     exit: "退出",
+    noSupportFullScreen: "该浏览器暂不支持全屏",
   },
 
   // 登录页面

@@ -32,6 +32,8 @@ export default {
     langSuccess: "Replace successfully",
     fullScreen: "Full screen",
     exit: "Exit",
+    noSupportFullScreen:
+      "This browser currently does not support full screen display",
   },
 
   // 登录页面

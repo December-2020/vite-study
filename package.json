@@ -24,7 +24,6 @@
     "path-browserify": "^1.0.1",
     "pinia": "^2.2.2",
     "postinstall-postinstall": "^2.1.0",
-    "screenfull": "^6.0.2",
     "vite-plugin-mock": "^2.9.8",
     "vue": "^3.4.37",
     "vue-i18n": "^10.0.3",

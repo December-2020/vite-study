@@ -229,11 +229,11 @@ methods: {
   - 国际化
     npm i vue-i18n
   - UnoCss css原子化
-    npm i unocss -D (安装失败)
+    npm i unocss -D
   - 使用 axios
     npm i axios
-  - 全屏
-    npm i screenfull
+  - 全屏 (已有VueUse, 可以先卸载)
+    npm uninstall screenfull
   - VueUse是一款基于组合式API的函数集合
     npm i @vueuse/core
     安装 @vueuse/components

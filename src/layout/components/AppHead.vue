@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-14 11:31:48
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-11-08 17:15:36
+ * @LastEditTime: 2024-11-11 09:57:17
 -->
 <template>
   <div class="wrapper flex justify-between items-center h-100%">
@@ -59,7 +59,8 @@ import type { DropdownItemProps } from "@/components/composition/BaseDropdown.vu
 
 import store from "@/store";
 import UserPhoto from "@/assets/images/user_photo.gif";
-import screenfull from "screenfull";
+import { ElMessage } from "element-plus";
+import { useFullscreen } from "@vueuse/core";
 import { useRouter } from "vue-router";
 import { useI18n } from "@/hooks/useI18n";
 
@@ -180,9 +181,9 @@ const operationCommand = (command: string) => {
 };
 
 // 全屏切换
-const isFullScreen = ref(screenfull.isFullscreen);
+const { isFullscreen, isSupported, toggle } = useFullscreen();
 const fullScreen = computed(() => {
-  let _val = isFullScreen.value;
+  let _val = isFullscreen.value;
   let svg = `common-fullscreen${_val ? "-exit" : ""}`;
   let tip = `${_val ? useI18n(`ToolTip.exit`) : ""}${useI18n(
     `ToolTip.fullScreen`
@@ -190,15 +191,17 @@ const fullScreen = computed(() => {
   return { svg, tip };
 });
 const toggleFullScreen = async () => {
-  // 浏览器是否支持全屏
-  if (screenfull.isEnabled) {
-    // TODO: 无效果
+  if (isSupported.value) {
     /** 
-     * !无效果
+     * !在f12下是不会全屏的
      */
-    await screenfull.toggle();
-    isFullScreen.value = !isFullScreen.value;
+    toggle();
+    return;
   }
+  ElMessage({
+    type: "error",
+    message: useI18n(`ToolTip.noSupportFullScreen`),
+  });
 };
 </script>
 

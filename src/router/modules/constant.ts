@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 11:02:36
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-11-08 11:21:20
+ * @LastEditTime: 2024-11-11 14:59:03
  */
 import type { AppRouteRecordRaw } from "#/route";
 

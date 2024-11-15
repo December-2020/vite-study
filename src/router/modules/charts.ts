@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 11:11:18
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-19 14:28:02
+ * @LastEditTime: 2024-11-11 14:48:25
  */
 import type { AppRouteRecordRaw } from "#/route";
 
@@ -23,6 +23,7 @@ const Charts: AppRouteRecordRaw = {
       name: "Line",
       meta: {
         title: "chart.line",
+        isAffix: true,
       },
       component: () => import("@/views/charts/line/index.vue"),
     },

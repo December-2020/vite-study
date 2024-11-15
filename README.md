@@ -300,6 +300,8 @@ methods: {
 - [模板网站](https://snippet-generator.app/?description=&tabtrigger=&snippet=&mode=vscode)
 14. Mock.js参考示例
 - [Mock.js demo](http://mockjs.com/examples.html)
+15. 在线Json转typescript工具
+- [网址](https://tooltt.com/json2typescript/)
 
 
 ## 十一、github上一些有趣开源的项目

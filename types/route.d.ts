@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:55:52
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-12 09:50:21
+ * @LastEditTime: 2024-11-15 09:50:56
  */
 import type { RouteRecordRaw, RouteMeta } from "vue-router";
 import type { Recordable } from "#/global";
@@ -12,11 +12,14 @@ declare module "vue-router" {
   interface RouteMeta {
     title?: string;
     icon?: string;
-    // 导航栏中是否显示, 默认为 false, 即导航栏中显示该路由
+    // 菜单栏中是否显示, 默认为 false, 即菜单栏中显示该路由
     hidden?: boolean;
-    // 是否缓存路由, 默认为 false
-    isKeepAlive?: boolean;
-    // 缓存的路由是否固定, 默认为 false
+    // 是否不缓存路由, 默认都缓存
+    ignoreKeepAlive?: boolean;
+    /**
+     * 缓存的路由是否固定, 默认为 false
+     * 如果为true, 则默认 ignoreKeepAlive 为 false
+     */
     isAffix?: boolean;
   }
 }
@@ -49,6 +52,7 @@ export interface AppRouteRecordRaw
   children?: AppRouteRecordRaw[];
   // 当 props 设置为 true 时，route.params 将被设置为组件的 props
   props?: Recordable | boolean;
+  // 包括 search 和 hash 在内的完整地址
   fullPath?: string;
   redirect?: string;
 }

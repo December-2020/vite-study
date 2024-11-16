@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-11-15 14:24:10
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-11-16 11:30:50
+ * @LastEditTime: 2024-11-16 14:41:03
 -->
 <template>
   <div class="wrapper">
@@ -19,6 +19,8 @@
 </template>
 
 <script setup lang="ts">
+import type { RouteLocationNormalized } from "vue-router";
+
 import store from "@/store";
 import { useRouter, useRoute } from "vue-router";
 
@@ -28,16 +30,17 @@ import { useRouter, useRoute } from "vue-router";
 const router = useRouter();
 const routeList = router.getRoutes();
 const affixRouteList = routeList.filter((item) => item.meta.isAffix);
-// affixRouteList.forEach(item=>{
-//   store.appSet.addTab(item)
-// })
-console.log("🚀 ~ affixRouteList:", affixRouteList);
-/** 
+affixRouteList.forEach((item) => {
+  const { meta, name, path } = item;
+  const route = { meta, name, path, fullPath: path, query: {}, params: {} };
+  store.appSet.addTab(route as RouteLocationNormalized);
+});
+/**
  * 将当前路由添加到路由缓存中
  */
 const route = useRoute();
 const currRoute = toRaw(route);
-store.appSet.addTab(currRoute)
+store.appSet.addTab(currRoute);
 
 const tabsValue = ref("1");
 const tabsList = ref([
@@ -47,8 +50,8 @@ const tabsList = ref([
   { title: "Tab 4", name: "4", isAffix: true },
 ]);
 
-const getTabList = computed(() => store.appSet.getCacheTabList);
-console.log("🚀 ~ getTabList:", getTabList.value);
+// const getTabList = computed(() => store.appSet.getCacheTabList);
+// console.log("🚀 ~ getTabList:", getTabList.value);
 </script>
 
 <style scoped lang="scss">

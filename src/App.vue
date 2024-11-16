@@ -11,13 +11,13 @@
 </template>
 
 <script setup lang="ts">
+import store from "@/store";
 // 引入 element-plus 中的语言包
 import zhCn from "element-plus/es/locale/lang/zh-cn";
 import en from "element-plus/es/locale/lang/en";
 import { vElementSize } from "@vueuse/components";
 // pinia中使用解构
 import { storeToRefs } from "pinia";
-import store from "@/store";
 import { LanguageEnum, DeviceEnum } from "@/enums/app";
 
 // 对 element UI 中的组件使用国际化

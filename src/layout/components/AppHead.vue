@@ -63,6 +63,7 @@ import { ElMessage } from "element-plus";
 import { useFullscreen } from "@vueuse/core";
 import { useRouter } from "vue-router";
 import { useI18n } from "@/hooks/useI18n";
+import { storeToRefs } from "pinia";
 
 interface Props {
   // 是否显示 收起菜单的svg
@@ -80,9 +81,10 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 // 左侧导航栏展开与收起
-let menuSvg = computed(
-  () => `common-menu-${store.appSet.isCollapse ? "expand" : "collapse"}`
-);
+let menuSvg = computed(() => {
+  const { isCollapse } = storeToRefs(store.appSet);
+  return `common-menu-${isCollapse ? "expand" : "collapse"}`;
+});
 const toggleCollapse = store.appSet.setIsCollapse;
 
 // 面包屑路由
@@ -192,7 +194,7 @@ const fullScreen = computed(() => {
 });
 const toggleFullScreen = async () => {
   if (isSupported.value) {
-    /** 
+    /**
      * !在f12下是不会全屏的
      */
     toggle();

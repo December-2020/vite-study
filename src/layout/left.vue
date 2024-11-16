@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-11 14:34:37
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-14 17:10:16
+ * @LastEditTime: 2024-11-16 10:26:42
 -->
 <template>
   <!-- 左侧菜单模式 -->
@@ -14,7 +14,11 @@
       <!-- </el-aside> -->
       <el-container class="flex-1">
         <el-header class="wrapper-head b-b-1 b-b-solid">
-          <AppHead showCollapse />
+          <AppHead
+            showCollapse
+            class="wrapper-head-app h-48px pr-16px b-b-1 b-b-solid"
+          />
+          <TabPane />
         </el-header>
         <!-- 这里的id是为 NProgress 准备的 -->
         <!--  id="app-main" -->
@@ -30,14 +34,18 @@
 import NavBar from "./components/NavBar.vue";
 import AppMain from "./components/AppMain.vue";
 import AppHead from "./components/AppHead.vue";
+import TabPane from "./components/TabPane.vue";
 </script>
 
 <style scoped lang="scss">
 .wrapper {
   &-head {
-    --el-header-height: 48px;
-    --el-header-padding: 0 16px 0 0;
+    --el-header-height: auto;
+    --el-header-padding: 0;
     @include border_color("content-border-color");
+    &-app {
+      @include border_color("content-border-color");
+    }
   }
   &-main {
     @include background_color("content-bg-color");

@@ -2,11 +2,16 @@
  * @Author: Komorebi
  * @Date: 2024-11-15 14:24:10
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-11-16 14:41:03
+ * @LastEditTime: 2024-11-18 17:21:43
 -->
 <template>
   <div class="wrapper">
-    <el-tabs type="card" v-model="tabsValue">
+    <el-tabs
+      type="card"
+      v-model="tabsValue"
+      @tab-remove="closeRoute"
+      @tab-change="changeRoute"
+    >
       <el-tab-pane
         v-for="item in tabsList"
         :key="item.name"
@@ -20,9 +25,17 @@
 
 <script setup lang="ts">
 import type { RouteLocationNormalized } from "vue-router";
+import type { TabPaneName } from "element-plus";
 
 import store from "@/store";
 import { useRouter, useRoute } from "vue-router";
+import { useI18n } from "@/hooks/useI18n";
+
+interface Tab {
+  title?: string;
+  name?: string;
+  isAffix?: boolean;
+}
 
 /**
  * 初始化 tabs 中的路由列表
@@ -35,23 +48,58 @@ affixRouteList.forEach((item) => {
   const route = { meta, name, path, fullPath: path, query: {}, params: {} };
   store.appSet.addTab(route as RouteLocationNormalized);
 });
+
+const tabsValue = ref("");
+const tabsList = ref<Tab[]>([]);
+
 /**
  * 将当前路由添加到路由缓存中
  */
+watch(
+  /**
+   * *如果外层被 ref 或 reactive 包裹可直接侦听
+   * *如果侦听的是 ref 或 reactive 下的具体的某个值必须使用函数返回值的形式侦听
+   */
+  () => router.currentRoute.value,
+  (newVal) => {
+    tabsValue.value = newVal.name as string;
+    store.appSet.addTab(newVal);
+  },
+  { immediate: true }
+);
+// 根据路由列表变化 tabsList
+watch(
+  store.appSet.tabList,
+  (newVal) => {
+    // console.log("🚀 ~ watch ~ newVal:", newVal);
+    tabsList.value = newVal.map((item) => ({
+      title: useI18n(item.meta.title, "Route"),
+      name: item.name as string,
+      isAffix: !item.meta.isAffix,
+    }));
+  },
+  { immediate: true }
+);
+
+const closeRoute = (e: TabPaneName) => {
+  let tab = store.appSet.tabList.find((item) => item.name === e);
+  store.appSet.closeTab(tab as RouteLocationNormalized, router);
+};
+
 const route = useRoute();
-const currRoute = toRaw(route);
-store.appSet.addTab(currRoute);
-
-const tabsValue = ref("1");
-const tabsList = ref([
-  { title: "Tab 1", name: "1", isAffix: false },
-  { title: "Tab 2", name: "2", isAffix: false },
-  { title: "Tab 3", name: "3", isAffix: true },
-  { title: "Tab 4", name: "4", isAffix: true },
-]);
-
-// const getTabList = computed(() => store.appSet.getCacheTabList);
-// console.log("🚀 ~ getTabList:", getTabList.value);
+const changeRoute = (e: TabPaneName) => {
+  // console.log("🚀 ~ changeRoute ~ e:", e);
+  /**
+   * 判断当前路由是否是点击的tab栏
+   */
+  const { name: currRouteName } = route;
+  // console.log("🚀 ~ changeRoute ~ currRouteName:", currRouteName);
+  if (e !== currRouteName) {
+    let tab = store.appSet.tabList.find((item) => item.name === e);
+    const { name, params, query } = tab;
+    router.push({ name, params, query });
+  }
+};
 </script>
 
 <style scoped lang="scss">

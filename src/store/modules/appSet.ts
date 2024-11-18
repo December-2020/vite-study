@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-26 09:37:47
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-11-15 14:03:21
+ * @LastEditTime: 2024-11-18 14:59:07
  */
 import type {
   RouteLocationNormalized,
@@ -44,6 +44,9 @@ const useAppSet = defineStore("appSet", {
   }),
 
   getters: {
+    /**
+     * 专门为 keep-alive 中的 includes 设置的值
+     */
     getCacheTabList(): string[] {
       return [...this.cacheTabList];
     },
@@ -134,7 +137,9 @@ const useAppSet = defineStore("appSet", {
         const _index = this.tabList.findIndex(
           (item) => item.fullPath === fullPath
         );
-        _index !== -1 && this.tabList.splice(_index);
+        _index !== -1 && this.tabList.splice(_index, 1);
+        // 更新缓存的选项卡
+        this.updateCacheTab();
       };
       // 获取当前路由相关
       const { currentRoute, replace } = router;

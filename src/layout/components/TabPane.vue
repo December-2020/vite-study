@@ -96,7 +96,7 @@ const changeRoute = (e: TabPaneName) => {
   // console.log("🚀 ~ changeRoute ~ currRouteName:", currRouteName);
   if (e !== currRouteName) {
     let tab = store.appSet.tabList.find((item) => item.name === e);
-    const { name, params, query } = tab;
+    const { name, params, query } = tab as RouteLocationNormalized;
     router.push({ name, params, query });
   }
 };

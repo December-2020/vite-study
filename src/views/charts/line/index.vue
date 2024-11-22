@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:08:25
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-11-22 11:31:09
+ * @LastEditTime: 2024-11-22 14:07:27
 -->
 <template>
   <div class="wrapper">
@@ -10,34 +10,6 @@
     <el-button @click="handleSend">测试请求</el-button>
     <SvgIcon icon-class="common-language" class-name="text-16 c-red" />
     <SvgIcon icon-class="nav-charts" class-name="text-16 c-blue" />
-    <h1
-      v-for="(item, index) in [
-        1,
-        23,
-        4,
-        5,
-        78,
-        1,
-        3,
-        3,
-        4,
-        5,
-        6,
-        ,
-        10,
-        20,
-        23,
-        445,
-        123,
-        5645,
-        456,
-        '22',
-        'index',
-      ]"
-      :key="index"
-    >
-      {{ item }}
-    </h1>
   </div>
 </template>
 

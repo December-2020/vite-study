@@ -10,7 +10,7 @@
       <Transition
         name="custom-classes"
         enter-active-class="animate__animated animate__fadeInUp"
-        leave-active-class="animate__animated animate__fadeOutUp"
+        leave-active-class="animate__animated animate__fadeOutRight"
         mode="out-in"
       >
         <KeepAlive :include="store.appSet.getCacheTabList">

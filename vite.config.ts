@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-23 15:08:24
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-11-08 09:16:50
+ * @LastEditTime: 2024-11-22 16:33:44
  */
 import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
@@ -124,6 +124,10 @@ export default defineConfig(({ command, mode }) => {
         {
           find: /#\//,
           replacement: pathResolve("types") + "/",
+        },
+        {
+          find: /#Api\//,
+          replacement: pathResolve("apiTypes") + "/",
         },
         /**
          * vue-i18n控制台会报黄色警告,不影响使用

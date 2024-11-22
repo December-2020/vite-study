@@ -2,41 +2,27 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:08:25
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-11-22 14:07:27
+ * @LastEditTime: 2024-11-22 16:29:07
 -->
 <template>
-  <div class="wrapper">
-    测试折线图
-    <el-button @click="handleSend">测试请求</el-button>
-    <SvgIcon icon-class="common-language" class-name="text-16 c-red" />
-    <SvgIcon icon-class="nav-charts" class-name="text-16 c-blue" />
-  </div>
+  <div class="wrapper"></div>
 </template>
 
 <script setup lang="ts">
-import LogApi from "@/apis/log";
+import type { LineData } from "#Api/charts";
 
-const handleSend = async () => {
-  const res = await LogApi.Query_Log_Page({
-    creatorid: "",
-    creatoridName: "",
-    findMode: "ALL",
-    logTypeId: 0,
-    paging: {
-      allInOne: true,
-      pageIndex: 0,
-      pageSize: 0,
-      sort: [
-        {
-          direction: "ASC",
-          index: 0,
-          name: "",
-        },
-      ],
-    },
-  });
-  console.log(res.msg);
+import API from "@/apis/demo/charts";
+
+const lineData = ref();
+const getLineData = async () => {
+  const res = await API.Get_Line_Data();
+  lineData.value = res.data as LineData;
+  console.log("🚀 ~ getLineData ~ res:", res);
 };
+
+onMounted(async () => {
+  await getLineData();
+});
 </script>
 
 <style scoped lang="scss"></style>

@@ -34,6 +34,10 @@ npm run build
 
 ## 三、目录结构
 
+    |__ .vscode 一些推荐在vscode中开发的设置
+    |__ apiTypes 模拟接口数据的类型声明
+    |__ mock mock模拟数据
+    |__ patches node_modules临时补丁
     |__ src
         |__ apis api相关
         |__ assets 静态资源

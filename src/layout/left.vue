@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-11 14:34:37
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-11-16 10:26:42
+ * @LastEditTime: 2024-11-22 11:43:49
 -->
 <template>
   <!-- 左侧菜单模式 -->
@@ -21,9 +21,11 @@
           <TabPane />
         </el-header>
         <!-- 这里的id是为 NProgress 准备的 -->
-        <!--  id="app-main" -->
-        <el-main class="wrapper-main" id="app-main">
-          <AppMain />
+        <!-- pr-0 是为了清除 main 中滚动条不贴边的问题 -->
+        <el-main class="wrapper-main !pr-0" id="app-main">
+          <el-scrollbar class="pr-20px">
+            <AppMain />
+          </el-scrollbar>
         </el-main>
       </el-container>
     </el-container>

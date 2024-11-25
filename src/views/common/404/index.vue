@@ -44,7 +44,9 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+defineOptions({ name: "404" });
+</script>
 
 <style lang="scss" scoped>
 .container {

@@ -262,6 +262,13 @@ methods: {
     npm i mockjs
     vite中使用还需安装插件, 但是3.0.2(2024.11.7)最新版本不支持生产环境使用
     npm i vite-plugin-mock@2.9.8
+  - 在setup中自定义name属性
+    3.3+ (3.3版本及以上)
+    ```
+    defineOptions({ name: "组件名称" });
+    ```
+    以下版本可通过下面的vite插件进行设置
+    npm uninstall vite-plugin-vue-setup-extend -D
 
 
 ## 十、其他相关

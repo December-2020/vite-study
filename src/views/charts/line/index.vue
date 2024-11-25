@@ -39,6 +39,15 @@ import type { LineData } from "#Api/charts";
 
 import API from "@/apis/demo/charts";
 
+/**
+ * 在 3.2.34 或以上的版本中，
+ * 使用 <script setup> 的单文件组件会自动根据文件名生成对应的 name 选项，
+ * 即使是在配合 <KeepAlive> 使用时也无需再手动声明。
+ * 
+ * * 仅在3.3+中支持
+ */
+defineOptions({ name: "Line" });
+
 const lineData = ref<LineData>();
 const getLineData = async () => {
   const res = await API.Get_Line_Data();

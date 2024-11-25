@@ -11,6 +11,8 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 
+defineOptions({ name: "Redirect" });
+
 const { currentRoute, replace } = useRouter();
 /**
  * unref 计算的一个语法糖

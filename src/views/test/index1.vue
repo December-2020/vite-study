@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-
+defineOptions({ name: "Test-1" });
 </script>
 
 <style scoped lang="scss">

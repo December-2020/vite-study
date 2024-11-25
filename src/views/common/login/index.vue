@@ -51,6 +51,8 @@ import store from "@/store";
 import API from "@/apis/demo/user";
 import { useRouter, useRoute } from "vue-router";
 
+defineOptions({ name: "Login" });
+
 interface RuleForm {
   username: string;
   password: string;

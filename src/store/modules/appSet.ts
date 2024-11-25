@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-26 09:37:47
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-11-25 11:31:04
+ * @LastEditTime: 2024-11-25 11:54:19
  */
 import type {
   RouteLocationNormalized,
@@ -49,7 +49,7 @@ const useAppSet = defineStore("appSet", {
      */
     getCacheTabList(): string[] {
       let cacheList = [...this.cacheTabList];
-      console.log("🚀 ~ getCacheTabList ~ cacheList:", cacheList);
+      // console.log("🚀 ~ getCacheTabList ~ cacheList:", cacheList);
       return cacheList;
     },
   },

@@ -26,6 +26,10 @@ const elFile = {
   [LanguageEnum.ENGLISH]: en,
 };
 const locale = computed(() => {
+  /** 
+   * 将为任何响应式属性创建 refs。 
+   * 当您仅使用 store 中的状态但不调用任何操作时，这很有用
+   */
   const { lang } = storeToRefs(store.appSet);
   return elFile[lang.value];
 });

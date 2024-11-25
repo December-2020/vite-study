@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-26 09:37:47
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-11-18 14:59:07
+ * @LastEditTime: 2024-11-25 11:31:04
  */
 import type {
   RouteLocationNormalized,
@@ -48,7 +48,9 @@ const useAppSet = defineStore("appSet", {
      * 专门为 keep-alive 中的 includes 设置的值
      */
     getCacheTabList(): string[] {
-      return [...this.cacheTabList];
+      let cacheList = [...this.cacheTabList];
+      console.log("🚀 ~ getCacheTabList ~ cacheList:", cacheList);
+      return cacheList;
     },
   },
 
@@ -178,6 +180,26 @@ const useAppSet = defineStore("appSet", {
       close(currentRoute.value);
       await replace(toTarget);
     },
+  },
+
+  // 安装了 pinia-plugin-persistedstate 插件,才能使用该配置
+  persist: {
+    storage: sessionStorage,
+    /* 排除 */
+    omit: ["cacheTabList"],
+    /* 挑选 */
+    // pick: [],
+    /** 
+     * 序列化 / 反序列化
+     * 默认使用 JSON.stringify / destr
+     * (destr) https://github.com/unjs/destr
+     */
+    // serializer: {
+    //   // 解密
+    //   deserialize: parse,
+    //   // 加密
+    //   serialize: stringify,
+    // },
   },
 });
 

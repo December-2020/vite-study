@@ -21,7 +21,8 @@ npm run bootstrap
 ```
 npm run postinstall
 ```
-将测试环境文件里面的 VITE_BASE_URL 请求路径改成服务器地址
+将测试环境文件里面的 VITE_BASE_URL 请求路径改成服务器地址(与后端交互)
+现在使用的是 Mock 模拟请求, 可忽略该条修改
 然后执行命令
 ```
 npm run dev
@@ -230,6 +231,8 @@ methods: {
     npm i  @types/path-browserify -D
   - 使用全局状态管理 pinia
     npm i pinia
+  - 缓存 pinia (页面刷新或路由回退, 状态会丢失)
+    npm i pinia-plugin-persistedstate
   - 国际化
     npm i vue-i18n
   - UnoCss css原子化
@@ -306,6 +309,8 @@ methods: {
 - [Mock.js demo](http://mockjs.com/examples.html)
 15. 在线Json转typescript工具
 - [网址](https://tooltt.com/json2typescript/)
+16. 持久化存储 pinia
+- [pinia-plugin-persistedstate](https://prazdevs.github.io/pinia-plugin-persistedstate/zh/guide/)
 
 
 ## 十一、github上一些有趣开源的项目

@@ -33,9 +33,9 @@
             />
           </el-form-item>
           <el-form-item>
-            <BaseButton class="w-100%" @click="submitForm(formRef)">{{
-              $t("Login.login")
-            }}</BaseButton>
+            <BaseButton class="w-100%" @click="submitForm(formRef)">
+              {{ $t("Login.login") }}
+            </BaseButton>
           </el-form-item>
         </el-form>
       </div>

@@ -57,6 +57,7 @@ npm run build
         |__ router 全局路由
         |__ store 全局状态管理
         |__ styles 全局样式
+            |__ adapt 纯 css 计算窗口大小(暂未使用)
         |__ utils 工具函数
         |__ views 页面相关文件
             |__ charts 图表相关

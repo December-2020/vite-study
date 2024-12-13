@@ -1,0 +1,59 @@
+/* 
+    通过 CSS 自动计算显示区域大小
+*/
+/* 定义自定义属性 --vw, 表示视口宽度, 初始值为 100vw (视口宽度) */
+@property --vw {
+  /* 定义 --vw 的值必须是一个长度值 */
+  syntax: "<length>";
+  /* 该属性会继承自父元素 */
+  inherits: true;
+  /* 设置初始值为 100vw */
+  initial-value: 100vw;
+}
+/* 定义自定义属性 --vh, 表示视口宽度, 初始值为 100vh (视口高度) */
+@property --vh {
+  /* 定义 --vh 的值必须是一个长度值 */
+  syntax: "<length>";
+  /* 该属性会继承自父元素 */
+  inherits: true;
+  /* 设置初始值为 100vh */
+  initial-value: 100vh;
+}
+
+/* 在 :root 选择器中定义两个新的CSS变量 --w 和 --h, 分别代表视口宽度和高度的计算值 */
+:root {
+  /* 
+    使用 tan() 和 atan2() 函数, 
+    计算视口宽度 (100vw) 的切线值
+    atan2(): 反正切函数
+    tan(): 正切函数
+    */
+  --w: tan(atan2(var(--vw), 1px));
+  /* 使用 tan() 和 atan2() 函数, 计算视口高度 (100vh) 的切线值 */
+  --h: tan(atan2(var(--vh), 1px));
+}
+
+/* 使用 ::before 伪元素来展示计算出来的宽度和高度值 */
+body::before {
+  /* counter: CSS计数器只能跟content属性在一起的时候才有作用 */
+  /* 内容显示计算得到的宽度和高度 (使用 counter() 来输出--w 和 --h) */
+  content: counter(w) "×" counter(h);
+  /* 
+        通过 counter-reset 初始化计算器 w 和 h
+        使用先前计算的 --w 和 --h 作为它们的值
+     */
+  counter-reset: w var(--w) h var(--h);
+
+  /* 设置字体大小为 30px, 字体加粗 */
+  font-size: 30px;
+  font-weight: bold;
+  /* 使伪元素固定到屏幕上 */
+  position: fixed;
+  /* 定义该伪元素占满整个屏幕 */
+  inset: 0;
+  /* 使伪元素的宽度和高度自适应内容大小 */
+  width: fit-content;
+  height: fit-content;
+  /* 使用自动边距将伪元素居中 */
+  margin: auto;
+}

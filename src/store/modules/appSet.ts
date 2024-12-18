@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-26 09:37:47
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-11-25 11:54:19
+ * @LastEditTime: 2024-12-18 15:07:21
  */
 import type {
   RouteLocationNormalized,
@@ -27,6 +27,12 @@ const getToTarget = (tabItem: RouteLocationNormalized) => {
     query: query || {},
   };
 };
+/**
+ * 判断当前是否处于暗黑模式
+ * auto: 暗黑模式
+ * light: 白天模式
+ */
+let isDarkTheme = localStorage.getItem("vueuse-color-scheme") === "auto";
 
 const useAppSet = defineStore("appSet", {
   // 官方推荐使用 完整类型推断的箭头函数
@@ -41,6 +47,7 @@ const useAppSet = defineStore("appSet", {
      */
     cacheTabList: new Set() as Set<string>,
     tabList: [] as RouteLocationNormalized[],
+    isDarkTheme,
   }),
 
   getters: {
@@ -63,6 +70,10 @@ const useAppSet = defineStore("appSet", {
     // 展开与收起侧边菜单栏
     setIsCollapse() {
       this.isCollapse = !this.isCollapse;
+    },
+    // 切换主题
+    toggleTheme(){
+      this.isDarkTheme = !this.isDarkTheme;
     },
 
     // 添加路由
@@ -186,10 +197,10 @@ const useAppSet = defineStore("appSet", {
   persist: {
     storage: sessionStorage,
     /* 排除 */
-    omit: ["cacheTabList"],
+    omit: ["cacheTabList", "isDarkTheme"],
     /* 挑选 */
     // pick: [],
-    /** 
+    /**
      * 序列化 / 反序列化
      * 默认使用 JSON.stringify / destr
      * (destr) https://github.com/unjs/destr

@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:08:25
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-12-16 11:32:33
+ * @LastEditTime: 2024-12-18 16:14:49
 -->
 <template>
   <div class="wrapper">
@@ -30,7 +30,9 @@
         </el-card>
       </el-space>
     </div>
-    <div class="wrapper-content"></div>
+    <div class="wrapper-content">
+      <div ref="chartRef"></div>
+    </div>
   </div>
 </template>
 
@@ -38,6 +40,7 @@
 import type { LineData } from "#Api/charts";
 
 import API from "@/apis/demo/charts";
+import { useECharts } from "@/hooks/useECharts";
 
 /**
  * 在 3.2.34 或以上的版本中，
@@ -58,6 +61,9 @@ const getLineData = async () => {
 onMounted(async () => {
   await getLineData();
 });
+
+const chartRef = ref<HTMLDivElement | null>(null);
+const charts = useECharts(chartRef as Ref<HTMLDivElement>);
 </script>
 
 <style scoped lang="scss">

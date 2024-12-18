@@ -19,14 +19,15 @@
 </template>
 
 <script setup lang="ts">
+import Sun from "@/components/once/SvgSun.vue";
+import Moon from "@/components/once/SvgMoon.vue";
 import {
   useDark,
   useToggle,
   useMouseInElement,
   useAnimate,
 } from "@vueuse/core";
-import Sun from "@/components/once/SvgSun.vue";
-import Moon from "@/components/once/SvgMoon.vue";
+import store from "@/store";
 
 /**
  * *在没有该组件的页面刷新, 会丢失主题
@@ -53,6 +54,7 @@ const toggleTheme = () => {
   const transition = document.startViewTransition(() => {
     // 传递参数并执行该函数
     useToggle(isDark)();
+    store.appSet.toggleTheme();
   });
 
   // 在 transition.ready 的 Promise 完成后，执行自定义动画

@@ -1,5 +1,5 @@
 {
-  "$schema":"https://json.schemastore.org/jsconfig",
+  "$schema": "https://json.schemastore.org/jsconfig",
   "name": "vite_study",
   "private": true,
   "version": "0.1.0",
@@ -16,6 +16,7 @@
     "@vueuse/core": "^11.1.0",
     "animate.css": "^4.1.1",
     "axios": "^1.7.7",
+    "echarts": "^5.5.1",
     "element-plus": "^2.8.3",
     "js-cookie": "^3.0.5",
     "mockjs": "^1.1.0",

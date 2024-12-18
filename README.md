@@ -270,6 +270,8 @@ methods: {
     ```
     以下版本可通过下面的vite插件进行设置
     npm uninstall vite-plugin-vue-setup-extend -D
+  - 使用 echarts 绘制图表
+    npm i echarts
 
 
 ## 十、其他相关

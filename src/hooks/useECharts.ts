@@ -2,13 +2,14 @@
  * @Author: Komorebi
  * @Date: 2024-12-18 14:42:29
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-12-18 17:13:55
+ * @LastEditTime: 2024-12-24 15:54:58
  */
 import type { EChartsOption } from "echarts";
 import type { Ref } from "vue";
 
 import store from "@/store";
 import echarts from "@/utils/echarts";
+import { tryOnUnmounted } from "@vueuse/core";
 
 export function useECharts(elRef: Ref<HTMLDivElement>) {
   /**
@@ -27,18 +28,22 @@ export function useECharts(elRef: Ref<HTMLDivElement>) {
 
   // 图表实例
   let chartInstance: echarts.ECharts | null = null;
+  // 重置图表大小
+  let resizeFn: Fn = resize;
   // 图表配置
   const chartOptions = ref({}) as Ref<EChartsOption>;
+  // 移除重置图表大小
+  let removeResizeFn: Fn = () => {};
 
-  const getOptions = computed(() => {
-    if (theme.value !== "dark") {
-      return chartOptions.value as EChartsOption;
-    }
-    return {
-      backgroundColor: "transparent",
-      ...chartOptions.value,
-    } as EChartsOption;
-  });
+  // const getOptions = computed(() => {
+  //   if (theme.value !== "dark") {
+  //     return chartOptions.value as EChartsOption;
+  //   }
+  //   return {
+  //     backgroundColor: "transparent",
+  //     ...chartOptions.value,
+  //   } as EChartsOption;
+  // });
 
   // 初始化图表
   function initCharts() {
@@ -67,6 +72,16 @@ export function useECharts(elRef: Ref<HTMLDivElement>) {
   function setOptions(options: EChartsOption, clear = true) {
     chartOptions.value = options;
   }
+  function resize() {
+    chartInstance?.resize();
+  }
+
+  tryOnUnmounted(() => {
+    if (!chartInstance) return;
+    removeResizeFn();
+    chartInstance.dispose();
+    chartInstance = null;
+  });
 
   return {
     getInstance,

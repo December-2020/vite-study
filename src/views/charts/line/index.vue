@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:08:25
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-12-18 16:14:49
+ * @LastEditTime: 2024-12-25 17:09:20
 -->
 <template>
   <div class="wrapper">
@@ -30,8 +30,8 @@
         </el-card>
       </el-space>
     </div>
-    <div class="wrapper-content">
-      <div ref="chartRef"></div>
+    <div class="wrapper-content h-300px">
+      <div ref="chartRef" class="h-100%"></div>
     </div>
   </div>
 </template>
@@ -58,12 +58,28 @@ const getLineData = async () => {
   console.log("🚀 ~ getLineData ~ res:", lineData.value);
 };
 
+const chartRef = ref<HTMLDivElement | null>(null);
+const { setOptions } = useECharts(chartRef as Ref<HTMLDivElement>);
+
 onMounted(async () => {
   await getLineData();
-});
 
-const chartRef = ref<HTMLDivElement | null>(null);
-const charts = useECharts(chartRef as Ref<HTMLDivElement>);
+  setOptions({
+    xAxis: {
+    type: 'category',
+    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+  },
+  yAxis: {
+    type: 'value'
+  },
+  series: [
+    {
+      data: [150, 230, 224, 218, 135, 147, 260],
+      type: 'line'
+    }
+  ]
+  });
+});
 </script>
 
 <style scoped lang="scss">

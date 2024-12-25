@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-23 15:08:24
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-11-08 10:36:00
+ * @LastEditTime: 2024-12-25 14:03:34
 -->
 <template>
   <el-config-provider :locale="locale">
@@ -59,7 +59,8 @@ const onResize = ({ width }: { width: number }) => {
     ) {
       device = DeviceEnum.MOBILE;
     }
-    console.log("🚀 ~ onResize ~ device:", device);
+    store.appSet.setDevice(device);
+    // console.log("🚀 ~ onResize ~ device:", device);
   }
 };
 </script>

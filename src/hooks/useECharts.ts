@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-12-18 14:42:29
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-12-24 15:54:58
+ * @LastEditTime: 2024-12-25 09:58:54
  */
 import type { EChartsOption } from "echarts";
 import type { Ref } from "vue";
@@ -10,6 +10,7 @@ import type { Ref } from "vue";
 import store from "@/store";
 import echarts from "@/utils/echarts";
 import { tryOnUnmounted } from "@vueuse/core";
+import { useEventListener } from "@/hooks/useEventListener";
 
 export function useECharts(elRef: Ref<HTMLDivElement>) {
   /**
@@ -56,6 +57,12 @@ export function useECharts(elRef: Ref<HTMLDivElement>) {
     if (!el || !unref(el)) return;
 
     chartInstance = echarts.init(el, theme);
+    const { removeEvent } = useEventListener({
+      el: window,
+      name: "resize",
+      listener: resizeFn,
+    });
+    removeResizeFn = removeEvent;
   }
   // 获取图表实例
   function getInstance(): echarts.ECharts | null {

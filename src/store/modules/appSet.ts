@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-26 09:37:47
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-12-18 15:07:21
+ * @LastEditTime: 2024-12-25 13:59:13
  */
 import type {
   RouteLocationNormalized,
@@ -12,7 +12,7 @@ import type {
 
 import i18n from "@/locales";
 import { defineStore } from "pinia";
-import { LanguageEnum } from "@/enums/app";
+import { LanguageEnum, DeviceEnum } from "@/enums/app";
 import { getRawRoute } from "@/utils/route";
 
 /**
@@ -48,6 +48,8 @@ const useAppSet = defineStore("appSet", {
     cacheTabList: new Set() as Set<string>,
     tabList: [] as RouteLocationNormalized[],
     isDarkTheme,
+    // 设备类型
+    device: DeviceEnum.PC,
   }),
 
   getters: {
@@ -59,6 +61,10 @@ const useAppSet = defineStore("appSet", {
       // console.log("🚀 ~ getCacheTabList ~ cacheList:", cacheList);
       return cacheList;
     },
+    // 判断当前设备是否为PC
+    isPC(): boolean {
+      return this.device === DeviceEnum.PC;
+    }
   },
 
   actions: {
@@ -72,8 +78,12 @@ const useAppSet = defineStore("appSet", {
       this.isCollapse = !this.isCollapse;
     },
     // 切换主题
-    toggleTheme(){
+    toggleTheme() {
       this.isDarkTheme = !this.isDarkTheme;
+    },
+    // 设置设备类型
+    setDevice(device: DeviceEnum) {
+      this.device = device;
     },
 
     // 添加路由
@@ -197,7 +207,7 @@ const useAppSet = defineStore("appSet", {
   persist: {
     storage: sessionStorage,
     /* 排除 */
-    omit: ["cacheTabList", "isDarkTheme"],
+    omit: ["cacheTabList", "isDarkTheme", "device"],
     /* 挑选 */
     // pick: [],
     /**

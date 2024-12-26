@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-12-18 14:42:29
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-12-25 17:13:01
+ * @LastEditTime: 2024-12-26 10:38:19
  */
 import type { EChartsOption } from "echarts";
 import type { Ref } from "vue";
@@ -20,12 +20,6 @@ export function useECharts(elRef: Ref<HTMLDivElement>) {
   const theme = computed(() =>
     store.appSet.isDarkTheme ? "dark" : "customed"
   );
-  watch(
-    () => theme.value,
-    (newVal) => {
-      console.log("🚀 ~ watch ~ newVal:", newVal);
-    }
-  );
 
   // 图表实例
   let chartInstance: echarts.ECharts | null = null;
@@ -38,7 +32,11 @@ export function useECharts(elRef: Ref<HTMLDivElement>) {
 
   const getOptions = computed(() => {
     if (theme.value !== "dark") {
-      return chartOptions.value as EChartsOption;
+      // return chartOptions.value as EChartsOption;
+      return {
+        backgroundColor: "#fff",
+        ...chartOptions.value,
+      } as EChartsOption;
     }
     return {
       backgroundColor: "transparent",
@@ -109,6 +107,15 @@ export function useECharts(elRef: Ref<HTMLDivElement>) {
   function resize() {
     chartInstance?.resize();
   }
+
+  // 根据主题切换图表的主题
+  watch(() => theme.value, (newTheme) => {
+    if (chartInstance) {
+      chartInstance.dispose();
+      initCharts();
+      setOptions(chartOptions.value);
+    }
+  })
 
   /** 
    * 如果onUnmounted（）在组件生命周期内

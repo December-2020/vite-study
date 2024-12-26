@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-14 11:31:48
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-11-11 09:57:17
+ * @LastEditTime: 2024-12-26 11:03:31
 -->
 <template>
   <div class="wrapper flex justify-between items-center h-100%">
@@ -27,20 +27,23 @@
     </div>
     <!-- 右侧用户头像等信息 -->
     <div class="wrapper-rt flex items-center">
-      <!-- 搜索icon -->
-      <div class="m-r-10px p-6px cursor-pointer">
-        <SvgIcon icon-class="common-search" />
-      </div>
-      <!-- 全屏 -->
-      <ElTooltip placement="bottom" :content="fullScreen.tip">
-        <div class="m-r-10px p-6px cursor-pointer" @click="toggleFullScreen">
-          <SvgIcon :icon-class="fullScreen.svg" />
+      <!-- 仅 pc 显示 -->
+      <template v-if="store.appSet.isPC">
+        <!-- 搜索icon -->
+        <div class="m-r-10px p-6px cursor-pointer">
+          <SvgIcon icon-class="common-search" />
         </div>
-      </ElTooltip>
-      <!-- 主题切换 -->
-      <ThemeSwitch class="m-r-10px" />
-      <!-- 国际化 -->
-      <LangDropdown />
+        <!-- 全屏 -->
+        <ElTooltip placement="bottom" :content="fullScreen.tip">
+          <div class="m-r-10px p-6px cursor-pointer" @click="toggleFullScreen">
+            <SvgIcon :icon-class="fullScreen.svg" />
+          </div>
+        </ElTooltip>
+        <!-- 主题切换 -->
+        <ThemeSwitch class="m-r-10px" />
+        <!-- 国际化 -->
+        <LangDropdown />
+      </template>
       <!-- 用户头像 -->
       <BaseDropdown :options="operationList" @command="operationCommand">
         <div class="user flex items-center m-l-10px">

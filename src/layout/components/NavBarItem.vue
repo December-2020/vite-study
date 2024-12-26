@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-11 16:35:02
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-18 15:32:21
+ * @LastEditTime: 2024-12-26 14:13:40
 -->
 <template>
   <!-- el-menu 标签下只能有 el-menu-item 或者 el-sub-menu 标签 -->
@@ -37,7 +37,7 @@
         <template #title>
           <el-icon>
             <SvgIcon
-              v-if="route.meta.icon"
+              v-if="store.appSet.isPC && route.meta.icon"
               :icon-class="`nav-${route.meta.icon}`"
             />
           </el-icon>
@@ -50,10 +50,14 @@
       </el-sub-menu>
     </template>
     <!-- 无子路由 -->
-    <el-menu-item v-else :index="resolvePath(route.path)">
+    <el-menu-item
+      v-else
+      :index="resolvePath(route.path)"
+      @click="menuClick"
+    >
       <el-icon>
         <SvgIcon
-          v-if="route.meta.icon"
+          v-if="store.appSet.isPC && route.meta.icon"
           :icon-class="`nav-${route.meta.icon}`"
         />
       </el-icon>
@@ -66,6 +70,7 @@
 import type { AppRouteRecordRaw } from "#/route";
 
 import path from "path-browserify";
+import store from "@/store";
 import { useRoute } from "vue-router";
 
 interface Props {
@@ -85,4 +90,12 @@ const { path: routePath } = useRoute();
 const currRoute = computed(() => {
   return !!~routePath.indexOf(resolvePath(route.path));
 });
+
+// 菜单点击事件
+// 不是 pc 端, 点击菜单后收起菜单
+const emit = defineEmits(["menuClick"]);
+const menuClick = () => {
+  console.log("menuClick");
+  emit("menuClick");
+};
 </script>

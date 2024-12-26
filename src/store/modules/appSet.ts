@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-26 09:37:47
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-12-25 13:59:13
+ * @LastEditTime: 2024-12-26 14:15:09
  */
 import type {
   RouteLocationNormalized,
@@ -38,7 +38,7 @@ const useAppSet = defineStore("appSet", {
   // 官方推荐使用 完整类型推断的箭头函数
   state: () => ({
     lang: LanguageEnum.CHINESE,
-    // 是否收起侧边导航栏(仅左侧菜单模式)
+    // 是否收起侧边导航栏(仅左侧菜单模式, 移动端)
     isCollapse: false,
     /**
      * Set 和 Map 的选用

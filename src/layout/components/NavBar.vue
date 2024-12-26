@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-11 14:43:02
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-19 17:10:28
+ * @LastEditTime: 2024-12-26 14:20:06
 -->
 <template>
   <el-scrollbar wrap-class="nav-scroll">
@@ -10,13 +10,14 @@
       v-bind="menuProps"
       :default-active="activeMenu"
       class="nav-scroll-menu h-100% w-210px"
-      :collapse="store.appSet.isCollapse"
+      :collapse="isCollapse"
     >
       <NavBarItem
         v-for="item in menuList"
         :key="item.path"
         :route="item"
         :base-path="item.path"
+        @menu-click="handleMenu"
       />
     </el-menu>
   </el-scrollbar>
@@ -49,8 +50,10 @@ const routes = Router.options.routes as unknown as AppRouteRecordRaw[];
 const menuList = computed(() => {
   return routes.filter((item) => !item.meta?.hidden);
 });
+// 菜单栏是否展开与收起
+const isCollapse = computed(() => store.appSet.isPC && store.appSet.isCollapse);
 
-/** 
+/**
  * 活动的菜单
  * bug修复: 面包屑导航时, 菜单无响应
  * ! 不能解构, 解构会丢失响应性
@@ -67,6 +70,14 @@ const menuProps = withDefaults(defineProps<MenuProps>(), {
   popperClass: "menu-popper",
 });
 // const menuWidth = menuProps.mode === "vertical" ? "210px" : "auto";
+
+// 菜单点击事件
+// 不是 pc 端, 点击菜单后收起菜单
+const emit = defineEmits(["menuClick"]);
+const handleMenu = ()=>{
+  console.log(2222);
+  emit('menuClick');
+}
 </script>
 
 <style scoped lang="scss">

@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-11 14:34:37
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-11-22 11:43:49
+ * @LastEditTime: 2024-12-26 14:26:09
 -->
 <template>
   <!-- 左侧菜单模式 -->
@@ -10,7 +10,18 @@
     <el-container class="w-100% h-100% flex">
       <!-- 为什么不用? 还需要自己写过渡动画, 就放弃了 -->
       <!-- <el-aside :width="menuWidth"> -->
-      <NavBar />
+      <NavBar v-if="store.appSet.isPC" />
+      <el-drawer
+        v-else
+        :modelValue="store.appSet.isCollapse"
+        direction="ltr"
+        size="60%"
+        :show-close="false"
+        :with-header="false"
+        @close="closeDrawer"
+      >
+        <NavBar @menu-click="handle"/>
+      </el-drawer>
       <!-- </el-aside> -->
       <el-container class="flex-1">
         <el-header class="wrapper-head b-b-1 b-b-solid">
@@ -37,6 +48,15 @@ import NavBar from "./components/NavBar.vue";
 import AppMain from "./components/AppMain.vue";
 import AppHead from "./components/AppHead.vue";
 import TabPane from "./components/TabPane.vue";
+import store from "@/store";
+
+const closeDrawer = () => {
+  console.log("closeDrawer");
+  store.appSet.setIsCollapse();
+};
+const handle = ()=>{
+  console.log(11111);
+}
 </script>
 
 <style scoped lang="scss">

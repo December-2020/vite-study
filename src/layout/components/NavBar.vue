@@ -2,22 +2,23 @@
  * @Author: Komorebi
  * @Date: 2024-10-11 14:43:02
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-12-26 14:20:06
+ * @LastEditTime: 2024-12-31 17:04:53
 -->
 <template>
   <el-scrollbar wrap-class="nav-scroll">
     <el-menu
       v-bind="menuProps"
       :default-active="activeMenu"
-      class="nav-scroll-menu h-100% w-210px"
+      class="h-100% w-210px nav-scroll-menu"
       :collapse="isCollapse"
     >
+      <!-- :class="['nav-scroll-menu', 'h-100%', { 'w-210px': store.appSet.isPC }]" -->
       <NavBarItem
         v-for="item in menuList"
         :key="item.path"
         :route="item"
         :base-path="item.path"
-        @menu-click="handleMenu"
+        @menuClick="handleMenu"
       />
     </el-menu>
   </el-scrollbar>
@@ -73,11 +74,11 @@ const menuProps = withDefaults(defineProps<MenuProps>(), {
 
 // 菜单点击事件
 // 不是 pc 端, 点击菜单后收起菜单
-const emit = defineEmits(["menuClick"]);
-const handleMenu = ()=>{
+const emit = defineEmits(["menu-click"]);
+const handleMenu = () => {
   console.log(2222);
-  emit('menuClick');
-}
+  emit("menu-click");
+};
 </script>
 
 <style scoped lang="scss">
@@ -107,6 +108,14 @@ const handleMenu = ()=>{
     // @include nav_bg_color();
     // @include nav_font_color();
     // @include nav_active_font_color();
+  }
+}
+
+/* 仅移动端生效 */
+@media (max-width: 768px) {
+  .nav-scroll-menu {
+    width: auto;
+    border-right: none;
   }
 }
 </style>

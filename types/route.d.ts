@@ -56,3 +56,13 @@ export interface AppRouteRecordRaw
   fullPath?: string;
   redirect?: string;
 }
+
+
+/** 
+ * 专门为页面顶部的路由缓存导航所设计的类型
+ */
+export interface TabPane {
+  title?: string;
+  name?: string;
+  isAffix?: boolean;
+}

@@ -2,18 +2,20 @@
  * @Author: Komorebi
  * @Date: 2024-09-26 09:37:47
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-01-02 13:42:14
+ * @LastEditTime: 2025-01-02 15:22:43
  */
 import type {
   RouteLocationNormalized,
   RouteLocationRaw,
   Router,
 } from "vue-router";
+import type { TabPane } from "#/route";
 
 import i18n from "@/locales";
 import { defineStore } from "pinia";
 import { LanguageEnum, DeviceEnum } from "@/enums/app";
 import { getRawRoute } from "@/utils/route";
+import { useI18n } from "@/hooks/useI18n";
 
 /**
  * 路由跳转前剔除其余无相关的参数
@@ -64,7 +66,18 @@ const useAppSet = defineStore("appSet", {
     // 判断当前设备是否为PC
     isPC(): boolean {
       return this.device === DeviceEnum.PC;
-    }
+    },
+    /** 
+     * 专门为页面顶部的路由缓存导航设置的值
+     */
+    getTabPaneList(): TabPane[] {
+      let list = this.tabList.map(item => ({
+        title: useI18n(item.meta.title, "Route"),
+        name: item.name as string,
+        isAffix: !item.meta.isAffix,
+      }))
+      return list;
+    },
   },
 
   actions: {
@@ -227,6 +240,5 @@ const useAppSet = defineStore("appSet", {
     // },
   },
 });
-console.log("🚀 ~ setIsCollapse ~ this:", this)
 
 export default useAppSet;

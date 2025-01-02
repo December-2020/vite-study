@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-11-15 14:24:10
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-01-02 14:24:20
+ * @LastEditTime: 2025-01-02 15:24:10
 -->
 <template>
   <div class="wrapper">
@@ -13,7 +13,7 @@
       @tab-change="changeRoute"
     >
       <el-tab-pane
-        v-for="item in tabsList"
+        v-for="item in store.appSet.getTabPaneList"
         :key="item.name"
         :label="item.title"
         :name="item.name"
@@ -29,13 +29,6 @@ import type { TabPaneName } from "element-plus";
 
 import store from "@/store";
 import { useRouter, useRoute } from "vue-router";
-import { useI18n } from "@/hooks/useI18n";
-
-interface Tab {
-  title?: string;
-  name?: string;
-  isAffix?: boolean;
-}
 
 /**
  * 初始化 tabs 中的路由列表
@@ -50,7 +43,6 @@ affixRouteList.forEach((item) => {
 });
 
 const tabsValue = ref("");
-const tabsList = ref<Tab[]>([]);
 
 /**
  * 将当前路由添加到路由缓存中
@@ -64,19 +56,6 @@ watch(
   (newVal) => {
     tabsValue.value = newVal.name as string;
     store.appSet.addTab(newVal);
-  },
-  { immediate: true }
-);
-// 根据路由列表变化 tabsList
-watch(
-  store.appSet.tabList,
-  (newVal) => {
-    // console.log("🚀 ~ watch ~ newVal:", newVal);
-    tabsList.value = newVal.map((item) => ({
-      title: useI18n(item.meta.title, "Route"),
-      name: item.name as string,
-      isAffix: !item.meta.isAffix,
-    }));
   },
   { immediate: true }
 );

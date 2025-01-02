@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-11-15 14:24:10
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-11-18 17:21:43
+ * @LastEditTime: 2025-01-02 14:24:20
 -->
 <template>
   <div class="wrapper">
@@ -121,6 +121,20 @@ const changeRoute = (e: TabPaneName) => {
           border-bottom: none;
           // @include background_color("nav-active-font-color");
           // @include font_color("content-font-color");
+        }
+      }
+    }
+  }
+}
+
+/* 仅移动端生效 */
+@media (max-width: 768px) {
+  .wrapper {
+    :deep(.el-tabs__header) {
+      .el-tabs__nav {
+        &-next,
+        &-prev {
+          line-height: 30px;
         }
       }
     }

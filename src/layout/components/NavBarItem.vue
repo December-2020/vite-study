@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-11 16:35:02
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-12-31 17:24:25
+ * @LastEditTime: 2025-01-02 13:54:44
 -->
 <template>
   <!-- el-menu 标签下只能有 el-menu-item 或者 el-sub-menu 标签 -->
@@ -26,13 +26,14 @@
             )
           "
           :base-path="resolvePath(route.path)"
+          @menu-click="emit('menu-click')"
         />
       </template>
       <!-- 多个子路由 -->
       <el-sub-menu
         v-else
         :index="resolvePath(route.path)"
-        :class="[{ 'active-route': currRoute }, 'submenu']"
+        :class="{ 'active-route': currRoute }"
       >
         <template #title>
           <el-icon v-if="store.appSet.isPC">
@@ -45,12 +46,21 @@
         </template>
         <!-- 默认插槽 -->
         <template v-for="child in route.children" :key="child.path">
-          <NavBarItem :route="child" :base-path="resolvePath(route.path)" />
+          <NavBarItem
+            :route="child"
+            :base-path="resolvePath(route.path)"
+            @menu-click="emit('menu-click')"
+          />
         </template>
       </el-sub-menu>
     </template>
     <!-- 无子路由 -->
-    <el-menu-item v-else :index="resolvePath(route.path)" @click="menuClick">
+    <!-- 监听原生事件 -->
+    <el-menu-item
+      v-else
+      :index="resolvePath(route.path)"
+      @click="menuClick"
+    >
       <el-icon v-if="store.appSet.isPC">
         <SvgIcon
           v-if="route.meta.icon"
@@ -88,19 +98,19 @@ const currRoute = computed(() => {
 });
 
 // 菜单点击事件
-// 不是 pc 端, 点击菜单后收起菜单
+// 点击菜单后收起菜单
 const emit = defineEmits(["menu-click"]);
+/**
+ * !递归组件中必须书写多次
+ */
 const menuClick = () => {
-  console.log("menu-click");
+  // 仅在移动端触发
+  if(store.appSet.isPC) return;
   emit("menu-click");
 };
 </script>
 
 <style scoped lang="scss">
-@media (max-width: 768px) {
-  .submenu {
-    // --el-menu-base-level-padding: 20px;
-    // --el-menu-level-padding: 20px;
-  }
-}
+// @media (max-width: 768px) {
+// }
 </style>

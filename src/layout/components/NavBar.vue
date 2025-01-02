@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-11 14:43:02
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-12-31 17:04:53
+ * @LastEditTime: 2025-01-02 09:41:28
 -->
 <template>
   <el-scrollbar wrap-class="nav-scroll">
@@ -18,7 +18,7 @@
         :key="item.path"
         :route="item"
         :base-path="item.path"
-        @menuClick="handleMenu"
+        @menuClick="emit('menu-click')"
       />
     </el-menu>
   </el-scrollbar>
@@ -75,10 +75,6 @@ const menuProps = withDefaults(defineProps<MenuProps>(), {
 // 菜单点击事件
 // 不是 pc 端, 点击菜单后收起菜单
 const emit = defineEmits(["menu-click"]);
-const handleMenu = () => {
-  console.log(2222);
-  emit("menu-click");
-};
 </script>
 
 <style scoped lang="scss">

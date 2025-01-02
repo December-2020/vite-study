@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-14 11:31:48
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-12-26 11:03:31
+ * @LastEditTime: 2025-01-02 13:43:38
 -->
 <template>
   <div class="wrapper flex justify-between items-center h-100%">
@@ -85,14 +85,16 @@ const props = withDefaults(defineProps<Props>(), {
 
 // 左侧导航栏展开与收起
 let menuSvg = computed(() => {
-  /** 
-   * 将为任何响应式属性创建 refs。 
+  /**
+   * 将为任何响应式属性创建 refs。
    * 当您仅使用 store 中的状态但不调用任何操作时，这很有用
    */
   const { isCollapse } = storeToRefs(store.appSet);
   return `common-menu-${isCollapse ? "expand" : "collapse"}`;
 });
-const toggleCollapse = store.appSet.setIsCollapse;
+const toggleCollapse = () => {
+  store.appSet.setIsCollapse();
+};
 
 // 面包屑路由
 // 获取路由列表

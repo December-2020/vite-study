@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-26 09:37:47
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-12-26 14:15:09
+ * @LastEditTime: 2025-01-02 13:42:14
  */
 import type {
   RouteLocationNormalized,
@@ -73,8 +73,12 @@ const useAppSet = defineStore("appSet", {
       this.lang = lang;
       i18n.global.locale.value = lang;
     },
-    // 展开与收起侧边菜单栏
-    setIsCollapse() {
+    // 展开与收起侧边菜单栏 
+    setIsCollapse(flag?: boolean) {
+      if (typeof flag === 'boolean') {
+        this.isCollapse = flag;
+        return;
+      }
       this.isCollapse = !this.isCollapse;
     },
     // 切换主题
@@ -223,5 +227,6 @@ const useAppSet = defineStore("appSet", {
     // },
   },
 });
+console.log("🚀 ~ setIsCollapse ~ this:", this)
 
 export default useAppSet;

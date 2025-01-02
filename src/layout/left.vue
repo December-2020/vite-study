@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-11 14:34:37
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-12-26 14:26:09
+ * @LastEditTime: 2025-01-02 13:51:28
 -->
 <template>
   <!-- 左侧菜单模式 -->
@@ -13,14 +13,14 @@
       <NavBar v-if="store.appSet.isPC" />
       <el-drawer
         v-else
-        :modelValue="store.appSet.isCollapse"
         direction="ltr"
         size="60%"
         :show-close="false"
         :with-header="false"
+        :modelValue="store.appSet.isCollapse"
         @close="closeDrawer"
       >
-        <NavBar @menu-click="handle"/>
+        <NavBar @menu-click="closeDrawer" />
       </el-drawer>
       <!-- </el-aside> -->
       <el-container class="flex-1">
@@ -51,12 +51,8 @@ import TabPane from "./components/TabPane.vue";
 import store from "@/store";
 
 const closeDrawer = () => {
-  console.log("closeDrawer");
-  store.appSet.setIsCollapse();
+  store.appSet.setIsCollapse(false);
 };
-const handle = ()=>{
-  console.log(11111);
-}
 </script>
 
 <style scoped lang="scss">

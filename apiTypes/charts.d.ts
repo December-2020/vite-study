@@ -5,7 +5,12 @@ interface LineCount {
   total: number;
   orders: number;
 }
+interface Day{
+  day: string;
+  num: number;
+}
 
 export interface LineData {
   countList: LineCount[];
+  dayList: Day[];
 }

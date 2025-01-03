@@ -13,7 +13,7 @@ import {
   TitleComponent, // 标题
   TooltipComponent, // 提示框
   GridComponent, // 直角坐标系
-  //   DatasetComponent, // 数据集
+  DatasetComponent, // 数据集
   //   TransformComponent, // 内置数据转换器 (filter, sort)
 } from "echarts/components";
 // 标签自动布局、全局过渡动画等特性
@@ -29,7 +29,7 @@ echarts.use([
   LabelLayout,
   UniversalTransition,
   SVGRenderer,
-  // DatasetComponent,
+  DatasetComponent,
   // TransformComponent,
 
   LineChart,

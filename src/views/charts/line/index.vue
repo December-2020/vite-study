@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:08:25
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-01-02 14:46:24
+ * @LastEditTime: 2025-01-03 11:35:41
 -->
 <template>
   <div class="wrapper">
@@ -65,19 +65,29 @@ onMounted(async () => {
   await getLineData();
 
   setOptions({
-    xAxis: {
-      type: "category",
-      data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    // xAxis: {
+    //   type: "category",
+    //   data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    // },
+    // yAxis: {
+    //   type: "value",
+    // },
+    // series: [
+    //   {
+    //     data: [150, 230, 224, 218, 135, 147, 260],
+    //     type: "line",
+    //   },
+    // ],
+
+    /* 使用数据集 */
+    xAxis: { type: "category" },
+    yAxis: {},
+    series: [{ type: "line" }],
+    // @ts-ignore
+    dataset: {
+      dimensions: ["day", "num"],
+      source: lineData.value?.dayList,
     },
-    yAxis: {
-      type: "value",
-    },
-    series: [
-      {
-        data: [150, 230, 224, 218, 135, 147, 260],
-        type: "line",
-      },
-    ],
   });
 });
 </script>

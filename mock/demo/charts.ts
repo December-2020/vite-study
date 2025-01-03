@@ -15,15 +15,26 @@ const countList = (() => {
       title: "@ctitle(3)",
       type: "@cword('年季月周日',1)",
       total: "@integer(20, 200)",
-      orders:"@integer(0, 100)"
+      orders: "@integer(0, 100)"
     });
   }
   return result;
 })();
 
+const _dayList = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const dayList = (() => {
+  const result: any[] = _dayList.map(item => ({
+    day: item,
+    num: "@integer(20, 300)",
+  }));
+  return result
+})();
+
 const data = {
   // 统计
   countList,
+  // 日访问量
+  dayList,
 };
 
 export default [

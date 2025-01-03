@@ -25,7 +25,8 @@ const _dayList = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const dayList = (() => {
   const result: any[] = _dayList.map(item => ({
     day: item,
-    num: "@integer(20, 300)",
+    num: "@integer(50, 200)",
+    price:"@integer(20, 100)"
   }));
   return result
 })();

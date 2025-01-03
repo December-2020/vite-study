@@ -8,6 +8,7 @@ interface LineCount {
 interface Day{
   day: string;
   num: number;
+  price: number;
 }
 
 export interface LineData {

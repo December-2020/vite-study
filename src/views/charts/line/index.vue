@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:08:25
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-01-03 11:35:41
+ * @LastEditTime: 2025-01-03 13:45:56
 -->
 <template>
   <div class="wrapper">
@@ -41,6 +41,7 @@ import type { LineData } from "#Api/charts";
 
 import API from "@/apis/demo/charts";
 import { useECharts } from "@/hooks/useECharts";
+import { useI18n } from "@/hooks/useI18n";
 
 /**
  * 在 3.2.34 或以上的版本中，
@@ -80,12 +81,18 @@ onMounted(async () => {
     // ],
 
     /* 使用数据集 */
+    tooltip: { trigger: "axis" },
+    // 横坐标是类目型
     xAxis: { type: "category" },
-    yAxis: {},
-    series: [{ type: "line" }],
+    // 纵坐标是数值型
+    yAxis: { type: "value" },
+    series: [
+      { type: "line", name: useI18n(`Chart.line.number`) },
+      { type: "bar", name: useI18n(`Chart.line.price`) },
+    ],
     // @ts-ignore
     dataset: {
-      dimensions: ["day", "num"],
+      dimensions: ["day", "num", "price"],
       source: lineData.value?.dayList,
     },
   });

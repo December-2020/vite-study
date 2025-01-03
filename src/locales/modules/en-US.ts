@@ -1,3 +1,5 @@
+import { number } from "echarts";
+
 /*
  * @Author: Komorebi
  * @Date: 2024-09-26 09:14:33
@@ -52,4 +54,12 @@ export default {
     tips: "Please check that url you entered is correct, or click the button to return to the homepage",
     backButton: "back homepage",
   },
+
+  // 图表页面
+  Chart: {
+    line: {
+      price: "price",
+      number: "number",
+    }
+  }
 };

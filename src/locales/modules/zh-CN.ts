@@ -34,7 +34,7 @@ export default {
     fullScreen: "全屏",
     exit: "退出",
     noSupportFullScreen: "该浏览器暂不支持全屏",
-    closeConsole:"请先关闭控制台再全屏",
+    closeConsole: "请先关闭控制台再全屏",
   },
 
   // 登录页面
@@ -52,4 +52,12 @@ export default {
     tips: "请检查您输入的URL是否正确, 或单击按钮返回首页",
     backButton: "返回首页",
   },
+
+  // 图表页面
+  Chart: {
+    line: {
+      price: "价格",
+      number: "数量",
+    }
+  }
 };

@@ -34,6 +34,7 @@ export default {
     fullScreen: "全屏",
     exit: "退出",
     noSupportFullScreen: "该浏览器暂不支持全屏",
+    closeConsole:"请先关闭控制台再全屏",
   },
 
   // 登录页面

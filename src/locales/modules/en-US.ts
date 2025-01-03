@@ -34,6 +34,7 @@ export default {
     exit: "Exit",
     noSupportFullScreen:
       "This browser currently does not support full screen display",
+    closeConsole: "Please close the console before going full screen"
   },
 
   // 登录页面

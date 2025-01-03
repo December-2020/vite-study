@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-14 11:31:48
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-01-02 13:43:38
+ * @LastEditTime: 2025-01-03 09:42:55
 -->
 <template>
   <div class="wrapper flex justify-between items-center h-100%">
@@ -204,8 +204,21 @@ const fullScreen = computed(() => {
 const toggleFullScreen = async () => {
   if (isSupported.value) {
     /**
-     * !在f12下是不会全屏的
+     * !在控制台打开时, 点击全屏的会不生效
      */
+    let { outerWidth, innerWidth, outerHeight, innerHeight } = window;
+    // 打开控制台的宽或高的阈值
+    const Threshold = 160;
+    if (
+      outerWidth - innerWidth > Threshold ||
+      outerHeight - innerHeight > Threshold
+    ) {
+      ElMessage({
+        type: "error",
+        message: useI18n(`ToolTip.closeConsole`),
+      });
+      return;
+    }
     toggle();
     return;
   }

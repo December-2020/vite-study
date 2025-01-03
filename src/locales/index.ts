@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-26 09:14:14
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-18 14:50:22
+ * @LastEditTime: 2025-01-03 14:53:58
  */
 import type { App } from "vue";
 
@@ -13,6 +13,15 @@ import zhLocale from "./modules/zh-CN";
 import { createI18n } from "vue-i18n";
 // 引入语言包的枚举类型
 import { LanguageEnum } from "@/enums/app";
+
+// 默认语言为中文
+let language = LanguageEnum.CHINESE;
+// 获取缓存的语言设置
+const AppSet = sessionStorage.getItem("appSet");
+if (AppSet) {
+  let { lang } = JSON.parse(AppSet);
+  language = lang;
+}
 
 // 合并语言包
 const messages = {
@@ -27,7 +36,7 @@ const i18n = createI18n({
   // 如果设置为true, $t() 函数将注册到全局作用域,并且可以在模板中使用
   globalInjection: true,
   // 设置默认语言
-  locale: LanguageEnum.CHINESE,
+  locale: language,
   // 不存在则默认为中文
   fallbackLocale: LanguageEnum.CHINESE,
   messages,

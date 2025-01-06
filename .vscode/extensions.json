@@ -3,6 +3,7 @@
     "Vue.volar",
     "Vue.vscode-typescript-vue-plugin",
     "AnthonyFu.UnoCSS",
-    "wxzhang.json-comments"
+    "wxzhang.json-comments",
+    "Lokalise.i18n-ally"
   ]
 }

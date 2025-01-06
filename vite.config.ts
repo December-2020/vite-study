@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-23 15:08:24
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-11-22 16:33:44
+ * @LastEditTime: 2025-01-06 17:23:24
  */
 import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
@@ -177,7 +177,7 @@ export default defineConfig(({ command, mode }) => {
       // 端口号 8080
       port: 5173,
       // 设为 true 时若端口已被占用则会直接退出，而不是尝试下一个可用端口。
-      strictPort: true,
+      // strictPort: true,
       // 在开发服务器启动时自动在浏览器中打开应用程序
       open: true,
       // 设置代理  https://github.com/http-party/node-http-proxy#options

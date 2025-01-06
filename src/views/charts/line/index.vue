@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:08:25
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-01-03 13:45:56
+ * @LastEditTime: 2025-01-06 10:56:54
 -->
 <template>
   <div class="wrapper">
@@ -30,7 +30,7 @@
         </el-card>
       </el-space>
     </div>
-    <div class="wrapper-content h-300px">
+    <div class="wrapper-content h-300px my-4">
       <div ref="chartRef" class="h-100%"></div>
     </div>
   </div>
@@ -86,10 +86,21 @@ onMounted(async () => {
     xAxis: { type: "category" },
     // 纵坐标是数值型
     yAxis: { type: "value" },
+    /**
+     * 直角坐标系内绘图网格
+     * 减少 svg 与 父盒子间的间距
+     */
+    grid: { left: "1%", right: "1%", top: "2%", bottom: 0, containLabel: true },
     series: [
       { type: "line", name: useI18n(`Chart.line.number`) },
       { type: "bar", name: useI18n(`Chart.line.price`) },
     ],
+    // // 图例
+    // legend:{
+    //   orient:'vertical',
+    //   right:10,
+    //   top:20,
+    // },
     // @ts-ignore
     dataset: {
       dimensions: ["day", "num", "price"],

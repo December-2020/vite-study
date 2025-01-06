@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-12-18 14:42:29
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-12-26 10:38:19
+ * @LastEditTime: 2025-01-06 14:40:44
  */
 import type { EChartsOption } from "echarts";
 import type { Ref } from "vue";
@@ -109,13 +109,25 @@ export function useECharts(elRef: Ref<HTMLDivElement>) {
   }
 
   // 根据主题切换图表的主题
-  watch(() => theme.value, (newTheme) => {
+  const themeWatch = watch(() => theme.value, (newTheme) => {
     if (chartInstance) {
       chartInstance.dispose();
       initCharts();
       setOptions(chartOptions.value);
     }
   })
+  /** 
+   * ! pc端下收缩侧边栏时, 图表宽度不会自适应
+   */
+  const collapseWatch = watch([() => store.appSet.isCollapse, () => store.appSet.isPC], (newVals) => {
+    // console.log("🚀 ~ useECharts ~ newVals:", newVals)
+    const [_, isPC] = newVals;
+    if (isPC && chartInstance) {
+      useTimeoutFn(() => {
+        resizeFn();
+      }, 300)
+    }
+  });
 
   /** 
    * 如果onUnmounted（）在组件生命周期内
@@ -126,6 +138,8 @@ export function useECharts(elRef: Ref<HTMLDivElement>) {
     removeResizeFn();
     chartInstance.dispose();
     chartInstance = null;
+    themeWatch();
+    collapseWatch();
   });
 
   // 获取图表实例

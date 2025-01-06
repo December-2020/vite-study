@@ -1,7 +1,8 @@
 {
   "recommendations": [
-    "Vue.official",
+    "Vue.volar",
     "Vue.vscode-typescript-vue-plugin",
-    "AnthonyFu.UnoCSS"
+    "AnthonyFu.UnoCSS",
+    "wxzhang.json-comments"
   ]
 }

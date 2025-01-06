@@ -48,5 +48,16 @@
     "vite": "^5.4.1",
     "vite-plugin-svg-icons": "^2.0.1",
     "vue-tsc": "^2.0.29"
+  },
+  "json-comments": {
+    "tips": "请安装JSONComments插件为JSON文件提供注释功能, 详见: https://github.com/zhangfisher/json_comments_extension",
+    "package.json": {
+      "scripts.release": "生成版本记录",
+      "scripts.dev": "本地开发",
+      "scripts.build": "打包",
+      "scripts.bootstrap": "安装依赖",
+      "scripts.preview": "预览",
+      "scripts.postinstall": "修改第三方包"
+    }
   }
 }

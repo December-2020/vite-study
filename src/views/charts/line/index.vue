@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:08:25
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-01-07 11:21:50
+ * @LastEditTime: 2025-01-07 11:49:34
 -->
 <template>
   <div class="wrapper">
@@ -28,7 +28,7 @@
         </el-card>
       </el-space>
     </div>
-    <div class="wrapper-content h-300px my-4">
+    <div class="wrapper-content my-4 h-300px">
       <div ref="chartRef" class="h-100%"></div>
     </div>
   </div>
@@ -38,6 +38,8 @@
 import type { LineData } from "#Api/charts";
 
 import API from "@/apis/demo/charts";
+// import store from "@/store";
+// import { storeToRefs } from "pinia";
 import { useECharts } from "@/hooks/useECharts";
 import { useI18n } from "@/hooks/useI18n";
 
@@ -57,6 +59,10 @@ const getLineData = async () => {
   console.log("🚀 ~ getLineData ~ res:", lineData.value);
 };
 
+// const chartHeight = computed(() => {
+//   const { isPC } = storeToRefs(store.appSet);
+//   return `${isPC.value? 400 : 300}px`;
+// });
 const chartRef = ref<HTMLDivElement | null>(null);
 const { setOptions } = useECharts(chartRef as Ref<HTMLDivElement>);
 
@@ -147,6 +153,9 @@ onMounted(async () => {
         }
       }
     }
+  }
+  &-content{
+    // height: v-bind(chartHeight);
   }
 }
 </style>

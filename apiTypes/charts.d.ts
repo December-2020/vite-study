@@ -1,7 +1,7 @@
 interface LineCount {
   id: string;
   title: string;
-  type: string;
+  type: "年" | "季" | "月" | "周" | "日";
   total: number;
   orders: number;
 }

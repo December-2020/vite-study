@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:08:25
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-01-07 11:49:34
+ * @LastEditTime: 2025-01-07 15:13:01
 -->
 <template>
   <div class="wrapper">
@@ -16,7 +16,7 @@
           <template #header>
             <div class="card-header">
               <div>{{ item.title }}</div>
-              <el-tag type="success">{{ item.type }}</el-tag>
+              <el-tag :type="TagTypeFn(item.type)">{{ item.type }}</el-tag>
             </div>
           </template>
           <div class="card-body">
@@ -57,6 +57,19 @@ const getLineData = async () => {
   const res = await API.Get_Line_Data();
   lineData.value = res.data as LineData;
   console.log("🚀 ~ getLineData ~ res:", lineData.value);
+};
+
+type TagValue = "年" | "季" | "月" | "周" | "日";
+type TagType = "success" | "warning" | "primary" | "danger" | "info";
+const Tag = {
+  年: "success",
+  季: "warning",
+  月: "primary",
+  周: "danger",
+  日: "info",
+} as Record<TagValue, TagType>;
+const TagTypeFn = (type: TagValue) => {
+  return Tag[type];
 };
 
 // const chartHeight = computed(() => {
@@ -154,7 +167,7 @@ onMounted(async () => {
       }
     }
   }
-  &-content{
+  &-content {
     // height: v-bind(chartHeight);
   }
 }

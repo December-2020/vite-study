@@ -58,6 +58,8 @@ export default {
     line: {
       price: "价格",
       number: "数量",
+      orderQuantity: "订单量",
+      total: "总计",
     }
   }
 };

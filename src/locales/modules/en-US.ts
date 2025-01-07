@@ -1,5 +1,3 @@
-import { number } from "echarts";
-
 /*
  * @Author: Komorebi
  * @Date: 2024-09-26 09:14:33
@@ -60,6 +58,8 @@ export default {
     line: {
       price: "price",
       number: "number",
+      orderQuantity: "order quantity",
+      total: "total",
     }
   }
 };

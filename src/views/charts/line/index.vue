@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:08:25
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-01-06 10:56:54
+ * @LastEditTime: 2025-01-07 11:21:50
 -->
 <template>
   <div class="wrapper">
@@ -20,11 +20,9 @@
             </div>
           </template>
           <div class="card-body">
-            <!-- <div class="card-body-row">下单量: {{ item.orders }}</div>
-            <div class="card-body-row">总计: {{ item.total }}</div> -->
-            <div>下单量:</div>
+            <div>{{ $t("Chart.line.orderQuantity") }}:</div>
             <div>{{ item.orders }}</div>
-            <div>总计:</div>
+            <div>{{ $t("Chart.line.total") }}:</div>
             <div>{{ item.total }}</div>
           </div>
         </el-card>
@@ -120,6 +118,7 @@ onMounted(async () => {
       // 自动换行
       // grid-auto-flow: row dense;
       .box-card {
+        --el-card-padding: 14px;
         .card-header {
           display: flex;
           justify-content: space-between;
@@ -131,15 +130,15 @@ onMounted(async () => {
         .card-body {
           display: grid;
           /* 
-            grid-template-columns、
             grid-template-rows、
+            grid-template-columns、
             grid-template-areas
             三个属性的简写
           */
-          grid-template: repeat(2, 1fr) / repeat(2, 1fr);
-          // grid-template-columns: repeat(2, 1fr);
+          grid-template: repeat(2, 1fr) / 3fr 1fr;
           // grid-template-rows: repeat(2, 1fr);
-          row-gap: 5px;
+          // grid-template-columns: 3fr 1fr;
+          row-gap: 10px;
           div {
             &:nth-child(2n) {
               text-align: right;

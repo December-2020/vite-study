@@ -2,15 +2,17 @@
  * @Author: Komorebi
  * @Date: 2024-10-11 14:34:37
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-01-02 13:51:28
+ * @LastEditTime: 2025-01-07 09:45:36
 -->
 <template>
   <!-- 左侧菜单模式 -->
   <div class="wrapper w-100% h-100%">
     <el-container class="w-100% h-100% flex">
       <!-- 为什么不用? 还需要自己写过渡动画, 就放弃了 -->
-      <!-- <el-aside :width="menuWidth"> -->
+      <!-- <el-aside v-if="store.appSet.isPC" class="!w-auto"> -->
       <NavBar v-if="store.appSet.isPC" />
+      <!-- </el-aside> -->
+      <!-- 移动端菜单 -->
       <el-drawer
         v-else
         direction="ltr"
@@ -22,7 +24,8 @@
       >
         <NavBar @menu-click="closeDrawer" />
       </el-drawer>
-      <!-- </el-aside> -->
+      <!-- 移动端菜单 end -->
+
       <el-container class="flex-1">
         <el-header class="wrapper-head b-b-1 b-b-solid">
           <AppHead

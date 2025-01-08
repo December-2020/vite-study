@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:08:25
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-01-07 17:20:41
+ * @LastEditTime: 2025-01-08 17:11:32
 -->
 <template>
   <div class="wrapper">
@@ -96,6 +96,8 @@ const { setOptions: setPieLangOptions } = useECharts(
 onMounted(async () => {
   await getLineData();
 
+  let dayList = lineData.value?.dayList || [];
+  let dayStartIndex = dayList.length - 7 > 0 ? dayList.length - 7 : 0;
   setOptions({
     // xAxis: {
     //   type: "category",
@@ -126,6 +128,15 @@ onMounted(async () => {
       { type: "line", name: useI18n(`Chart.line.number`) },
       { type: "bar", name: useI18n(`Chart.line.price`) },
     ],
+    // 图表缩放
+    dataZoom: [
+      {
+        type: "inside", // 这个 dataZoom 组件是 inside 型 dataZoom 组件
+        xAxisIndex: 0, //这里是从X轴的0刻度开始
+        startValue: dayStartIndex, // 从头开始。
+        endValue: dayStartIndex + 7, // 一次性展示8个。
+      },
+    ],
     // // 图例
     // legend:{
     //   orient:'vertical',
@@ -135,11 +146,37 @@ onMounted(async () => {
     // @ts-ignore
     dataset: {
       dimensions: ["day", "num", "price"],
-      source: lineData.value?.dayList,
+      source: dayList,
     },
+    /**
+     * 仅移动端
+     * 为什么不用 store?
+     * 1. store 是较为精确的判断, 手机横屏不会判断为pc端
+     * 2. 这里可以通过手机屏幕的宽度来进行大概判断
+     */
+    media: [
+      {
+        query: { maxWidth: 675 },
+        option: {
+          xAxis: {
+            // boundaryGap: true, // 坐标轴两边留白策略
+            axisTick: {
+              // 类目轴中在 boundaryGap 为 true 的时候有效，可以保证刻度线和标签对齐
+              alignWithLabel: true,
+              // 坐标轴刻度的显示间隔
+              interval: 0,
+            },
+          },
+          dataZoom: [
+            {
+              endValue: dayStartIndex + 4, // 一次性展示5个。
+            },
+          ],
+        },
+      },
+    ],
   });
 
-  // 20000
   setPieLangOptions({
     tooltip: {
       trigger: "item",

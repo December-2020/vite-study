@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-11-22 14:52:04
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-01-07 16:08:35
+ * @LastEditTime: 2025-01-08 15:17:39
  */
 import { MockMethod } from "vite-plugin-mock";
 import { resultSuccess, resultError } from "../_util";
@@ -21,12 +21,12 @@ const countList = (() => {
   return result;
 })();
 
-const _dayList = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const _dayList = ["Last Mon", "Last Tue", "Last Wed", "Last Thu", "Last Fri", "Last Sat", "Last Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const dayList = (() => {
   const result: any[] = _dayList.map(item => ({
     day: item,
     num: "@integer(10, 200)",
-    price:"@integer(20, 100)"
+    price: "@integer(20, 100)"
   }));
   return result
 })();

@@ -16,6 +16,7 @@ import {
   DatasetComponent, // 数据集
   // TransformComponent, // 内置数据转换器 (filter, sort)
   // LegendComponent, // 图例
+  DataZoomComponent, // 数据区域缩放
 } from "echarts/components";
 // 标签自动布局、全局过渡动画等特性
 import { LabelLayout, UniversalTransition } from "echarts/features";
@@ -31,6 +32,7 @@ echarts.use([
   UniversalTransition,
   SVGRenderer,
   DatasetComponent,
+  DataZoomComponent,
   // TransformComponent,
   // LegendComponent,
 

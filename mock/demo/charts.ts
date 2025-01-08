@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-11-22 14:52:04
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-01-07 11:56:32
+ * @LastEditTime: 2025-01-07 16:08:35
  */
 import { MockMethod } from "vite-plugin-mock";
 import { resultSuccess, resultError } from "../_util";
@@ -25,7 +25,7 @@ const _dayList = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const dayList = (() => {
   const result: any[] = _dayList.map(item => ({
     day: item,
-    num: "@integer(10, 280)",
+    num: "@integer(10, 200)",
     price:"@integer(20, 100)"
   }));
   return result

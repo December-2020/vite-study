@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:08:25
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-01-07 15:13:01
+ * @LastEditTime: 2025-01-07 17:20:41
 -->
 <template>
   <div class="wrapper">
@@ -28,8 +28,16 @@
         </el-card>
       </el-space>
     </div>
-    <div class="wrapper-content my-4 h-300px">
-      <div ref="chartRef" class="h-100%"></div>
+    <div class="wrapper-content py-4">
+      <div class="wrapper-content-line h-300px">
+        <div ref="chartRef" class="h-100%"></div>
+      </div>
+      <div class="wrapper-content-pie-list mt-4 h-300px">
+        <div class="pie pie1">
+          <div ref="pieLangRef" class="h-100%"></div>
+        </div>
+        <div class="pie pie2"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -79,6 +87,12 @@ const TagTypeFn = (type: TagValue) => {
 const chartRef = ref<HTMLDivElement | null>(null);
 const { setOptions } = useECharts(chartRef as Ref<HTMLDivElement>);
 
+// 饼状图
+const pieLangRef = ref<HTMLDivElement | null>(null);
+const { setOptions: setPieLangOptions } = useECharts(
+  pieLangRef as Ref<HTMLDivElement>
+);
+
 onMounted(async () => {
   await getLineData();
 
@@ -124,6 +138,39 @@ onMounted(async () => {
       source: lineData.value?.dayList,
     },
   });
+
+  // 20000
+  setPieLangOptions({
+    tooltip: {
+      trigger: "item",
+    },
+    series: [
+      {
+        // 用于 tooltip 标题
+        name: "语言占比",
+        type: "pie",
+        radius: "90%",
+        center: ["50%", "50%"],
+        // color: ["#5ab1ef", "#b6a2de", "#67e0e3", "#2ec7c9"],
+        data: [
+          { value: 4400, name: "Vue" },
+          { value: 3000, name: "TypeScript" },
+          { value: 500, name: "Scss" },
+          { value: 400, name: "HTML" },
+        ].sort(function (a, b) {
+          return b.value - a.value;
+        }),
+        // label: {
+        //   show: false,
+        // },
+        // animationType: "scale",
+        // animationEasing: "exponentialInOut",
+        // animationDelay: function () {
+        //   return Math.random() * 400;
+        // },
+      },
+    ],
+  });
 });
 </script>
 
@@ -168,7 +215,23 @@ onMounted(async () => {
     }
   }
   &-content {
-    // height: v-bind(chartHeight);
+    // &-line {
+    //   height: v-bind(chartHeight);
+    // }
+    &-pie-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+      .pie {
+        height: 100%;
+        &1 {
+          border: 1px solid red;
+        }
+        &2 {
+          border: 1px solid blue;
+        }
+      }
+    }
   }
 }
 </style>

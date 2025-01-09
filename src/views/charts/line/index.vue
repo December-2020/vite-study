@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:08:25
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-01-09 13:52:08
+ * @LastEditTime: 2025-01-09 15:53:49
 -->
 <template>
   <div class="wrapper">
@@ -32,13 +32,13 @@
       <div class="wrapper-content-line h-300px">
         <div ref="chartRef" class="h-100%"></div>
       </div>
-      <div class="wrapper-content-pie-list mt-4">
+      <div class="wrapper-content-pie-list">
         <div class="pie-item py-4">
-          <div class="pie pie1 h-60">
-            <div ref="pieLangRef" class="h-100%"></div>
-          </div>
+          <div ref="pieRef" class="h-60"></div>
         </div>
-        <div class="pie pie2"></div>
+        <div class="pie-item py-4">
+          <div ref="radarRef" class="h-60"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -66,7 +66,7 @@ const lineData = ref<LineData>();
 const getLineData = async () => {
   const res = await API.Get_Line_Data();
   lineData.value = res.data as LineData;
-  console.log("🚀 ~ getLineData ~ res:", lineData.value);
+  // console.log("🚀 ~ getLineData ~ res:", lineData.value);
 };
 
 type TagValue = "年" | "季" | "月" | "周" | "日";
@@ -82,6 +82,7 @@ const TagTypeFn = (type: TagValue) => {
   return Tag[type];
 };
 
+// 折线-柱状混合图
 const chartRef = ref<HTMLDivElement | null>(null);
 const { setOptions } = useECharts(chartRef as Ref<HTMLDivElement>);
 
@@ -91,9 +92,13 @@ const { setOptions } = useECharts(chartRef as Ref<HTMLDivElement>);
 //   let { clientWidth } = document.documentElement;
 //   return `${isPC.value ? 300 : clientWidth}px`;
 // });
-const pieLangRef = ref<HTMLDivElement | null>(null);
-const { setOptions: setPieLangOptions } = useECharts(
-  pieLangRef as Ref<HTMLDivElement>
+const pieRef = ref<HTMLDivElement | null>(null);
+const { setOptions: setPieOptions } = useECharts(pieRef as Ref<HTMLDivElement>);
+
+// 雷达图
+const radarRef = ref<HTMLDivElement | null>(null);
+const { setOptions: setRadarOptions } = useECharts(
+  radarRef as Ref<HTMLDivElement>
 );
 
 onMounted(async () => {
@@ -101,6 +106,7 @@ onMounted(async () => {
 
   let dayList = lineData.value?.dayList || [];
   let dayStartIndex = dayList.length - 7 > 0 ? dayList.length - 7 : 0;
+  // 折线-柱状混合图配置
   setOptions({
     // xAxis: {
     //   type: "category",
@@ -126,7 +132,7 @@ onMounted(async () => {
      * 直角坐标系内绘图网格
      * 减少 svg 与 父盒子间的间距
      */
-    grid: { left: "1%", right: "1%", top: "2%", bottom: 0, containLabel: true },
+    grid: { left: "1%", right: "1%", top: "2%", bottom: "2%", containLabel: true },
     series: [
       { type: "line", name: useI18n(`Chart.line.number`) },
       { type: "bar", name: useI18n(`Chart.line.price`) },
@@ -179,8 +185,8 @@ onMounted(async () => {
       },
     ],
   });
-
-  setPieLangOptions({
+  // 饼状图配置
+  setPieOptions({
     title: { text: "语言占比", textStyle: { fontSize: 16 } },
     legend: { show: false },
     tooltip: {
@@ -232,7 +238,34 @@ onMounted(async () => {
       // }),
       source: lineData.value?.typeList || [],
     },
-    
+  });
+  // 雷达图配置
+  setRadarOptions({
+    title: { text: "能力雷达图", textStyle: { fontSize: 16 } },
+    tooltip: {},
+    radar: {
+      // 雷达图的指示器
+      indicator: [
+        { name: "销售", max: 5 },
+        { name: "管理", max: 5 },
+        { name: "信息技术", max: 5 },
+        { name: "客服", max: 5 },
+        { name: "研发", max: 5 },
+        { name: "市场", max: 5 },
+      ],
+    },
+    series: [
+      {
+        type: "radar",
+        // 雷达图的数据
+        data: [
+          {
+            value: lineData.value?.skillList || [],
+            name: "能力分配",
+          },
+        ],
+      },
+    ],
   });
 });
 </script>
@@ -282,11 +315,6 @@ onMounted(async () => {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 10px;
-      .pie {
-        &2 {
-          border: 1px solid blue;
-        }
-      }
     }
   }
 }

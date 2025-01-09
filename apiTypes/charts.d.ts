@@ -1,3 +1,5 @@
+import { number } from "echarts/core";
+
 interface LineCount {
   id: string;
   title: string;
@@ -14,8 +16,13 @@ interface LangType {
   name: string;
   value: number;
 }
+// interface Skill {
+//   type: string;
+//   value: number;
+// }
 export interface LineData {
   countList: LineCount[];
   dayList: Day[];
   typeList: LangType[];
+  skillList: number[];
 }

@@ -15,7 +15,7 @@ import {
   GridComponent, // 直角坐标系
   DatasetComponent, // 数据集
   // TransformComponent, // 内置数据转换器 (filter, sort)
-  // LegendComponent, // 图例
+  LegendComponent, // 图例
   DataZoomComponent, // 数据区域缩放
 } from "echarts/components";
 // 标签自动布局、全局过渡动画等特性
@@ -33,8 +33,8 @@ echarts.use([
   SVGRenderer,
   DatasetComponent,
   DataZoomComponent,
+  LegendComponent,
   // TransformComponent,
-  // LegendComponent,
 
   LineChart,
   BarChart,

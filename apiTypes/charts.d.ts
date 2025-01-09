@@ -5,13 +5,17 @@ interface LineCount {
   total: number;
   orders: number;
 }
-interface Day{
+interface Day {
   day: string;
   num: number;
   price: number;
 }
-
+interface LangType {
+  name: string;
+  value: number;
+}
 export interface LineData {
   countList: LineCount[];
   dayList: Day[];
+  typeList: LangType[];
 }

@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:08:25
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-01-08 17:11:32
+ * @LastEditTime: 2025-01-09 13:52:08
 -->
 <template>
   <div class="wrapper">
@@ -32,9 +32,11 @@
       <div class="wrapper-content-line h-300px">
         <div ref="chartRef" class="h-100%"></div>
       </div>
-      <div class="wrapper-content-pie-list mt-4 h-300px">
-        <div class="pie pie1">
-          <div ref="pieLangRef" class="h-100%"></div>
+      <div class="wrapper-content-pie-list mt-4">
+        <div class="pie-item py-4">
+          <div class="pie pie1 h-60">
+            <div ref="pieLangRef" class="h-100%"></div>
+          </div>
         </div>
         <div class="pie pie2"></div>
       </div>
@@ -80,14 +82,15 @@ const TagTypeFn = (type: TagValue) => {
   return Tag[type];
 };
 
-// const chartHeight = computed(() => {
-//   const { isPC } = storeToRefs(store.appSet);
-//   return `${isPC.value? 400 : 300}px`;
-// });
 const chartRef = ref<HTMLDivElement | null>(null);
 const { setOptions } = useECharts(chartRef as Ref<HTMLDivElement>);
 
 // 饼状图
+// const pieHeight = computed(() => {
+//   const { isPC } = storeToRefs(store.appSet);
+//   let { clientWidth } = document.documentElement;
+//   return `${isPC.value ? 300 : clientWidth}px`;
+// });
 const pieLangRef = ref<HTMLDivElement | null>(null);
 const { setOptions: setPieLangOptions } = useECharts(
   pieLangRef as Ref<HTMLDivElement>
@@ -178,6 +181,8 @@ onMounted(async () => {
   });
 
   setPieLangOptions({
+    title: { text: "语言占比", textStyle: { fontSize: 16 } },
+    legend: { show: false },
     tooltip: {
       trigger: "item",
     },
@@ -186,27 +191,48 @@ onMounted(async () => {
         // 用于 tooltip 标题
         name: "语言占比",
         type: "pie",
-        radius: "90%",
+        radius: "76%",
         center: ["50%", "50%"],
         // color: ["#5ab1ef", "#b6a2de", "#67e0e3", "#2ec7c9"],
-        data: [
-          { value: 4400, name: "Vue" },
-          { value: 3000, name: "TypeScript" },
-          { value: 500, name: "Scss" },
-          { value: 400, name: "HTML" },
-        ].sort(function (a, b) {
-          return b.value - a.value;
-        }),
-        // label: {
-        //   show: false,
-        // },
-        // animationType: "scale",
-        // animationEasing: "exponentialInOut",
-        // animationDelay: function () {
-        //   return Math.random() * 400;
-        // },
+        label: {
+          show: true,
+        },
       },
     ],
+    media: [
+      {
+        /**
+         * 移动端是小于 675
+         * 这里是放了2个饼图
+         * 需要除以2 ?
+         */
+        query: { maxWidth: 337 },
+        option: {
+          legend: { bottom: 5, left: "center", show: true },
+          series: [
+            {
+              label: {
+                show: false,
+              },
+            },
+          ],
+        },
+      },
+    ],
+    // @ts-ignore
+    dataset: {
+      dimensions: ["name", "value"],
+      // source: [
+      //   { value: 4400, name: "Vue" },
+      //   { value: 3000, name: "TypeScript" },
+      //   { value: 500, name: "Scss" },
+      //   { value: 400, name: "HTML" },
+      // ].sort(function (a, b) {
+      //   return b.value - a.value;
+      // }),
+      source: lineData.value?.typeList || [],
+    },
+    
   });
 });
 </script>
@@ -252,18 +278,11 @@ onMounted(async () => {
     }
   }
   &-content {
-    // &-line {
-    //   height: v-bind(chartHeight);
-    // }
     &-pie-list {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 10px;
       .pie {
-        height: 100%;
-        &1 {
-          border: 1px solid red;
-        }
         &2 {
           border: 1px solid blue;
         }

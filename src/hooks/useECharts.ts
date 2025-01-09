@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-12-18 14:42:29
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-01-06 14:40:44
+ * @LastEditTime: 2025-01-09 13:42:18
  */
 import type { EChartsOption } from "echarts";
 import type { Ref } from "vue";
@@ -119,9 +119,24 @@ export function useECharts(elRef: Ref<HTMLDivElement>) {
   /** 
    * ! pc端下收缩侧边栏时, 图表宽度不会自适应
    */
-  const collapseWatch = watch([() => store.appSet.isCollapse, () => store.appSet.isPC], (newVals) => {
+  const collapseWatch = watch([() => store.appSet.isCollapse, () => store.appSet.isPC], (newVals, oldVals) => {
     // console.log("🚀 ~ useECharts ~ newVals:", newVals)
-    const [_, isPC] = newVals;
+    const [_collapse, isPC] = newVals;
+    const [__collapse, _isPC] = oldVals;
+    /** 
+     * 通过f12主动切换设备类型时, 会触发该事件
+     * 因为移动端图表的配置和pc端不一样
+     * 所以需要重新初始化图表
+     */
+    if (isPC !== _isPC && chartInstance) {
+      chartInstance.dispose();
+      initCharts();
+      setOptions(chartOptions.value);
+      return;
+    }
+    /** 
+     * 通过收缩侧边栏,图表自适应宽度
+     */
     if (isPC && chartInstance) {
       useTimeoutFn(() => {
         resizeFn();

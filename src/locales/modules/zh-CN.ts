@@ -60,6 +60,17 @@ export default {
       number: "数量",
       orderQuantity: "订单量",
       total: "总计",
+      languageProportion: "语言占比",
+      abilityRadar: "能力雷达",
+      capacityAllocation: "能力分配",
+      radar: {
+        sale: "销售",
+        manage: "管理",
+        informationTechnology: "信息技术",
+        customerService: "客服",
+        researchAndDevelopment: "研发",
+        market: "市场",
+      }
     }
   }
 };

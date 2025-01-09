@@ -60,6 +60,17 @@ export default {
       number: "number",
       orderQuantity: "order quantity",
       total: "total",
+      languageProportion: "Language Proportion",
+      abilityRadar: "Ability Radar",
+      capacityAllocation: "Capacity allocation",
+      radar: {
+        sale: "Sale",
+        manage: "Manage",
+        informationTechnology: "Information Technology",
+        customerService: "Customer Service",
+        researchAndDevelopment: "Research And Development",
+        market: "Market",
+      }
     }
   }
 };

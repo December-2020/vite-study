@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:08:25
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-01-09 15:53:49
+ * @LastEditTime: 2025-01-09 16:47:40
 -->
 <template>
   <div class="wrapper">
@@ -132,7 +132,13 @@ onMounted(async () => {
      * 直角坐标系内绘图网格
      * 减少 svg 与 父盒子间的间距
      */
-    grid: { left: "1%", right: "1%", top: "2%", bottom: "2%", containLabel: true },
+    grid: {
+      left: "1%",
+      right: "1%",
+      top: "2%",
+      bottom: "2%",
+      containLabel: true,
+    },
     series: [
       { type: "line", name: useI18n(`Chart.line.number`) },
       { type: "bar", name: useI18n(`Chart.line.price`) },
@@ -187,7 +193,10 @@ onMounted(async () => {
   });
   // 饼状图配置
   setPieOptions({
-    title: { text: "语言占比", textStyle: { fontSize: 16 } },
+    title: {
+      text: useI18n(`Chart.line.languageProportion`),
+      textStyle: { fontSize: 14 },
+    },
     legend: { show: false },
     tooltip: {
       trigger: "item",
@@ -195,10 +204,10 @@ onMounted(async () => {
     series: [
       {
         // 用于 tooltip 标题
-        name: "语言占比",
+        name: useI18n(`Chart.line.languageProportion`),
         type: "pie",
-        radius: "76%",
-        center: ["50%", "50%"],
+        radius: "74%",
+        center: ["50%", "54%"],
         // color: ["#5ab1ef", "#b6a2de", "#67e0e3", "#2ec7c9"],
         label: {
           show: true,
@@ -214,9 +223,10 @@ onMounted(async () => {
          */
         query: { maxWidth: 337 },
         option: {
-          legend: { bottom: 5, left: "center", show: true },
+          legend: { bottom: "-1%", left: "center", show: true },
           series: [
             {
+              center: ["50%", "50%"],
               label: {
                 show: false,
               },
@@ -241,17 +251,20 @@ onMounted(async () => {
   });
   // 雷达图配置
   setRadarOptions({
-    title: { text: "能力雷达图", textStyle: { fontSize: 16 } },
+    title: {
+      text: useI18n(`Chart.line.abilityRadar`),
+      textStyle: { fontSize: 16 },
+    },
     tooltip: {},
     radar: {
       // 雷达图的指示器
       indicator: [
-        { name: "销售", max: 5 },
-        { name: "管理", max: 5 },
-        { name: "信息技术", max: 5 },
-        { name: "客服", max: 5 },
-        { name: "研发", max: 5 },
-        { name: "市场", max: 5 },
+        { name: useI18n(`Chart.line.radar.sale`), max: 5 },
+        { name: useI18n(`Chart.line.radar.manage`), max: 5 },
+        { name: useI18n(`Chart.line.radar.informationTechnology`), max: 5 },
+        { name: useI18n(`Chart.line.radar.customerService`), max: 5 },
+        { name: useI18n(`Chart.line.radar.researchAndDevelopment`), max: 5 },
+        { name: useI18n(`Chart.line.radar.market`), max: 5 },
       ],
     },
     series: [
@@ -261,7 +274,7 @@ onMounted(async () => {
         data: [
           {
             value: lineData.value?.skillList || [],
-            name: "能力分配",
+            name: useI18n(`Chart.line.capacityAllocation`),
           },
         ],
       },

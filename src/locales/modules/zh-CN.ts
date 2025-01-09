@@ -19,7 +19,7 @@ export default {
     },
     chart: {
       title: "图表",
-      histogram: "柱状图",
+      three: "3D图",
       line: "折线图",
       test: "测试路由",
       test1: "测试路由1",

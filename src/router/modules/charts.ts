@@ -28,12 +28,12 @@ const Charts: AppRouteRecordRaw = {
       component: () => import("@/views/charts/line/index.vue"),
     },
     {
-      path: "histogram",
-      name: "Histogram",
+      path: "three",
+      name: "ThreeD",
       meta: {
-        title: "chart.histogram",
+        title: "chart.three",
       },
-      component: () => import("@/views/charts/histogram/index.vue"),
+      component: () => import("@/views/charts/three/index.vue"),
     },
 
     // 测试路由

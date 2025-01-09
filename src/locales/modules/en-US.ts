@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-26 09:14:33
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-18 15:02:06
+ * @LastEditTime: 2025-01-09 16:55:21
  */
 export default {
   // 通用组件
@@ -18,7 +18,7 @@ export default {
     },
     chart: {
       title: "Charts",
-      histogram: "Histogram Chart",
+      three: "Three Chart",
       line: "Line Chart",
       test: "Test Route",
       test1: "Test Route 1",

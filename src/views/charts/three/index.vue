@@ -5,11 +5,11 @@
  * @LastEditTime: 2024-10-12 09:31:45
 -->
 <template>
-  <div class="wrapper">测试柱状图</div>
+  <div class="wrapper">测试3d图</div>
 </template>
 
 <script setup lang="ts">
-defineOptions({ name: "Histogram" });
+defineOptions({ name: "ThreeD" });
 </script>
 
 <style scoped lang="scss"></style>

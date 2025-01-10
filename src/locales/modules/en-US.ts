@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-26 09:14:33
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-01-09 16:55:21
+ * @LastEditTime: 2025-01-10 11:39:37
  */
 export default {
   // 通用组件
@@ -24,6 +24,10 @@ export default {
       test1: "Test Route 1",
       test2: "Test Route 2",
       test3: "Test Route 3",
+    },
+    example: {
+      title: "example",
+      ellipsis: "Text omission",
     },
   },
 

@@ -26,6 +26,10 @@ export default {
       test2: "测试路由2",
       test3: "测试路由3",
     },
+    example: {
+      title: "例子",
+      ellipsis: "文本省略",
+    },
   },
 
   // 提示弹窗
@@ -70,7 +74,7 @@ export default {
         customerService: "客服",
         researchAndDevelopment: "研发",
         market: "市场",
-      }
-    }
-  }
+      },
+    },
+  },
 };

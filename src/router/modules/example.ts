@@ -1,0 +1,32 @@
+/*
+ * @Author: Komorebi
+ * @Date: 2025-01-10 11:20:50
+ * @LastEditors: Komorebi
+ * @LastEditTime: 2025-01-10 11:42:12
+ */
+import type { AppRouteRecordRaw } from "#/route";
+
+import { LeftLayout } from "./constant";
+
+const Example: AppRouteRecordRaw = {
+  path: "/example",
+  name: "Example",
+  redirect: "/example/ellipsis",
+  meta: {
+    title: "example.title",
+    icon: "example",
+  },
+  component: LeftLayout,
+  children: [
+    {
+      path: "ellipsis",
+      name: "TextEllipsis",
+      meta: {
+        title: "example.ellipsis",
+      },
+      component: () => import("@/views/example/ellipsis/index.vue"),
+    },
+  ],
+};
+
+export default Example;

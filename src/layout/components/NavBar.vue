@@ -2,14 +2,14 @@
  * @Author: Komorebi
  * @Date: 2024-10-11 14:43:02
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-01-02 09:41:28
+ * @LastEditTime: 2025-01-10 15:44:37
 -->
 <template>
   <el-scrollbar wrap-class="nav-scroll">
     <el-menu
       v-bind="menuProps"
       :default-active="activeMenu"
-      class="h-100% w-210px nav-scroll-menu"
+      class="h-100% w-52.5 nav-scroll-menu"
       :collapse="isCollapse"
     >
       <!-- :class="['nav-scroll-menu', 'h-100%', { 'w-210px': store.appSet.isPC }]" -->

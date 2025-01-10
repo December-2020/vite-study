@@ -272,6 +272,10 @@ methods: {
     npm uninstall vite-plugin-vue-setup-extend -D
   - 使用 echarts 绘制图表
     npm i echarts
+  - 学习并使用 three.js 
+    npm i three
+    轨道控制器可以使得相机围绕目标进行轨道运动
+    npm i three-orbit-controls
 
 
 ## 十、其他相关
@@ -321,6 +325,10 @@ methods: {
 - [网址](https://tooltt.com/json2typescript/)
 16. 持久化存储 pinia
 - [pinia-plugin-persistedstate](https://prazdevs.github.io/pinia-plugin-persistedstate/zh/guide/)
+17. echarts配置文档
+- [echarts setOption](https://echarts.apache.org/zh/option.html#title)
+18. three.js介绍文档
+- [three.js](https://threejs.org/docs/index.html#manual/zh/introduction/Creating-a-scene)
 
 
 ## 十一、github上一些有趣开源的项目

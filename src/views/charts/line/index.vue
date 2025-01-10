@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:08:25
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-01-09 16:47:40
+ * @LastEditTime: 2025-01-10 16:16:57
 -->
 <template>
   <div class="wrapper">
@@ -29,14 +29,15 @@
       </el-space>
     </div>
     <div class="wrapper-content py-4">
-      <div class="wrapper-content-line h-300px">
+      <!--   -->
+      <div class="wrapper-content-line h-300px border-rd-4px overflow-hidden">
         <div ref="chartRef" class="h-100%"></div>
       </div>
-      <div class="wrapper-content-pie-list">
-        <div class="pie-item py-4">
+      <div class="wrapper-content-pie-list mt-4 gap-col-4">
+        <div class="border-rd-4px overflow-hidden">
           <div ref="pieRef" class="h-60"></div>
         </div>
-        <div class="pie-item py-4">
+        <div class="border-rd-4px overflow-hidden">
           <div ref="radarRef" class="h-60"></div>
         </div>
       </div>
@@ -133,10 +134,10 @@ onMounted(async () => {
      * 减少 svg 与 父盒子间的间距
      */
     grid: {
-      left: "1%",
-      right: "1%",
-      top: "2%",
-      bottom: "2%",
+      left: "2%",
+      right: "2%",
+      top: "4%",
+      bottom: "4%",
       containLabel: true,
     },
     series: [
@@ -327,7 +328,7 @@ onMounted(async () => {
     &-pie-list {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 10px;
+      // gap: 10px;
     }
   }
 }

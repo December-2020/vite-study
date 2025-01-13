@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-01-10 11:18:41
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-01-11 17:07:57
+ * @LastEditTime: 2025-01-13 11:14:41
 -->
 <template>
   <div class="wrapper">
@@ -21,12 +21,12 @@
             {{ defaultText }}
           </div>
         </el-collapse-item>
-        <el-collapse-item title="基本使用2" name="3">
-          <div
-            class="collapse-item-content center-ellipsis"
-            :title="defaultText"
-          >
-            {{ defaultText }}
+        <el-collapse-item title="单行中间隐藏" name="3">
+          <div class="collapse-item-content center-ellipsis">
+            <span class="txt">{{ defaultText }}</span>
+            <span class="title" :title="defaultText">
+              {{ defaultText }}
+            </span>
           </div>
         </el-collapse-item>
       </el-collapse>
@@ -104,6 +104,33 @@ const collapseWidth = computed(() => {
         overflow: hidden;
       }
       &.center-ellipsis {
+        position: relative;
+        overflow: hidden;
+        line-height: 1.77;
+        height: 1.77em;
+        .txt {
+          display: block;
+          max-height: 3.54em;
+        }
+        .title {
+          display: block;
+          position: relative;
+          background: inherit;
+          overflow: hidden;
+          height: 1.77em;
+          top: -3.54em;
+          overflow: hidden;
+          &::before {
+            content: attr(title);
+            width: 50%;
+            float: right;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            direction: rtl;
+            @include background_color("content-font-bg-color");
+          }
+        }
       }
     }
   }

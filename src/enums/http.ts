@@ -19,8 +19,22 @@ export enum RequestEnum {
  */
 export enum ContentTypeEnum {
   // json
+  /** 
+   * 1.适合复杂数据
+   *  前端无需关心数据结构的复杂度, 后端解析方便
+   * 2.少数浏览器不兼容
+   * 3.数据格式
+   *  发送的数据: {a:1, b:"b"},
+   *  接收的数据: JSON.stringify({a:1, b:"b"})
+   */
   JSON = "application/json;charset=UTF-8",
   // form-data qs
+  /** 
+   * 1.所有浏览器都兼容
+   * 2.数据结构极其复杂时,服务端解析非常困难
+   * 3.数据格式
+   *  a=1&b=b
+   */
   FORM_URLENCODED = "application/x-www-form-urlencoded;charset=UTF-8",
   // form-data  upload
   //   FORM_DATA = "multipart/form-data;charset=UTF-8",

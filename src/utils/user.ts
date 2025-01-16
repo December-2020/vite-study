@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-11-08 10:33:21
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-11-08 14:12:02
+ * @LastEditTime: 2025-01-16 16:51:23
  */
 import Cookies from "js-cookie";
 import { useStorage } from "@vueuse/core";
@@ -35,6 +35,13 @@ export const getToken = () => {
   return Cookies.get(TokenKey);
 };
 export const setToken = (token: string) => {
+  /** 
+   * { expires, secure: true }
+   * 
+   * 确保在安全的HTTPS连接下才发送Cookie。
+   * 这可以通过在设置Cookie时，
+   * 将secure选项设置为true来实现。
+   */
   return Cookies.set(TokenKey, token, { expires });
 };
 export const removeToken = () => {

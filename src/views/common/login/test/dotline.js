@@ -22,7 +22,7 @@ class Dotline {
     this.dotSum = this.opt.ds; //点的数量
     this.radius = this.opt.r; //圆点的半径
     this.disMax = this.opt.dis * this.opt.dis; //点与点触发连线的间距
-    this.color = this.color2rgb(this.opt.cl); //设置粒子线颜色
+    // this.color = this.color2rgb(this.opt.cl); //设置粒子线颜色
     this.dots = [];
     //requestAnimationFrame控制canvas动画
     var RAF =
@@ -65,26 +65,26 @@ class Dotline {
   }
 
   //设置线条颜色
-  color2rgb(colorStr) {
-    var red = null,
-      green = null,
-      blue = null;
-    var cstr = colorStr.toLowerCase(); //变小写
-    var cReg = /^#[0-9a-fA-F]{3,6}$/; //确定是16进制颜色码
-    if (cstr && cReg.test(cstr)) {
-      if (cstr.length == 4) {
-        var cstrnew = "#";
-        for (var i = 1; i < 4; i++) {
-          cstrnew += cstr.slice(i, i + 1).concat(cstr.slice(i, i + 1));
-        }
-        cstr = cstrnew;
-      }
-      red = parseInt("0x" + cstr.slice(1, 3));
-      green = parseInt("0x" + cstr.slice(3, 5));
-      blue = parseInt("0x" + cstr.slice(5, 7));
-    }
-    return red + "," + green + "," + blue;
-  }
+  // color2rgb(colorStr) {
+  //   var red = null,
+  //     green = null,
+  //     blue = null;
+  //   var cstr = colorStr.toLowerCase(); //变小写
+  //   var cReg = /^#[0-9a-fA-F]{3,6}$/; //确定是16进制颜色码
+  //   if (cstr && cReg.test(cstr)) {
+  //     if (cstr.length == 4) {
+  //       var cstrnew = "#";
+  //       for (var i = 1; i < 4; i++) {
+  //         cstrnew += cstr.slice(i, i + 1).concat(cstr.slice(i, i + 1));
+  //       }
+  //       cstr = cstrnew;
+  //     }
+  //     red = parseInt("0x" + cstr.slice(1, 3));
+  //     green = parseInt("0x" + cstr.slice(3, 5));
+  //     blue = parseInt("0x" + cstr.slice(5, 7));
+  //   }
+  //   return red + "," + green + "," + blue;
+  // }
 
   //画点
   addDots() {

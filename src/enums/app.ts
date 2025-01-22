@@ -19,3 +19,11 @@ export enum DeviceEnum {
   PC = "pc",
   MOBILE = "mobile",
 }
+
+/**
+ * @description: 主题类型
+ */
+export enum ThemeEnum {
+  DARK = "dark",
+  LIGHT = "light",
+}

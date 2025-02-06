@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-01-21 16:55:56
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-06 15:21:33
+ * @LastEditTime: 2025-02-06 16:20:49
  */
 /**
  * 实现登录页面的背景动画
@@ -94,7 +94,7 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
       color: theme.value.fontColor,
       // 背景颜色
       bgColor: theme.value.bgColor,
-      distance: 100,
+      distance: 60,
       ...options,
     };
     canvasOptions.value = _options;
@@ -208,7 +208,12 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
         let canvasCtxValue = canvasCtx.value;
         canvasCtxValue?.beginPath();
         canvasCtxValue!.lineWidth = ratio / 2;
-        canvasCtxValue!.strokeStyle=`rgba(${canvasOptions.value.color}, ${ratio})`;
+        canvasCtxValue!.strokeStyle = `rgba(${canvasOptions.value.color}, 
+        ${parseFloat(ratio + (0.2).toFixed(1))})`;
+        canvasCtxValue?.moveTo(dotItem.x, dotItem.y);
+        canvasCtxValue?.lineTo(currDot.x, currDot.y);
+        // 不描边看不出效果
+        canvasCtxValue?.stroke();
       }
     });
   }

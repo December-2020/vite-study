@@ -27,4 +27,10 @@ const changeCanvas = () => {
 };
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.wrapper{
+  canvas{
+    border: solid 1px red;
+  }
+}
+</style>

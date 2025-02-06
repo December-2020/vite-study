@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-01-21 16:55:56
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-01-22 17:18:52
+ * @LastEditTime: 2025-02-06 15:21:33
  */
 /**
  * 实现登录页面的背景动画
@@ -98,10 +98,12 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
       ...options,
     };
     canvasOptions.value = _options;
+    // console.log("🚀 ~ setOptions ~ _options:", _options)
     if (elRef.value) {
       elRef.value.width = _options.width as number;
       elRef.value.height = _options.height as number;
     }
+    startAnimate();
   }
   // 初始化画布
   function initCanvas() {
@@ -121,7 +123,10 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
   // 开始动画
   function startAnimate() {
     addDots();
-  }0
+    useTimeoutFn(() => {
+      animate();
+    }, 100);
+  }
   // 暂停动画
   function stopAnimate() {
     timer && clearTimeout(timer);
@@ -129,6 +134,7 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
   // 动画效果
   function animate() {
     clearCanvas();
+    drawLine(dotList);
     rqeAnimateFrame(animate);
   }
 
@@ -148,12 +154,68 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
       };
       dotList.push(dot);
     }
+    // console.log("🚀 ~ addDots ~ num:", num)
+    // console.log("🚀 ~ addDots ~ dotList:", dotList)
+  }
+  // 点运动
+  function dotMove(dot: IDot) {
+    dot.x += dot.ax;
+    dot.y += dot.ay;
+    let canvasValue = canvasOptions.value;
+    let _dotRadius = canvasValue.dotRadius ?? 0;
+    let _canvasWidth = canvasValue.width ?? 0;
+    let _canvasHeight = canvasValue.height ?? 0;
+    // 点碰到边缘返回
+    dot.ax *= dot.x > _canvasWidth - _dotRadius || dot.x < _dotRadius ? -1 : 1;
+    dot.ay *= dot.y > _canvasHeight - _dotRadius || dot.y < _dotRadius ? -1 : 1;
+    // 绘制点
+    let canvasCtxValue = canvasCtx.value;
+    canvasCtxValue?.beginPath();
+    canvasCtxValue?.arc(dot.x, dot.y, _dotRadius, 0, Math.PI * 2, true);
+    canvasCtxValue?.stroke();
+  }
+  // 点之间画线
+  function drawLine(dots: IDot[]) {
+    let currDot;
+    /**
+     * ? 自己的思路：遍历两次所有的点，比较点之间的距离，函数的触发放在animate里
+     */
+    dotList.forEach((dotItem) => {
+      dotMove(dotItem);
+      for (let i = 0; i < dots.length; i++) {
+        currDot = dots[i];
+        let _dotItemStr = JSON.stringify(dotItem);
+        let _currDotStr = JSON.stringify(currDot);
+        // 排除自身及x或y不存在的点
+        if (
+          _currDotStr === _dotItemStr ||
+          currDot.x === null ||
+          currDot.y === null
+        )
+          continue;
+        // 别的点-当前点坐标
+        let distanceX = dotItem.x - currDot.x;
+        let distanceY = dotItem.y - currDot.y;
+        // 两点间的距离
+        let distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+        // 最大距离
+        let _canvasDistanceMax = canvasOptions.value.distance ?? 0;
+        if (distance > _canvasDistanceMax) continue;
+        // 粒子向鼠标移动
+        // ****
+        // 比例
+        let ratio = (_canvasDistanceMax - distance) / _canvasDistanceMax;
+        let canvasCtxValue = canvasCtx.value;
+        canvasCtxValue?.beginPath();
+        canvasCtxValue!.lineWidth = ratio / 2;
+        canvasCtxValue!.strokeStyle=`rgba(${canvasOptions.value.color}, ${ratio})`;
+      }
+    });
   }
 
   /* 生命周期 */
   tryOnMounted(() => {
     initCanvas();
-    startAnimate();
   });
   tryOnUnmounted(() => {
     stopAnimate();

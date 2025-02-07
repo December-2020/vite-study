@@ -7,7 +7,7 @@
 <template>
   <div class="wrapper">
     <canvas ref="canvasRef"></canvas>
-    <BaseButton @click="changeCanvas">测试</BaseButton>
+    <!-- <BaseButton @click="changeCanvas">测试</BaseButton> -->
   </div>
 </template>
 
@@ -22,9 +22,9 @@ const { setOptions } = useLineAnimate(canvasRef);
 onMounted(() => {
   setOptions({ width: 300, height: 300 });
 });
-const changeCanvas = () => {
-//   setOptions({ width: 500, height: 500 });
-};
+// const changeCanvas = () => {
+// //   setOptions({ width: 500, height: 500 });
+// };
 </script>
 
 <style scoped lang="scss">

@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-26 09:37:47
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-01-02 15:22:43
+ * @LastEditTime: 2025-02-08 09:41:05
  */
 import type {
   RouteLocationNormalized,
@@ -65,17 +65,23 @@ const useAppSet = defineStore("appSet", {
     },
     // 判断当前设备是否为PC
     isPC(): boolean {
-      return this.device === DeviceEnum.PC;
+      /** 
+       * !bug 移动设备下,首次进入页面,设备类型为PC
+       */
+      let _flag = this.device === DeviceEnum.PC;
+      // console.log(state.device, "state.device");
+      return _flag;
     },
-    /** 
+    // isPC: (state) => state.device === DeviceEnum.PC,
+    /**
      * 专门为页面顶部的路由缓存导航设置的值
      */
     getTabPaneList(): TabPane[] {
-      let list = this.tabList.map(item => ({
+      let list = this.tabList.map((item) => ({
         title: useI18n(item.meta.title, "Route"),
         name: item.name as string,
         isAffix: !item.meta.isAffix,
-      }))
+      }));
       return list;
     },
   },
@@ -86,9 +92,9 @@ const useAppSet = defineStore("appSet", {
       this.lang = lang;
       i18n.global.locale.value = lang;
     },
-    // 展开与收起侧边菜单栏 
+    // 展开与收起侧边菜单栏
     setIsCollapse(flag?: boolean) {
-      if (typeof flag === 'boolean') {
+      if (typeof flag === "boolean") {
         this.isCollapse = flag;
         return;
       }

@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-11 14:34:37
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-01-07 09:50:14
+ * @LastEditTime: 2025-02-08 16:27:03
 -->
 <template>
   <!-- 左侧菜单模式 -->
@@ -19,7 +19,7 @@
         size="60%"
         :show-close="false"
         :with-header="false"
-        :modelValue="!store.appSet.isCollapse"
+        :modelValue="store.appSet.isCollapse"
         @close="closeDrawer"
       >
         <NavBar @menu-click="closeDrawer" />
@@ -54,7 +54,7 @@ import TabPane from "./components/TabPane.vue";
 import store from "@/store";
 
 const closeDrawer = () => {
-  store.appSet.setIsCollapse(true);
+  store.appSet.setIsCollapse(false);
 };
 </script>
 

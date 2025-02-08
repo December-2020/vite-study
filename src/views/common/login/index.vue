@@ -2,28 +2,128 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:28:06
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-08 10:55:26
+ * @LastEditTime: 2025-02-08 15:08:44
 -->
 <template>
   <div class="wrapper overflow-hidden">
     <canvas ref="canvasRef"></canvas>
-    <div class="login-wrapper w-500px h-300px absolute">
-      <div class="header-wrap flex flex-justify-end p-16px">
+    <div class="login-wrapper flex flex-col border-rd-8px">
+      <div class="header-wrapper flex flex-justify-end p-16px pos-relative">
         <theme-switch class="m-r-10px" />
         <lang-dropdown />
+        <h2 class="header-wrapper-title">{{ $t("Login.login") }}</h2>
+      </div>
+      <div class="content-wrap flex-1 p-16px box-border">
+        <el-form ref="formRef" :model="formData" :rules="rules" size="large">
+          <el-form-item prop="username">
+            <BaseInput
+              v-model="formData.username"
+              :placeholder="$t(`Login.inputUsername`)"
+              width="100%"
+              size="large"
+            />
+          </el-form-item>
+          <el-form-item prop="password">
+            <BaseInput
+              v-model="formData.password"
+              :placeholder="$t(`Login.inputPassword`)"
+              width="100%"
+              type="password"
+              show-password
+              size="large"
+            />
+          </el-form-item>
+          <el-form-item>
+            <BaseButton class="w-100%" @click="submitForm(formRef)">
+              {{ $t("Login.login") }}
+            </BaseButton>
+          </el-form-item>
+        </el-form>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import type { FormInstance, FormRules } from "element-plus";
+
+import i18n from "@/locales";
+import store from "@/store";
+import API from "@/apis/demo/user";
+import { useRouter, useRoute } from "vue-router";
 import { useLineAnimate } from "@/hooks/useLineAnimate";
 
 defineOptions({ name: "Login" });
 
+interface RuleForm {
+  username: string;
+  password: string;
+}
+
+/* canvas */
 const canvasRef = ref<HTMLCanvasElement | null>(null);
 useLineAnimate(canvasRef);
 
+/* 表单相关 */
+const { t } = i18n.global;
+const formRef = ref<FormInstance>();
+const formData = reactive<RuleForm>({
+  username: "admin",
+  password: "123",
+});
+/**
+ * * 国际化必须把校验规则放在computed中
+ */
+const rules = computed(() => {
+  return reactive<FormRules<RuleForm>>({
+    username: [
+      {
+        required: true,
+        message: t(`Login.inputUsername`),
+        trigger: "blur",
+      },
+      // { min: 3, max: 5, message: "Length should be 3 to 5", trigger: "blur" },
+    ],
+    password: [
+      {
+        required: true,
+        message: t(`Login.inputPassword`),
+        trigger: "blur",
+      },
+    ],
+  });
+});
+/**
+ * * 必须放在setup下
+ */
+const router = useRouter();
+const route = useRoute();
+const submitForm = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  await formEl.validate(async (valid, fields) => {
+    if (valid) {
+      // 路由跳转是异步操作，所以需要await
+      /**
+       * * 请求路径中是否有redirect
+       * * 无则走 "/"
+       */
+      let path = "/";
+      let redirect = route.query?.redirect;
+      if (typeof redirect === "string") {
+        path = redirect;
+      }
+      const res = await API.Get_User_Info(formData);
+      if (res.success) {
+        store.user.login(res.data);
+        router.replace(path);
+      }
+    } else {
+      console.log("error submit!", fields);
+    }
+  });
+};
+
+/* 生命周期 */
 onMounted(() => {
   // setOptions({ width: 300, height: 300 });
 });
@@ -32,12 +132,21 @@ onMounted(() => {
 <style scoped lang="scss">
 .wrapper {
   .login-wrapper {
-    left: calc(50% - 250px);
-    top: calc(50% - 150px);
-    border: solid 1px #ddd;
+    position: absolute;
+    width: 400px;
+    height: 284px;
+    left: calc(50% - 200px);
+    top: calc(50% - 142px);
+    border: solid 1px #eee;
     @include background_color("content-bg-color");
     @include font_color("content-font-color");
-    // background-color: #fafafa;
+    .header-wrapper {
+      &-title {
+        position: absolute;
+        left: calc(50% - 24px);
+        top: 0;
+      }
+    }
   }
 }
 </style>

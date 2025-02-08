@@ -2,18 +2,18 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:28:06
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-08 15:08:44
+ * @LastEditTime: 2025-02-08 15:23:14
 -->
 <template>
   <div class="wrapper overflow-hidden">
     <canvas ref="canvasRef"></canvas>
-    <div class="login-wrapper flex flex-col border-rd-8px">
+    <div class="login-wrapper border-rd-8px">
       <div class="header-wrapper flex flex-justify-end p-16px pos-relative">
         <theme-switch class="m-r-10px" />
         <lang-dropdown />
         <h2 class="header-wrapper-title">{{ $t("Login.login") }}</h2>
       </div>
-      <div class="content-wrap flex-1 p-16px box-border">
+      <div class="content-wrap box-border">
         <el-form ref="formRef" :model="formData" :rules="rules" size="large">
           <el-form-item prop="username">
             <BaseInput
@@ -134,9 +134,9 @@ onMounted(() => {
   .login-wrapper {
     position: absolute;
     width: 400px;
-    height: 284px;
+    height: 270px;
     left: calc(50% - 200px);
-    top: calc(50% - 142px);
+    top: calc(50% - 135px);
     border: solid 1px #eee;
     @include background_color("content-bg-color");
     @include font_color("content-font-color");
@@ -145,6 +145,13 @@ onMounted(() => {
         position: absolute;
         left: calc(50% - 24px);
         top: 0;
+      }
+    }
+    .content-wrap {
+      padding: {
+        top: 16px;
+        left: 16px;
+        right: 16px;
       }
     }
   }

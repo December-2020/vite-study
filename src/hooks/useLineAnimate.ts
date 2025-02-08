@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-01-21 16:55:56
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-08 13:55:44
+ * @LastEditTime: 2025-02-08 15:26:12
  */
 /**
  * 实现登录页面的背景动画
@@ -32,7 +32,7 @@ interface CanvasOptions {
   // 线条及圆点颜色
   color?: string;
   // 背景颜色
-  bgColor?: string;
+  // bgColor?: string;
   // 触发连线距离
   distance?: number;
 }
@@ -47,11 +47,11 @@ interface IDot {
 // 定制明暗主题
 const Theme = {
   [ThemeEnum.DARK]: {
-    bgColor: "#1b1b1f",
+    // bgColor: "#1b1b1f",
     fontColor: "#dfdfd6",
   },
   [ThemeEnum.LIGHT]: {
-    bgColor: "#eee",
+    // bgColor: "#eee",
     fontColor: "#3c3c43",
   },
 };
@@ -88,7 +88,6 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
     let width = window.innerWidth;
     let height = window.innerHeight;
     let isPC = store.appSet.isPC;
-    // console.log("🚀 ~ commonOptions ~ isPC:", isPC);
     // 描点的个数
     let dotNum = isPC ? 100 : 30;
     // 描点相连的最大距离
@@ -98,7 +97,6 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
   // 初始化配置
   function initOptions() {
     let { width, height, dotNum, distance } = commonOptions();
-    // console.log(theme.value, "🚀 ~ initOptions ~ theme.value");
     // 初始配置
     let _options: CanvasOptions = {
       // 画布宽高
@@ -111,7 +109,7 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
       // 颜色
       color: theme.value.fontColor,
       // 背景颜色
-      bgColor: theme.value.bgColor,
+      // bgColor: theme.value.bgColor,
       // 描点间连线的最大距离
       distance,
     };
@@ -135,7 +133,6 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
   // 配置选项
   function setOptions(options: CanvasOptions) {
     canvasOptions.value = { ...canvasOptions.value, ...options };
-    // console.log("🚀 ~ setOptions ~ _options:", _options)
     clearCanvas();
     stopAnimate();
     startAnimate();
@@ -146,7 +143,6 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
     if (!el || !unref(el)) return;
 
     canvasCtx.value = el.getContext("2d");
-    // console.log("🚀 ~ initCanvas ~ canvasCtx:", canvasCtx);
     // 初始化配置
     initOptions();
 
@@ -173,6 +169,19 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
     // 重置配置
     setOptions({ width, height, dotNum, distance });
   }
+  // 设置画布背景色
+  // function setCanvasBgColor() {
+  //   // canvasOptions.value.bgColor = color;
+  //   if (!canvasCtx.value) return;
+  //   // canvasCtx.value.fillStyle = canvasOptions.value.bgColor as string;
+  //   canvasCtx.value.fillStyle = "red";
+  //   canvasCtx.value.fillRect(
+  //     0,
+  //     0,
+  //     canvasOptions.value.width as number,
+  //     canvasOptions.value.height as number
+  //   );
+  // }
 
   // 开始动画
   function startAnimate() {
@@ -213,7 +222,6 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
       };
       dotList.push(dot);
     }
-    // console.log("🚀 ~ addDots ~ dotList:", dotList);
   }
   // 点运动
   function dotMove(dot: IDot) {
@@ -293,7 +301,6 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
         canvasCtxValue.lineWidth = ratio / 2;
         canvasCtxValue.strokeStyle = `rgba(${canvasOptions.value.color}, 
         ${parseFloat(ratio + (0.2).toFixed(1))})`;
-        // console.log(canvasCtxValue.strokeStyle, "🚀 ~ drawLine ~ canvasCtxValue.strokeStyle");
         canvasCtxValue.moveTo(dotItem.x ?? 0, dotItem.y ?? 0);
         canvasCtxValue.lineTo(currDot.x, currDot.y);
         // 不描边看不出效果
@@ -307,7 +314,8 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
     () => theme.value,
     (newTheme) => {
       // console.log(newTheme,'newTheme');
-      setOptions({ color: newTheme.fontColor, bgColor: newTheme.bgColor });
+      // setOptions({ color: newTheme.fontColor, bgColor: newTheme.bgColor });
+      setOptions({ color: newTheme.fontColor });
     }
   );
 

@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:28:06
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-08 15:23:14
+ * @LastEditTime: 2025-02-08 15:50:13
 -->
 <template>
   <div class="wrapper overflow-hidden">
@@ -153,6 +153,13 @@ onMounted(() => {
         left: 16px;
         right: 16px;
       }
+    }
+  }
+  /* 仅移动端生效 */
+  @media (max-width: 768px) {
+    .login-wrapper {
+      width: calc(100vw - 20px);
+      left: 10px;
     }
   }
 }

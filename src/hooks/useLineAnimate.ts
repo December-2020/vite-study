@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-01-21 16:55:56
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-08 10:38:00
+ * @LastEditTime: 2025-02-08 13:55:44
  */
 /**
  * 实现登录页面的背景动画
@@ -98,6 +98,7 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
   // 初始化配置
   function initOptions() {
     let { width, height, dotNum, distance } = commonOptions();
+    // console.log(theme.value, "🚀 ~ initOptions ~ theme.value");
     // 初始配置
     let _options: CanvasOptions = {
       // 画布宽高
@@ -212,7 +213,6 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
       };
       dotList.push(dot);
     }
-    // console.log("🚀 ~ addDots ~ num:", num)
     // console.log("🚀 ~ addDots ~ dotList:", dotList);
   }
   // 点运动
@@ -236,9 +236,21 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
       (dot.y > _canvasHeight - _dotRadius || dot.y < _dotRadius ? -1 : 1);
     // 绘制点
     let canvasCtxValue = canvasCtx.value;
-    canvasCtxValue?.beginPath();
-    canvasCtxValue?.arc(dot.x, dot.y, _dotRadius, 0, Math.PI * 2, true);
-    canvasCtxValue?.stroke();
+    if (!canvasCtxValue) return;
+    canvasCtxValue.beginPath();
+    // 更改颜色
+    canvasCtxValue.strokeStyle = canvasValue.color as string;
+    /**
+     * 绘制圆弧
+     * x: 圆的中心的 x 坐标
+     * y: 圆的中心的 y 坐标
+     * radius: 圆的半径
+     * startAngle: 起始角，以弧度计。（弧的圆形的三点钟位置是 0 度）
+     * endAngle: 结束角，以弧度计
+     * anticlockwise: 可选。规定应该逆时针还是顺时针绘图。false = 顺时针，true = 逆时针
+     */
+    canvasCtxValue.arc(dot.x, dot.y, _dotRadius, 0, Math.PI * 2, true);
+    canvasCtxValue.stroke();
   }
   // 点之间画线
   function drawLine(dots: IDot[]) {
@@ -281,6 +293,7 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
         canvasCtxValue.lineWidth = ratio / 2;
         canvasCtxValue.strokeStyle = `rgba(${canvasOptions.value.color}, 
         ${parseFloat(ratio + (0.2).toFixed(1))})`;
+        // console.log(canvasCtxValue.strokeStyle, "🚀 ~ drawLine ~ canvasCtxValue.strokeStyle");
         canvasCtxValue.moveTo(dotItem.x ?? 0, dotItem.y ?? 0);
         canvasCtxValue.lineTo(currDot.x, currDot.y);
         // 不描边看不出效果
@@ -288,6 +301,15 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
       }
     });
   }
+
+  // 主题切换
+  const themeWatch = watch(
+    () => theme.value,
+    (newTheme) => {
+      // console.log(newTheme,'newTheme');
+      setOptions({ color: newTheme.fontColor, bgColor: newTheme.bgColor });
+    }
+  );
 
   /* 生命周期 */
   tryOnMounted(() => {
@@ -297,6 +319,7 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
     stopAnimate();
     removeResizeFn();
     canvasCtx.value = null;
+    themeWatch();
   });
 
   return {

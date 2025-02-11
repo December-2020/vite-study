@@ -29,6 +29,7 @@ export default {
     example: {
       title: "例子",
       ellipsis: "文本省略",
+      dialog: "弹窗",
     },
   },
 

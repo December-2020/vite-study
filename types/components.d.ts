@@ -8,11 +8,12 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     BaseButton: typeof import('./../src/components/composition/BaseButton.vue')['default']
+    BaseDialog: typeof import('./../src/components/composition/BaseDialog.vue')['default']
     BaseDropdown: typeof import('./../src/components/composition/BaseDropdown.vue')['default']
     BaseInput: typeof import('./../src/components/composition/BaseInput.vue')['default']
     BaseSkeleton: typeof import('./../src/components/composition/BaseSkeleton.vue')['default']
     BaseSwitch: typeof import('./../src/components/composition/BaseSwitch.vue')['default']
-    ElAside: typeof import('element-plus/es')['ElAside']
+    ElAlert: typeof import('element-plus/es')['ElAlert']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']

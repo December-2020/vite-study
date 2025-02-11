@@ -19,9 +19,10 @@ import i18n from "@/locales";
 import { h } from "vue";
 /**
  * * 使用这种方式引入组件
- * * 需要额外在main.ts中引入css
+ * * 需要额外引入css
  */
 import { ElInput } from "element-plus";
+import "element-plus/theme-chalk/el-input.css";
 
 // h(ElInput, $attrs, $slots)
 /**

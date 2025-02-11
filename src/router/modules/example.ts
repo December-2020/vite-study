@@ -26,6 +26,14 @@ const Example: AppRouteRecordRaw = {
       },
       component: () => import("@/views/example/ellipsis/index.vue"),
     },
+    {
+      path: "dialog",
+      name: "CompDialog",
+      meta: {
+        title: "example.dialog",
+      },
+      component: () => import("@/views/example/comp/dialog/index.vue"),
+    },
   ],
 };
 

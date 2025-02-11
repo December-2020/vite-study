@@ -30,13 +30,6 @@ import { routerGuard } from "@/router/guard";
 // 引入mock服务器(仅生产环境下使用)
 import { setupProdMockServer } from "../mock/_createProductionSever";
 
-/**
- * * 因为在input基础组件中使用了
- * * import { ElInput } from "element-plus";
- * * 所以需额外引入样式
- */
-import "element-plus/theme-chalk/el-input.css";
-import "element-plus/theme-chalk/el-button.css";
 
 async function bootstrap() {
   const app = createApp(App);

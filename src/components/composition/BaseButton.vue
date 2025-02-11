@@ -14,6 +14,7 @@ import type { ComponentSize, ButtonType, ButtonNativeType } from "element-plus";
 
 import { h } from "vue";
 import { ElButton } from "element-plus";
+import "element-plus/theme-chalk/el-button.css";
 
 interface Props {
   size?: ComponentSize;

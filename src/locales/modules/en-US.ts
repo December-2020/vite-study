@@ -28,6 +28,7 @@ export default {
     example: {
       title: "example",
       ellipsis: "Text omission",
+      dialog: "Dialog",
     },
   },
 

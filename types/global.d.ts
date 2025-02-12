@@ -22,3 +22,10 @@ export interface FileImport {
     default: typeof import("./vite-env").default;
   };
 }
+
+/** 
+ * * 去除readonly
+ */
+export type Mutable<T> = {
+  -readonly [P in keyof T]: T[P];
+};

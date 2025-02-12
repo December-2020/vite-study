@@ -13,7 +13,7 @@
       <div class="item">
         <ElAlert title="使用BaseDialog" show-icon :closable="false" />
         <BaseButton @click="modal1 = true">显示</BaseButton>
-        <BaseDialog title="测试弹窗1" v-model="modal1">
+        <BaseDialog title="测试弹窗1" v-model="modal1" @close="modal1 = false">
           <Modal1 />
         </BaseDialog>
       </div>

@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-02-10 11:04:12
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-12 16:26:45
+ * @LastEditTime: 2025-02-13 10:40:32
 -->
 <template>
   <div class="wrapper">
@@ -19,8 +19,12 @@
       </div>
       <div class="item">
         <ElAlert title="使用useModal" show-icon :closable="false" />
-        <BaseButton @click="modal2 = true" class="mt-1">显示1</BaseButton>
-        <BaseDialog title="测试弹窗2" v-model="modal2" @close="modal2 = false">
+        <BaseButton @click="modal2Open" class="mt-1">显示1</BaseButton>
+        <BaseDialog
+          title="测试弹窗2"
+          v-model="modal2Value"
+          @close="modal2.close"
+        >
           <Modal2 />
         </BaseDialog>
       </div>
@@ -36,7 +40,12 @@ import { useShowModal } from "@/hooks/useShowModal";
 defineOptions({ name: "CompDialog" });
 
 const modal1 = ref(false);
-const modal2 = ref(false);
+// const modal2 = ref(false);
+const modal2 = useShowModal();
+const modal2Value = ref(modal2.visible);
+const modal2Open = () => {
+  modal2.open({ test: "123" });
+};
 </script>
 
 <style scoped lang="scss">

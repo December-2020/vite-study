@@ -2,15 +2,16 @@
  * @Author: Komorebi
  * @Date: 2025-02-10 11:20:18
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-12 15:42:09
+ * @LastEditTime: 2025-02-13 09:55:55
  */
-type ModalController<T = any, P = any> = {
+// 类型增强接口
+export interface UseShowModal<T = any, P = any> {
   visible: Ref<boolean>;
   open: (payload?: T) => Promise<P>;
   close: (result?: P) => void;
-};
+}
 
-export function useShowModal<T = any, P = any>(): ModalController<T, P> {
+export function useShowModal<T = any, P = any>(): UseShowModal<T, P> {
   const visible = ref(false);
   let resolvePromise: ((value: P | PromiseLike<P>) => void) | null = null;
   let payload: T | undefined;
@@ -37,11 +38,4 @@ export function useShowModal<T = any, P = any>(): ModalController<T, P> {
     open,
     close,
   };
-}
-
-// 类型增强接口
-export interface UseShowModal<T, P> {
-  visible: Ref<boolean>;
-  open: (payload?: T) => Promise<P>;
-  close: (result?: P) => void;
 }

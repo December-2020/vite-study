@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-08 15:15:18
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-17 16:48:02
+ * @LastEditTime: 2025-02-13 15:31:58
 -->
 <template>
   <el-switch
@@ -12,8 +12,12 @@
     @change="emit('change')"
   >
     <!-- ref="switchRef" -->
-    <template v-for="(_, slot) in $slots" :key="slot" v-slot:[slot]="slotProps">
-      <slot :name="slot" v-bind="slotProps"></slot>
+    <template
+      v-for="(_, slotName) in slotNames"
+      :key="slotName"
+      v-slot:[slotName]="slotProps"
+    >
+      <slot :name="slotName" v-bind="slotProps"></slot>
     </template>
   </el-switch>
 </template>
@@ -21,6 +25,8 @@
 <script setup lang="ts">
 import type { Component } from "vue";
 import type { ComponentSize } from "element-plus";
+
+import { getCurrentInstance } from "vue";
 
 interface Props {
   disabled?: boolean;
@@ -43,6 +49,9 @@ interface Props {
   tabindex?: string | number;
   ariaLabel?: string;
 }
+
+const instance = getCurrentInstance();
+const slotNames = Object.keys(instance?.slots || {}) as string[];
 
 const props = withDefaults(defineProps<Props>(), {
   //   size:"small"

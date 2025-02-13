@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-01-21 16:55:56
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-08 15:26:12
+ * @LastEditTime: 2025-02-13 14:12:42
  */
 /**
  * 实现登录页面的背景动画
@@ -66,10 +66,13 @@ const Theme = {
  * 重置动画:context.clearRect(x, y, width, height)
  */
 export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
+  // 当前主题
   const theme = computed(() => {
     let _type = store.appSet.isDarkTheme ? ThemeEnum.DARK : ThemeEnum.LIGHT;
     return Theme[_type];
   });
+  // 当前是否为pc端
+  const isPC = computed(() => store.appSet.isPC);
 
   let canvasCtx = ref(null) as Ref<CanvasRenderingContext2D | null>;
   let canvasOptions = ref({}) as Ref<CanvasOptions>;
@@ -87,11 +90,10 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
   function commonOptions() {
     let width = window.innerWidth;
     let height = window.innerHeight;
-    let isPC = store.appSet.isPC;
     // 描点的个数
-    let dotNum = isPC ? 100 : 30;
+    let dotNum = isPC.value ? 100 : 30;
     // 描点相连的最大距离
-    let distance = isPC ? 100 : 60;
+    let distance = isPC.value ? 100 : 60;
     return { width, height, dotNum, distance };
   }
   // 初始化配置
@@ -213,14 +215,28 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
     let _width = canvasOptions.value.width ?? 0;
     let _height = canvasOptions.value.height ?? 0;
     let _radius = canvasOptions.value.dotRadius ?? 0;
-    for (let i = 0; i < num; i++) {
+    let { leftTop, rightBottom } = dotRange(_width, _height);
+    while (dotList.length < num) {
+      let dotX = Math.floor(Math.random() * _width) - _radius;
+      let dotY = Math.floor(Math.random() * _height) - _radius;
       dot = {
-        x: Math.floor(Math.random() * _width) - _radius,
-        y: Math.floor(Math.random() * _height) - _radius,
+        x: dotX,
+        y: dotY,
         ax: (Math.random() * 2 - 1) / 1.5,
         ay: (Math.random() * 2 - 1) / 1.5,
       };
-      dotList.push(dot);
+      /**
+       * 界面是 "回" 字形
+       * 限制点的范围
+       */
+      if (
+        dotX < leftTop.x ||
+        dotX > rightBottom.x ||
+        dotY < leftTop.y ||
+        dotY > rightBottom.y
+      ) {
+        dotList.push(dot);
+      }
     }
   }
   // 点运动
@@ -235,13 +251,22 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
     let _dotRadius = canvasValue.dotRadius ?? 0;
     let _canvasWidth = canvasValue.width ?? 0;
     let _canvasHeight = canvasValue.height ?? 0;
+    let { leftTop, rightBottom } = dotRange(_canvasWidth, _canvasHeight);
     // 点碰到边缘返回
     dot.ax =
       dotAx *
-      (dot.x > _canvasWidth - _dotRadius || dot.x < _dotRadius ? -1 : 1);
+      (dot.x > _canvasWidth - _dotRadius ||
+      dot.x < _dotRadius ||
+      (leftTop.x < dot.x && dot.x < rightBottom.x)
+        ? -1
+        : 1);
     dot.ay =
       dotAy *
-      (dot.y > _canvasHeight - _dotRadius || dot.y < _dotRadius ? -1 : 1);
+      (dot.y > _canvasHeight - _dotRadius ||
+      dot.y < _dotRadius ||
+      (leftTop.y < dot.y && dot.y < rightBottom.y)
+        ? -1
+        : 1);
     // 绘制点
     let canvasCtxValue = canvasCtx.value;
     if (!canvasCtxValue) return;
@@ -307,6 +332,28 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
         canvasCtxValue.stroke();
       }
     });
+  }
+  // 点坐标的范围
+  function dotRange(canvasWidth: number, canvasHeight: number) {
+    /**
+     * 登录盒子
+     * pc端:
+     *    宽400 + 2(边框) = 402
+     *    高270 + 2(边框) = 272
+     * 移动端:
+     *    宽 100vw - 20px
+     *    高 同pc端
+     */
+    /* 登录盒子最左上角的坐标 */
+    let leftTopX = (canvasWidth - (isPC.value ? 402 : 20)) / 2;
+    let leftTopY = (canvasHeight - 272) / 2;
+    /* 登录盒子最右下角的坐标 */
+    let rightBottomX = isPC.value ? leftTopX + 402 : canvasWidth - 20 / 2;
+    let rightBottomY = leftTopY + 272;
+    return {
+      leftTop: { x: leftTopX, y: leftTopY },
+      rightBottom: { x: rightBottomX, y: rightBottomY },
+    };
   }
 
   // 主题切换

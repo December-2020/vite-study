@@ -1,3 +1,9 @@
+<!--
+ * @Author: Komorebi
+ * @Date: 2025-02-11 11:10:31
+ * @LastEditors: Komorebi
+ * @LastEditTime: 2025-02-14 15:41:43
+-->
 <template>
   <component
     :is="h(ElDialog, props, $slots)"
@@ -20,16 +26,17 @@ import { ElDialog } from "element-plus";
 import "element-plus/theme-chalk/el-dialog.css";
 
 // type Props = Partial<Mutable<DialogProps>>;
-type Props = Partial<DialogProps>;
+// type Props = Partial<DialogProps>;
+interface Props extends Partial<DialogProps> {}
 
 const props = withDefaults(defineProps<Props>(), {
   appendToBody: true,
-  /** 
+  /**
    * 是否水平垂直对齐对话框
    * 为true时, top属性无效
    */
   alignCenter: true,
-  /** 
+  /**
    * 是否在 Dialog 关闭时销毁 Dialog 中的元素
    * 1. 内存泄漏
    *    弹窗内的dom节点、事件监听器、第三方库实例等未被释放，
@@ -55,9 +62,9 @@ const props = withDefaults(defineProps<Props>(), {
   // 官方默认
   modal: true,
   lockScroll: true,
-  closeOnClickModal:true,
-  closeOnPressEscape:true,
-  showClose:true,
+  closeOnClickModal: true,
+  closeOnPressEscape: true,
+  showClose: true,
 });
 
 const emit = defineEmits([

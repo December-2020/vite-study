@@ -10,7 +10,7 @@
     @clear="$emit('clear')"
     class="input"
   >
-    <template v-for="(_, slot) in $slots" :key="slot" v-slot:[slot]="slotProps">
+    <template v-for="(_, slot) in slots" :key="slot" v-slot:[slot]="slotProps">
       <slot :name="slot" v-bind="slotProps"></slot>
     </template>
   </el-input>
@@ -366,6 +366,7 @@ export default defineComponent({
       inputValue,
       inputChange,
       inputWidth,
+      slots: ctx.slots,
     };
   },
 });

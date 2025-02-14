@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-08 15:15:18
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-13 16:49:20
+ * @LastEditTime: 2025-02-14 09:28:08
 -->
 <template>
   <el-switch
@@ -12,7 +12,7 @@
     @change="emit('change')"
   >
     <template
-      v-for="(_, slotName) in $slots"
+      v-for="(_, slotName) in slotNames"
       :key="slotName"
       v-slot:[slotName]="slotProps"
     >
@@ -31,6 +31,18 @@ const props = withDefaults(defineProps<Props>(), {
   inactiveValue: false,
   validateEvent: true,
 });
+
+/** 
+ * 获取slots的名称
+ * 
+ * defineSlots() 会返回一个对象，对象的 key 是 slot 的名称，value 是一个函数
+ * 仅在 3.3.0+ 版本可用
+ * 
+ * useSlots() 会返回一个函数，函数的参数是 slot 的名称，返回值是一个数组
+ * 等价于 setupContext.slots
+ */
+const slotNames = defineSlots();
+// const slotNames = useSlots() as Record<string, (...args: any[]) => VNode[]>;
 
 const model = defineModel({
   default: false,

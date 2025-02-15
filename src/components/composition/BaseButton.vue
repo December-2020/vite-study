@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-29 16:29:45
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-15 14:38:27
+ * @LastEditTime: 2025-02-15 14:55:05
 -->
 <template>
   <component
@@ -37,41 +37,42 @@ const props = withDefaults(defineProps<Props>(), {
 
 // 使用 WeakMap 来存储元素和定时器的映射，避免内存泄漏
 const timerMap = new WeakMap<HTMLButtonElement, number>();
+const reClickFn = (el: HTMLButtonElement, e: Event) => {
+  let { reClickTime } = props;
+  const delay = reClickTime && reClickTime > 0 ? reClickTime : 2;
+  if (el.disabled) {
+    /**
+     * stopPropagation
+     *  阻止捕获和冒泡阶段中当前事件的进一步传播。
+     * stopImmediatePropagation
+     *  更进一步阻止调用相同事件的侦听器。
+     */
+    e.stopImmediatePropagation();
+    e.preventDefault();
+    return;
+  }
+  // 禁用按钮
+  el.disabled = true;
+  el.classList.add("is-disabled");
+  // 清除旧定时器(如果存在)
+  const existingTimer = timerMap.get(el);
+  if (existingTimer) clearTimeout(existingTimer);
+  // 设置新定时器
+  const timer = setTimeout(() => {
+    el.disabled = false;
+    el.classList.remove("is-disabled");
+    timerMap.delete(el);
+  }, delay * 1000);
+  // 将定时器存储到 WeakMap 中
+  timerMap.set(el, timer);
+};
 // https://cn.vuejs.org/guide/reusability/custom-directives.html#custom-directives
 // 必须以这种方式命名自定义指令, 以使得可以直接在模板中使用
 const vPreventReclick: ObjectDirective<HTMLButtonElement> = {
   // 在绑定元素的父组件及他自己的所有子节点都挂载完成后调用
   mounted(el: HTMLButtonElement, binding: DirectiveBinding) {
     if (binding.value) {
-      el.addEventListener("click", (e: Event) => {
-        let { reClickTime } = props;
-        const delay = reClickTime && reClickTime > 0 ? reClickTime : 2;
-        if (el.disabled) {
-          /**
-           * stopPropagation
-           *  阻止捕获和冒泡阶段中当前事件的进一步传播。
-           * stopImmediatePropagation
-           *  更进一步阻止调用相同事件的侦听器。
-           */
-          e.stopImmediatePropagation();
-          e.preventDefault();
-          return;
-        }
-        // 禁用按钮
-        el.disabled = true;
-        el.classList.add("is-disabled");
-        // 清除旧定时器(如果存在)
-        const existingTimer = timerMap.get(el);
-        if (existingTimer) clearTimeout(existingTimer);
-        // 设置新定时器
-        const timer = setTimeout(() => {
-          el.disabled = false;
-          el.classList.remove("is-disabled");
-          timerMap.delete(el);
-        }, delay * 1000);
-        // 将定时器存储到 WeakMap 中
-        timerMap.set(el, timer);
-      });
+      el.addEventListener("click", (e: Event) => reClickFn(el, e));
     }
   },
   // 绑定元素的父组件卸载前调用
@@ -83,6 +84,7 @@ const vPreventReclick: ObjectDirective<HTMLButtonElement> = {
         clearTimeout(timer);
         timerMap.delete(el);
       }
+      el.removeEventListener("click", (e: Event) => reClickFn(el, e));
     }
   },
 };

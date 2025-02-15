@@ -13,6 +13,7 @@
       title="测试弹窗1-1"
       v-model="modal1_1"
       @close="modal1_1 = false"
+      hideFooter
     >
       <Modal1_1 />
     </BaseDialog>

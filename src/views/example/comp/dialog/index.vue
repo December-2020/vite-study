@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-02-10 11:04:12
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-13 10:40:32
+ * @LastEditTime: 2025-02-15 16:18:20
 -->
 <template>
   <div class="wrapper">
@@ -14,7 +14,13 @@
         <ElAlert title="使用BaseDialog" show-icon :closable="false" />
         <BaseButton @click="modal1 = true" class="mt-1">显示</BaseButton>
         <BaseDialog title="测试弹窗1" v-model="modal1" @close="modal1 = false">
+          <template #header>
+            <div>自定义标题</div>
+          </template>
           <Modal1 />
+          <template #footer>
+            <div>自定义按钮</div>
+          </template>
         </BaseDialog>
       </div>
       <div class="item">

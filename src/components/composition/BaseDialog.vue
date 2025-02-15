@@ -2,10 +2,10 @@
  * @Author: Komorebi
  * @Date: 2025-02-11 11:10:31
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-14 15:41:43
+ * @LastEditTime: 2025-02-15 17:19:27
 -->
 <template>
-  <component
+  <!-- <component
     :is="h(ElDialog, props, $slots)"
     ref="DialogRef"
     @open="emit('open')"
@@ -14,20 +14,47 @@
     @closed="emit('closed')"
     @open-auto-focus="emit('open-auto-focus')"
     @close-auto-focus="emit('close-auto-focus')"
-  />
+  /> -->
+  <el-dialog
+    ref="DialogRef"
+    v-bind="props"
+    @open="emit('open')"
+    @opened="emit('opened')"
+    @close="emit('close')"
+    @closed="emit('closed')"
+    @open-auto-focus="emit('open-auto-focus')"
+    @close-auto-focus="emit('close-auto-focus')"
+  >
+    <template #header>
+      <slot name="header"></slot>
+    </template>
+    <template #default>
+      <el-scrollbar :max-height="contentMaxHeight" v-if="props.isContentScroll">
+        <slot></slot>
+      </el-scrollbar>
+      <slot v-else></slot>
+    </template>
+    <template #footer v-if="!props.hideFooter">
+      <slot name="footer" v-if="$slots.footer"></slot>
+      <div slot="footer" v-else>按钮1</div>
+    </template>
+  </el-dialog>
 </template>
 
 <script setup lang="ts">
 import type { DialogProps } from "element-plus";
 // import type { Mutable } from "#/global";
 
-import { h } from "vue";
-import { ElDialog } from "element-plus";
-import "element-plus/theme-chalk/el-dialog.css";
+// import { h } from "vue";
+// import { ElDialog } from "element-plus";
+// import "element-plus/theme-chalk/el-dialog.css";
 
 // type Props = Partial<Mutable<DialogProps>>;
-// type Props = Partial<DialogProps>;
-interface Props extends Partial<DialogProps> {}
+interface Props extends Partial<DialogProps> {
+  isContentScroll?: boolean;
+  contentMaxHeight?: string | number;
+  hideFooter?: boolean;
+}
 
 const props = withDefaults(defineProps<Props>(), {
   appendToBody: true,
@@ -65,6 +92,16 @@ const props = withDefaults(defineProps<Props>(), {
   closeOnClickModal: true,
   closeOnPressEscape: true,
   showClose: true,
+  // 自定义
+  hideFooter: false,
+  // 内容区域是否显示滚动条
+  isContentScroll: true,
+  // 内容区域最大高度 (isContentScroll为true时生效)
+  contentMaxHeight: "70vh",
+  /**
+   * 更多参数参考element-plus文档
+   * https://element-plus.org/zh-CN/component/scrollbar.html
+   */
 });
 
 const emit = defineEmits([

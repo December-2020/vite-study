@@ -15,5 +15,3 @@ const props = withDefaults(defineProps<SkeletonProps>(), {
   animated: true,
 });
 </script>
-
-<style scoped lang="scss"></style>

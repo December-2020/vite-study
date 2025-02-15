@@ -50,5 +50,3 @@ const model = defineModel({
 
 const emit = defineEmits(["change"]);
 </script>
-
-<style scoped lang="scss"></style>

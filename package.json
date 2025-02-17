@@ -8,6 +8,7 @@
     "dev": "vite",
     "build": "vue-tsc -b && vite build --mode production",
     "bootstrap": "npm install",
+    "reinstall": "rimraf node_modules && npm run bootstrap",
     "preview": "vite preview",
     "postinstall": "patch-package"
   },
@@ -56,7 +57,8 @@
       "scripts.build": "打包",
       "scripts.bootstrap": "安装依赖",
       "scripts.preview": "预览",
-      "scripts.postinstall": "修改第三方包"
+      "scripts.postinstall": "修改第三方包",
+      "scripts.reinstall": "重新安装依赖"
     }
   }
 }

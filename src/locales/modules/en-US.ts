@@ -8,6 +8,8 @@ export default {
   // 通用组件
   Components: {
     inputPlaceholder: "Please enter content",
+    dialogCancelText: "Cancel",
+    dialogConfirmText: "Confirm",
   },
 
   // 页面路由

@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-02-11 11:10:31
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-15 17:19:27
+ * @LastEditTime: 2025-02-17 09:18:27
 -->
 <template>
   <!-- <component
@@ -36,7 +36,14 @@
     </template>
     <template #footer v-if="!props.hideFooter">
       <slot name="footer" v-if="$slots.footer"></slot>
-      <div slot="footer" v-else>按钮1</div>
+      <div slot="footer" v-else>
+        <BaseButton plain @click="emit('close')">
+          {{ props.cancelText }}
+        </BaseButton>
+        <BaseButton @click="emit('confirm')">
+          {{ props.confirmText }}
+        </BaseButton>
+      </div>
     </template>
   </el-dialog>
 </template>
@@ -48,12 +55,15 @@ import type { DialogProps } from "element-plus";
 // import { h } from "vue";
 // import { ElDialog } from "element-plus";
 // import "element-plus/theme-chalk/el-dialog.css";
+import i18n from "@/locales";
 
 // type Props = Partial<Mutable<DialogProps>>;
 interface Props extends Partial<DialogProps> {
   isContentScroll?: boolean;
   contentMaxHeight?: string | number;
   hideFooter?: boolean;
+  cancelText?: string;
+  confirmText?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -94,6 +104,8 @@ const props = withDefaults(defineProps<Props>(), {
   showClose: true,
   // 自定义
   hideFooter: false,
+  cancelText: i18n.global.t(`Components.dialogCancelText`),
+  confirmText: i18n.global.t(`Components.dialogConfirmText`),
   // 内容区域是否显示滚动条
   isContentScroll: true,
   // 内容区域最大高度 (isContentScroll为true时生效)
@@ -111,6 +123,7 @@ const emit = defineEmits([
   "closed",
   "open-auto-focus",
   "close-auto-focus",
+  "confirm",
 ]);
 
 const DialogRef = ref();

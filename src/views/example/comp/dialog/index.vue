@@ -30,6 +30,7 @@
           title="测试弹窗2"
           v-model="modal2Value"
           @close="modal2.close"
+          @confirm="handleConfirm"
         >
           <Modal2 />
         </BaseDialog>
@@ -51,6 +52,9 @@ const modal2 = useShowModal();
 const modal2Value = ref(modal2.visible);
 const modal2Open = () => {
   modal2.open({ test: "123" });
+};
+const handleConfirm = () => {
+  console.log("confirm");
 };
 </script>
 

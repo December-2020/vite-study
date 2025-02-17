@@ -42,7 +42,7 @@
         <!-- 主题切换 -->
         <ThemeSwitch class="m-r-10px" />
         <!-- 国际化 -->
-        <LangDropdown />
+        <LangDropdown reload />
       </template>
       <!-- 用户头像 -->
       <BaseDropdown :options="operationList" @command="operationCommand">

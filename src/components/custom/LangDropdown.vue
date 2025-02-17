@@ -25,6 +25,14 @@ import { useRoute } from "vue-router";
 import { useI18n } from "@/hooks/useI18n";
 import { LanguageEnum } from "@/enums/app";
 
+interface Props {
+  // 更改时是否刷新界面
+  reload?: boolean;
+}
+const props = withDefaults(defineProps<Props>(), {
+  reload: false,
+});
+
 // 国际化
 const languageList = [
   { label: "简体中文", value: LanguageEnum.CHINESE },
@@ -45,6 +53,15 @@ const toggleLanguage = (lang: LanguageEnum) => {
     message: useI18n(`ToolTip.langSuccess`),
     type: "success",
   });
+  if (props.reload) {
+    /** 
+     * 强制刷新页面
+     * 解决语言切换后
+     *  类似弹窗的按钮文字不刷新的问题
+     */
+    location.reload();
+    return;
+  }
   // 切换语言后需第一时间更新页面标题
   useTitle(useI18n(meta.title, "Route"));
 };

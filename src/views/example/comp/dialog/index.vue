@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-02-10 11:04:12
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-15 16:18:20
+ * @LastEditTime: 2025-02-17 14:31:31
 -->
 <template>
   <div class="wrapper">
@@ -11,22 +11,19 @@
     </div>
     <div class="wrapper-content mt-4 b-rd-4px flex-1 p-2">
       <div class="item">
-        <ElAlert title="使用BaseDialog" show-icon :closable="false" />
-        <BaseButton @click="modal1 = true" class="mt-1">显示</BaseButton>
-        <BaseDialog title="测试弹窗1" v-model="modal1" @close="modal1 = false">
-          <Modal1 />
-        </BaseDialog>
+        <ElAlert title="基础使用" show-icon :closable="false" />
+        <BaseButton @click="openModal(1)" class="mt-1">显示</BaseButton>
       </div>
       <div class="item">
         <ElAlert title="使用useModal" show-icon :closable="false" />
-        <BaseButton @click="modal2Open" class="mt-1">显示1</BaseButton>
+        <BaseButton @click="openModal(2)" class="mt-1">显示1</BaseButton>
         <BaseDialog
-          title="测试弹窗2"
-          v-model="modal2Value"
-          @close="modal2.close"
+          v-model="modal"
+          @close="modal = false"
           @confirm="handleConfirm"
+          :title="modalTitle"
         >
-          <Modal2 />
+          <component :is="currentModal" />
         </BaseDialog>
       </div>
     </div>
@@ -34,18 +31,40 @@
 </template>
 
 <script setup lang="ts">
+import type { Component } from "vue";
+import type { Nullable } from "#/global";
+
 import Modal1 from "./components/Modal1.vue";
 import Modal2 from "./components/Modal2.vue";
-import { useShowModal } from "@/hooks/useShowModal";
+// import { useShowModal } from "@/hooks/useShowModal";
 
 defineOptions({ name: "CompDialog" });
 
-const modal1 = ref(false);
-// const modal2 = ref(false);
-const modal2 = useShowModal();
-const modal2Value = ref(modal2.visible);
-const modal2Open = () => {
-  modal2.open({ test: "123" });
+// // const modal2 = ref(false);
+// const modal2 = useShowModal();
+// const modal2Value = ref(modal2.visible);
+// const modal2Open = () => {
+//   modal2.open({ test: "123" });
+// };
+
+const modal = ref(false);
+const modalTitle = ref("");
+const currentModal = shallowRef<Nullable<Component>>(null);
+const openModal = (num: number) => {
+  console.log("openModal");
+  switch (num) {
+    case 1:
+      currentModal.value = Modal1;
+      modalTitle.value = "弹窗1";
+      break;
+    case 2:
+      currentModal.value = Modal2;
+      modalTitle.value = "弹窗2";
+      break;
+  }
+  nextTick(() => {
+    modal.value = true;
+  });
 };
 const handleConfirm = () => {
   console.log("confirm");

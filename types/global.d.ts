@@ -23,9 +23,14 @@ export interface FileImport {
   };
 }
 
-/** 
+/**
  * * 去除readonly
  */
 export type Mutable<T> = {
   -readonly [P in keyof T]: T[P];
 };
+
+/**
+ *  T | null 包装
+ */
+type Nullable<T> = T | null;

@@ -40,7 +40,7 @@
         <BaseButton plain @click="emit('close')">
           {{ props.cancelText }}
         </BaseButton>
-        <BaseButton @click="emit('confirm')">
+        <BaseButton @click="emit('confirm')" isPreventReclick>
           {{ props.confirmText }}
         </BaseButton>
       </div>

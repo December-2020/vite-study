@@ -2,13 +2,8 @@
   <div class="wrapper">
     <h2>Modal1测试弹窗</h2>
     <BaseButton @click="modal1_1 = true">显示</BaseButton>
-    <BaseButton isPreventReclick>
-      test
-      <el-icon class="el-icon--right"><Upload /></el-icon>
-    </BaseButton>
 
     <h3 v-for="(item, index) in 20" :key="index">{{ item }}</h3>
-
     <BaseDialog
       title="测试弹窗1-1"
       v-model="modal1_1"
@@ -22,7 +17,6 @@
 
 <script setup lang="ts">
 import Modal1_1 from "./Modal1_1.vue";
-import { Upload } from "@element-plus/icons-vue";
 
 const modal1_1 = ref(false);
 </script>

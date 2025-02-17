@@ -14,13 +14,7 @@
         <ElAlert title="使用BaseDialog" show-icon :closable="false" />
         <BaseButton @click="modal1 = true" class="mt-1">显示</BaseButton>
         <BaseDialog title="测试弹窗1" v-model="modal1" @close="modal1 = false">
-          <template #header>
-            <div>自定义标题</div>
-          </template>
           <Modal1 />
-          <template #footer>
-            <div>自定义按钮</div>
-          </template>
         </BaseDialog>
       </div>
       <div class="item">

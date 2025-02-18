@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:42:42
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-09-27 10:54:55
+ * @LastEditTime: 2025-02-18 11:52:20
  */
 import type { PropType } from "vue";
 
@@ -33,4 +33,4 @@ export type Mutable<T> = {
 /**
  *  T | null 包装
  */
-type Nullable<T> = T | null;
+export type Nullable<T> = T | null;

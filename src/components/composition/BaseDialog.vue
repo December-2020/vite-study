@@ -2,22 +2,13 @@
  * @Author: Komorebi
  * @Date: 2025-02-11 11:10:31
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-17 09:18:27
+ * @LastEditTime: 2025-02-18 17:21:45
 -->
 <template>
-  <!-- <component
-    :is="h(ElDialog, props, $slots)"
-    ref="DialogRef"
-    @open="emit('open')"
-    @opened="emit('opened')"
-    @close="emit('close')"
-    @closed="emit('closed')"
-    @open-auto-focus="emit('open-auto-focus')"
-    @close-auto-focus="emit('close-auto-focus')"
-  /> -->
   <el-dialog
     ref="DialogRef"
-    v-bind="props"
+    v-bind="omit(props, 'modelValue')"
+    v-model="modelValueRef"
     @open="emit('open')"
     @opened="emit('opened')"
     @close="emit('close')"
@@ -49,24 +40,12 @@
 </template>
 
 <script setup lang="ts">
-import type { DialogProps } from "element-plus";
-// import type { Mutable } from "#/global";
+import type { ModalProps, ModalMethods } from "#/modal";
 
-// import { h } from "vue";
-// import { ElDialog } from "element-plus";
-// import "element-plus/theme-chalk/el-dialog.css";
 import i18n from "@/locales";
+import { omit } from "lodash";
 
-// type Props = Partial<Mutable<DialogProps>>;
-interface Props extends Partial<DialogProps> {
-  isContentScroll?: boolean;
-  contentMaxHeight?: string | number;
-  hideFooter?: boolean;
-  cancelText?: string;
-  confirmText?: string;
-}
-
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<ModalProps>(), {
   appendToBody: true,
   /**
    * 是否水平垂直对齐对话框
@@ -124,6 +103,8 @@ const emit = defineEmits([
   "open-auto-focus",
   "close-auto-focus",
   "confirm",
+  // 自定义
+  "register",
 ]);
 
 const DialogRef = ref();
@@ -140,4 +121,19 @@ defineExpose(
     }
   )
 );
+
+const modelValueRef = ref(false);
+const modalMethods: ModalMethods = {
+  setModalProps,
+};
+const instance = getCurrentInstance();
+if (instance) {
+  emit("register", modalMethods, instance.uid);
+}
+function setModalProps(modalProps: ModalProps) {
+  console.log("🚀 ~ setModalProps ~ modalProps:", modalProps.modelValue);
+  if (Reflect.has(props, "modelValue")) {
+    modelValueRef.value = !!modalProps.modelValue;
+  }
+}
 </script>

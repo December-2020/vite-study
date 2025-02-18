@@ -273,9 +273,11 @@ methods: {
   - 使用 echarts 绘制图表
     npm i echarts
   - 学习并使用 three.js 
-    npm i three
+    npm uninstall three
     轨道控制器可以使得相机围绕目标进行轨道运动
-    npm i three-orbit-controls
+    npm uninstall three-orbit-controls
+  - 使用lodash工具库
+    npm i lodash
 
 
 ## 十、其他相关

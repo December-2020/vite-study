@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-02-10 11:04:12
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-17 14:31:31
+ * @LastEditTime: 2025-02-18 09:33:10
 -->
 <template>
   <div class="wrapper">
@@ -17,15 +17,16 @@
       <div class="item">
         <ElAlert title="使用useModal" show-icon :closable="false" />
         <BaseButton @click="openModal(2)" class="mt-1">显示1</BaseButton>
-        <BaseDialog
-          v-model="modal"
-          @close="modal = false"
-          @confirm="handleConfirm"
-          :title="modalTitle"
-        >
-          <component :is="currentModal" />
-        </BaseDialog>
       </div>
+      
+      <BaseDialog
+        v-model="modal"
+        @close="modal = false"
+        @confirm="handleConfirm"
+        :title="modalTitle"
+      >
+        <component :is="currentModal" />
+      </BaseDialog>
     </div>
   </div>
 </template>
@@ -36,16 +37,8 @@ import type { Nullable } from "#/global";
 
 import Modal1 from "./components/Modal1.vue";
 import Modal2 from "./components/Modal2.vue";
-// import { useShowModal } from "@/hooks/useShowModal";
 
 defineOptions({ name: "CompDialog" });
-
-// // const modal2 = ref(false);
-// const modal2 = useShowModal();
-// const modal2Value = ref(modal2.visible);
-// const modal2Open = () => {
-//   modal2.open({ test: "123" });
-// };
 
 const modal = ref(false);
 const modalTitle = ref("");

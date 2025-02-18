@@ -2,16 +2,11 @@
  * @Author: Komorebi
  * @Date: 2025-01-21 16:55:56
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-13 14:12:42
+ * @LastEditTime: 2025-02-18 10:53:59
  */
 /**
  * 实现登录页面的背景动画
  * 动态背景并跟随鼠标移动, 且具有吸附鼠标的效果
- */
-/**
- * 需要做什么?
- * 1. 跟随频幕大小变化
- * 2. 页面销毁时销毁
  */
 import type { Ref } from "vue";
 
@@ -31,7 +26,10 @@ interface CanvasOptions {
   dotRadius?: number;
   // 线条及圆点颜色
   color?: string;
-  // 背景颜色
+  /** 
+   * 背景颜色
+   * * 已交给页面内父盒子控制
+   */
   // bgColor?: string;
   // 触发连线距离
   distance?: number;
@@ -171,19 +169,6 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
     // 重置配置
     setOptions({ width, height, dotNum, distance });
   }
-  // 设置画布背景色
-  // function setCanvasBgColor() {
-  //   // canvasOptions.value.bgColor = color;
-  //   if (!canvasCtx.value) return;
-  //   // canvasCtx.value.fillStyle = canvasOptions.value.bgColor as string;
-  //   canvasCtx.value.fillStyle = "red";
-  //   canvasCtx.value.fillRect(
-  //     0,
-  //     0,
-  //     canvasOptions.value.width as number,
-  //     canvasOptions.value.height as number
-  //   );
-  // }
 
   // 开始动画
   function startAnimate() {
@@ -360,7 +345,6 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
   const themeWatch = watch(
     () => theme.value,
     (newTheme) => {
-      // console.log(newTheme,'newTheme');
       // setOptions({ color: newTheme.fontColor, bgColor: newTheme.bgColor });
       setOptions({ color: newTheme.fontColor });
     }

@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-02-11 11:10:31
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-18 17:21:45
+ * @LastEditTime: 2025-02-19 09:56:49
 -->
 <template>
   <el-dialog
@@ -28,7 +28,7 @@
     <template #footer v-if="!props.hideFooter">
       <slot name="footer" v-if="$slots.footer"></slot>
       <div slot="footer" v-else>
-        <BaseButton plain @click="emit('close')">
+        <BaseButton plain @click="cancel">
           {{ props.cancelText }}
         </BaseButton>
         <BaseButton @click="emit('confirm')" isPreventReclick>
@@ -102,8 +102,8 @@ const emit = defineEmits([
   "closed",
   "open-auto-focus",
   "close-auto-focus",
-  "confirm",
   // 自定义
+  "confirm",
   "register",
 ]);
 
@@ -131,9 +131,13 @@ if (instance) {
   emit("register", modalMethods, instance.uid);
 }
 function setModalProps(modalProps: ModalProps) {
-  console.log("🚀 ~ setModalProps ~ modalProps:", modalProps.modelValue);
+  console.log("🚀 ~ setModalProps ~ modalProps:", modalProps);
   if (Reflect.has(props, "modelValue")) {
     modelValueRef.value = !!modalProps.modelValue;
   }
 }
+
+const cancel = () => {
+  modelValueRef.value = false;
+};
 </script>

@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-02-18 11:01:02
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-18 16:15:22
+ * @LastEditTime: 2025-02-19 10:51:05
  */
 import type { DialogProps } from "element-plus";
 
@@ -29,3 +29,13 @@ export interface ModalProps extends Partial<DialogProps> {
   cancelText?: string;
   confirmText?: string;
 }
+
+
+// ModalMethods
+// Omit<ReturnMethods, "openModal">;
+  export interface ReturnInnerMethods extends Omit<ReturnMethods, "openModal"> {
+  // closeModal: () => void;
+  // getOpen?: ComputedRef<boolean>;
+  // changeLoading: (loading: boolean) => void;
+}
+export type UseModalInnerReturnType = [RegisterFn, ReturnInnerMethods];

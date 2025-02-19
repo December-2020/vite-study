@@ -20,7 +20,9 @@
       </div>
       <div class="item">
         <ElAlert title="使用useModal" show-icon :closable="false" />
-        <BaseButton @click="openModal3" class="mt-1">显示2</BaseButton>
+        <BaseButton @click="openModal3(true, { test: '123' })" class="mt-1">
+          显示2
+        </BaseButton>
       </div>
 
       <BaseDialog

@@ -34,7 +34,7 @@
         <component :is="currentModal" />
       </BaseDialog>
 
-      <Modal3 @register="register3" />
+      <Modal3 @register="register3" @confirm="handleConfirm" />
     </div>
   </div>
 </template>
@@ -54,7 +54,8 @@ const modal = ref(false);
 const modalTitle = ref("");
 const currentModal = shallowRef<Nullable<Component>>(null);
 
-const [register3, { openModal: openModal3 }] = useModal();
+const [register3, { openModal: openModal3, closeModal: closeModal3 }] =
+  useModal();
 // console.log("🚀 ~ register:", register)
 
 const openModal = (num: number) => {
@@ -75,6 +76,7 @@ const openModal = (num: number) => {
 };
 const handleConfirm = () => {
   console.log("confirm");
+  closeModal3();
 };
 </script>
 

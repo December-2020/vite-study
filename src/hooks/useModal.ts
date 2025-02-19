@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-02-10 11:20:18
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-19 14:18:57
+ * @LastEditTime: 2025-02-19 16:26:36
  */
 import type { Nullable } from "#/global";
 import type {
@@ -50,7 +50,7 @@ export function useModal(): UseModalReturnType {
       modal.value = null;
       loaded.value = false;
       dataTransfer[String(unref(uid))] = null;
-      console.log("🚀 ~ 组件卸载 ~ uid.value:", uid.value);
+      // console.log("🚀 ~ 组件卸载 ~ uid.value:", uid.value);
     });
     // 如果模态框已加载,且传入的模态框实例与当前存储的实例相同,则直接返回
     if (unref(loaded) && modalMethod === unref(modal)) return;
@@ -90,7 +90,7 @@ export function useModal(): UseModalReturnType {
       data?: T,
       openOnSet = true
     ): void => {
-      console.log("🚀 ~ useModal ~ openModal:", { modelValue, data });
+      // console.log("🚀 ~ useModal ~ openModal:", { modelValue, data });
       getInstance()?.setModalProps({ modelValue });
       if (!data) return;
       const id = unref(uid);
@@ -110,7 +110,7 @@ export function useModal(): UseModalReturnType {
       }
     },
     closeModal: () => {
-      console.log("🚀 ~ useModal ~ closeModal:");
+      // console.log("🚀 ~ useModal ~ closeModal:");
       getInstance()?.setModalProps({ modelValue: false });
     },
   };

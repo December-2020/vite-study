@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-02-11 11:10:31
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-19 15:02:43
+ * @LastEditTime: 2025-02-19 16:24:29
 -->
 <template>
   <el-dialog
@@ -136,7 +136,7 @@ if (instance) {
 }
 
 function setModalProps(modalProps: ModalProps) {
-  console.log("🚀 ~ setModalProps ~ modalProps:", modalProps);
+  // console.log("🚀 ~ setModalProps ~ modalProps:", modalProps);
   if (Reflect.has(modalProps, "modelValue")) {
     modelValueRef.value = !!modalProps.modelValue;
   }

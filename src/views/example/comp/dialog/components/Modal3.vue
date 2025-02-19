@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-02-18 16:59:49
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-19 09:58:22
+ * @LastEditTime: 2025-02-19 16:28:04
 -->
 <template>
   <BaseDialog title="弹窗标题3" @register="registerModal">
@@ -22,10 +22,6 @@ const [registerModal, { changeLoading }] = useModalInner(async (data) => {
   changeLoading(false);
 });
 
-onMounted(() => {
-  console.log("发出请求");
-  // changeLoading();
-});
 </script>
 
 <style scoped lang="scss"></style>

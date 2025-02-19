@@ -1,4 +1,5 @@
 /* 专门用来配置vite.config.json */
+/* 运行环境 */
 {
   "compilerOptions": {
     "target": "ES2022",
@@ -17,7 +18,29 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    /* 必须设置相对路径才能使用别名 */
+    "baseUrl": "./",
+    /* 设置别名 */
+    "paths": {
+      "@/*": ["src/*"],
+      "#/*": ["types/*"],
+      "#Api/*": ["apiTypes/*"]
+    },
+    /**
+     * 指定全局组件类型(element官方建议)
+     */
+    "types": ["element-plus/global"]
   },
-  "include": ["vite.config.ts"]
+  
+  "include": [
+    "vite.config.ts",
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    /* 引入ts 类型文件 */
+    "types/**/*.d.ts"
+  ]
 }

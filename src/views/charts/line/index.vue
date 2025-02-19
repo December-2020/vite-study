@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:08:25
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-01-10 16:16:57
+ * @LastEditTime: 2025-02-19 15:17:59
 -->
 <template>
   <div class="wrapper">
@@ -29,7 +29,6 @@
       </el-space>
     </div>
     <div class="wrapper-content py-4">
-      <!--   -->
       <div class="wrapper-content-line h-300px border-rd-4px overflow-hidden">
         <div ref="chartRef" class="h-100%"></div>
       </div>

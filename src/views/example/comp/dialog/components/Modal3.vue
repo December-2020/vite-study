@@ -11,14 +11,20 @@
 </template>
 
 <script setup lang="ts">
+import API from "@/apis/demo/charts";
 import { useModalInner } from "@/hooks/useModal";
+
+const [registerModal, { changeLoading }] = useModalInner(async (data) => {
+  changeLoading();
+  const res = await API.Get_Line_Data();
+  console.log("🚀 ~ const[registerModal,{changeLoading}]=useModalInner ~ res:", res)
+  console.log("🚀 ~ useModalInner ~ data:", data);
+  changeLoading(false);
+});
 
 onMounted(() => {
   console.log("发出请求");
-});
-
-const [registerModal, {}] = useModalInner(async (data) => {
-  console.log("🚀 ~ useModalInner ~ data:", data);
+  // changeLoading();
 });
 </script>
 

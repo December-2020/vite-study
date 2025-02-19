@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-02-11 11:10:31
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-19 09:56:49
+ * @LastEditTime: 2025-02-19 15:02:43
 -->
 <template>
   <el-dialog
@@ -20,7 +20,11 @@
       <slot name="header"></slot>
     </template>
     <template #default>
-      <el-scrollbar :max-height="contentMaxHeight" v-if="props.isContentScroll">
+      <el-scrollbar
+        :max-height="contentMaxHeight"
+        v-if="props.isContentScroll"
+        v-loading="loadingRef"
+      >
         <slot></slot>
       </el-scrollbar>
       <slot v-else></slot>
@@ -122,18 +126,22 @@ defineExpose(
   )
 );
 
+const loadingRef = ref(false);
 const modelValueRef = ref(false);
-const modalMethods: ModalMethods = {
-  setModalProps,
-};
+const modalMethods: ModalMethods = { setModalProps };
+
 const instance = getCurrentInstance();
 if (instance) {
   emit("register", modalMethods, instance.uid);
 }
+
 function setModalProps(modalProps: ModalProps) {
   console.log("🚀 ~ setModalProps ~ modalProps:", modalProps);
-  if (Reflect.has(props, "modelValue")) {
+  if (Reflect.has(modalProps, "modelValue")) {
     modelValueRef.value = !!modalProps.modelValue;
+  }
+  if (Reflect.has(modalProps, "loading")) {
+    loadingRef.value = !!modalProps.loading;
   }
 }
 

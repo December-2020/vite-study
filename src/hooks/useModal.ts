@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-02-10 11:20:18
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-19 11:45:45
+ * @LastEditTime: 2025-02-19 14:18:57
  */
 import type { Nullable } from "#/global";
 import type {
@@ -157,9 +157,9 @@ export const useModalInner = (callbackFn?: Fn): UseModalInnerReturnType => {
   });
 
   const methods: ReturnInnerMethods = {
-    // changeLoading: (loading = true) => {
-    //   getInstance()?.setModalProps({ loading });
-    // },
+    changeLoading: (loading = true) => {
+      getInstance()?.setModalProps({ loading });
+    },
     setModalProps: (props: ModalProps): void => {
       getInstance()?.setModalProps(props);
     },

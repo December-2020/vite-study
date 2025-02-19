@@ -28,14 +28,14 @@ export interface ModalProps extends Partial<DialogProps> {
   hideFooter?: boolean;
   cancelText?: string;
   confirmText?: string;
+  loading?: boolean;
 }
-
 
 // ModalMethods
 // Omit<ReturnMethods, "openModal">;
-  export interface ReturnInnerMethods extends Omit<ReturnMethods, "openModal"> {
+export interface ReturnInnerMethods extends Omit<ReturnMethods, "openModal"> {
   // closeModal: () => void;
   // getOpen?: ComputedRef<boolean>;
-  // changeLoading: (loading: boolean) => void;
+  changeLoading: (loading?: boolean) => void;
 }
 export type UseModalInnerReturnType = [RegisterFn, ReturnInnerMethods];

@@ -49,4 +49,7 @@ declare module 'vue' {
     SvgIcon: typeof import('./../src/components/composition/SvgIcon.vue')['default']
     ThemeSwitch: typeof import('./../src/components/custom/ThemeSwitch.vue')['default']
   }
+  export interface ComponentCustomProperties {
+    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
+  }
 }

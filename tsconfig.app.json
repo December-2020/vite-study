@@ -20,6 +20,28 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": false,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    /* 必须设置相对路径才能使用别名 */
+    "baseUrl": "./",
+    /* 设置别名 */
+    "paths": {
+      "@/*": ["src/*"],
+      "#/*": ["types/*"],
+      "#Api/*": ["apiTypes/*"]
+    },
+    /**
+     * 指定全局组件类型(element官方建议)
+     */
+    "types": ["element-plus/global"]
   },
+
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    /* 引入ts 类型文件 */
+    "types/**/*.d.ts"
+  ]
 }

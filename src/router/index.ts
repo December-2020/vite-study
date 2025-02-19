@@ -2,12 +2,11 @@
  * @Author: Komorebi
  * @Date: 2024-09-26 11:26:00
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-11-08 11:24:13
+ * @LastEditTime: 2025-02-19 13:51:58
  */
 import type { App } from "vue";
 import type { RouteRecordRaw } from "vue-router";
 import type { AppRouteRecordRaw } from "#/route";
-import type { FileImport } from "#/global";
 
 import { createRouter, createWebHistory } from "vue-router";
 import { constantRoutes } from "./modules/constant";
@@ -15,16 +14,11 @@ import { constantRoutes } from "./modules/constant";
 
 // 异步路由(需要权限之类的)
 const asyncRoutes: AppRouteRecordRaw[] = [];
-/**
- * * 导入所有 非constant 的相关路由
- * ? 这里的 FileImport 是不该存在的
- * ? 若后续有更好的写法再改
- */
-const modules: FileImport = import.meta.glob("./modules/!(constant).ts", {
+// 类型断言: 每个模块的默认导出都是 AppRouteRecordRaw 类型或 AppRouteRecordRaw[] 类型
+const modules = import.meta.glob("./modules/!(constant).ts", {
   eager: true,
-});
+}) as Record<string, { default?: AppRouteRecordRaw | AppRouteRecordRaw[] }>;
 Object.keys(modules).forEach((key) => {
-  //// @ts-ignore
   const module = modules[key].default || {};
   const moduleList = Array.isArray(module) ? module : [module];
   asyncRoutes.push(...moduleList);

@@ -16,13 +16,6 @@ export const definePropType = <T>(val: any): PropType => val;
 // 定义一个对象的键和值
 declare type Recordable<T = any> = Record<string, T>;
 
-// 文件动态引入
-export interface FileImport {
-  [key: string]: {
-    default: typeof import("./vite-env").default;
-  };
-}
-
 /**
  * * 去除readonly
  */

@@ -18,7 +18,11 @@ import { isEqual } from "lodash";
 import { tryOnUnmounted } from "@vueuse/core";
 import { isFunction } from "@/utils/is";
 
-// 创建一个响应式对象, 用于在不同组件之间传递数据
+/** 
+ * 创建一个响应式对象, 用于在不同组件之间传递数据
+ * 所有弹窗的数据传递都会通过 dataTransfer 对象进行
+ * 键为模态框的唯一标识符(uid),
+ */
 const dataTransfer = reactive<any>({});
 /**
  * 用于存储每个弹窗的打开状态,

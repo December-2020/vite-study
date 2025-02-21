@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-02-10 11:04:12
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-18 17:02:59
+ * @LastEditTime: 2025-02-21 10:49:38
 -->
 <template>
   <div class="wrapper">
@@ -25,14 +25,14 @@
         </BaseButton>
       </div>
 
-      <BaseDialog
+      <!-- <BaseDialog
         v-model="modal"
         @close="modal = false"
         @confirm="handleConfirm"
         :title="modalTitle"
       >
-        <component :is="currentModal" />
-      </BaseDialog>
+    </BaseDialog> -->
+      <component :is="currentModal" v-model="compModal" v-if="currentModal" />
 
       <Modal3 @register="register3" @confirm="handleConfirm" />
     </div>
@@ -50,8 +50,7 @@ import { useModal } from "@/hooks/useModal";
 
 defineOptions({ name: "CompDialog" });
 
-const modal = ref(false);
-const modalTitle = ref("");
+const compModal = ref(false);
 const currentModal = shallowRef<Nullable<Component>>(null);
 
 const [register3, { openModal: openModal3, closeModal: closeModal3 }] =
@@ -63,15 +62,13 @@ const openModal = (num: number) => {
   switch (num) {
     case 1:
       currentModal.value = Modal1;
-      modalTitle.value = "弹窗1";
       break;
     case 2:
       currentModal.value = Modal2;
-      modalTitle.value = "弹窗2";
       break;
   }
   nextTick(() => {
-    modal.value = true;
+    compModal.value = true;
   });
 };
 const handleConfirm = () => {

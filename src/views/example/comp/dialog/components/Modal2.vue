@@ -5,16 +5,15 @@
  * @LastEditTime: 2025-02-13 10:02:31
 -->
 <template>
-    <div class="wrapper">
-        <h2>用户信息</h2>
-    </div>
+  <BaseDialog title="弹窗1" @register="registerModal" v-bind="$attrs">
+    <h2>用户信息</h2>
+  </BaseDialog>
 </template>
 
 <script setup lang="ts">
- const props = defineProps();
- console.log("🚀 ~ props:", props)
+import { useModalInner } from "@/hooks/useModal";
+
+const [registerModal] = useModalInner();
 </script>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

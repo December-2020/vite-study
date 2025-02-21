@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-02-11 11:10:31
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-21 10:53:53
+ * @LastEditTime: 2025-02-21 13:46:59
 -->
 <template>
   <el-dialog
@@ -127,7 +127,14 @@ defineExpose(
 );
 
 const loadingRef = ref(false);
-const modelValueRef = ref(false);
+/** 
+ * v-model:visible
+ * defineModel("visible")
+ * * 为什么不用ref?
+ * * 接收外部传入的modelValue，并且可在内部修改
+ */
+// const modelValueRef = ref(false);
+const modelValueRef = defineModel({ default: false });
 const modalMethods: ModalMethods = { setModalProps };
 
 const instance = getCurrentInstance();

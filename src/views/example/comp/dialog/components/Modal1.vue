@@ -4,13 +4,6 @@
     <BaseButton @click="openModal1">显示</BaseButton>
 
     <h3 v-for="(item, index) in 20" :key="index">{{ item }}</h3>
-    <!-- <BaseDialog
-      title="测试弹窗1-1"
-      v-model="modal1_1"
-      @close="modal1_1 = false"
-      hideFooter
-    >
-  </BaseDialog> -->
   </BaseDialog>
 
   <Modal1_1 @register="registerModal1" />

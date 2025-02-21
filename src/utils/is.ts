@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-12-24 15:31:25
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-12-24 15:31:39
+ * @LastEditTime: 2025-02-21 11:19:06
  */
 const toString = Object.prototype.toString;
 
@@ -10,12 +10,12 @@ export function is(val: unknown, type: string) {
   return toString.call(val) === `[object ${type}]`;
 }
 
-export function isDef<T = unknown>(val?: T): val is T {
+export function isDefined<T = unknown>(val?: T): val is T {
   return typeof val !== 'undefined';
 }
 
-export function isUnDef<T = unknown>(val?: T): val is T {
-  return !isDef(val);
+export function isUnDefined<T = unknown>(val?: T): val is T {
+  return !isDefined(val);
 }
 
 export function isObject(val: any): val is Record<any, any> {
@@ -47,11 +47,11 @@ export function isNull(val: unknown): val is null {
 }
 
 export function isNullAndUnDef(val: unknown): val is null | undefined {
-  return isUnDef(val) && isNull(val);
+  return isUnDefined(val) && isNull(val);
 }
 
 export function isNullOrUnDef(val: unknown): val is null | undefined {
-  return isUnDef(val) || isNull(val);
+  return isUnDefined(val) || isNull(val);
 }
 
 export function isNumber(val: unknown): val is number {

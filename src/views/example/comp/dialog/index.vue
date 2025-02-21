@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-02-10 11:04:12
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-21 10:49:38
+ * @LastEditTime: 2025-02-21 11:56:00
 -->
 <template>
   <div class="wrapper">
@@ -25,13 +25,6 @@
         </BaseButton>
       </div>
 
-      <!-- <BaseDialog
-        v-model="modal"
-        @close="modal = false"
-        @confirm="handleConfirm"
-        :title="modalTitle"
-      >
-    </BaseDialog> -->
       <component :is="currentModal" v-model="compModal" v-if="currentModal" />
 
       <Modal3 @register="register3" @confirm="handleConfirm" />

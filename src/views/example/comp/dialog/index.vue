@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-02-10 11:04:12
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-21 11:56:00
+ * @LastEditTime: 2025-02-21 16:58:40
 -->
 <template>
   <div class="wrapper">
@@ -12,22 +12,42 @@
     <div class="wrapper-content mt-4 b-rd-4px flex-1 p-2">
       <div class="item">
         <ElAlert title="基础使用" show-icon :closable="false" />
-        <BaseButton @click="openModal(1)" class="mt-1">显示</BaseButton>
+        <BaseButton @click="openModal4" class="mt-1"> 打开弹窗 </BaseButton>
       </div>
       <div class="item">
-        <ElAlert title="基础使用2" show-icon :closable="false" />
-        <BaseButton @click="openModal(2)" class="mt-1">显示1</BaseButton>
-      </div>
-      <div class="item">
-        <ElAlert title="使用useModal" show-icon :closable="false" />
-        <BaseButton @click="openModal3(true, { test: '123' })" class="mt-1">
-          显示2
+        <ElAlert title="内外数据交互" show-icon :closable="false" />
+        <BaseButton @click="openModal3(true, { test: 'testData' })" class="mt-1">
+          打开弹窗并传递数据
         </BaseButton>
       </div>
+      <div class="item">
+        <ElAlert
+          title="使用动态组件的方式在页面内使用多个弹窗"
+          show-icon
+          :closable="false"
+        />
+        <div class="mt-1">
+          <BaseButton @click="openModal(1)">弹窗1</BaseButton>
+          <BaseButton @click="openModal(2)">弹窗2</BaseButton>
+        </div>
+      </div>
 
-      <component :is="currentModal" v-model="compModal" v-if="currentModal" />
-
-      <Modal3 @register="register3" @confirm="handleConfirm" />
+      <!-- 基础使用 -->
+      <Modal4 @register="register4" />
+      <!-- 内外数据交互 -->
+      <Modal3 @register="register3" />
+      <!-- 动态组件 -->
+      <component
+        :is="currentModal"
+        v-model="compModal"
+        v-if="currentModal"
+      />
+      <!-- 
+        !bug: 
+        ! 使用动态组件, 外部没有使用 register 注册时
+        ! 组件内部会因 dataTransfer[uid] 为 undefined
+        ! 而无法执行 useModalInner 中的回调函数
+      -->
     </div>
   </div>
 </template>
@@ -39,19 +59,25 @@ import type { Nullable } from "#/global";
 import Modal1 from "./components/Modal1.vue";
 import Modal2 from "./components/Modal2.vue";
 import Modal3 from "./components/Modal3.vue";
+import Modal4 from "./components/Modal4.vue";
 import { useModal } from "@/hooks/useModal";
 
 defineOptions({ name: "CompDialog" });
+/* 基础使用 */
+const [register4, { openModal: openModal4 }] = useModal();
 
-const compModal = ref(false);
-const currentModal = shallowRef<Nullable<Component>>(null);
-
+/* 内外数据交互 */
 const [register3, { openModal: openModal3, closeModal: closeModal3 }] =
   useModal();
-// console.log("🚀 ~ register:", register)
+// const handleConfirm = () => {
+//   console.log("confirm");
+//   closeModal3();
+// };
 
+/* 动态组件 */
+const compModal = ref(false);
+const currentModal = shallowRef<Nullable<Component>>(null);
 const openModal = (num: number) => {
-  console.log("openModal");
   switch (num) {
     case 1:
       currentModal.value = Modal1;
@@ -63,10 +89,6 @@ const openModal = (num: number) => {
   nextTick(() => {
     compModal.value = true;
   });
-};
-const handleConfirm = () => {
-  console.log("confirm");
-  closeModal3();
 };
 </script>
 

@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-02-10 11:20:18
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-19 16:26:36
+ * @LastEditTime: 2025-02-21 16:33:49
  */
 import type { Nullable } from "#/global";
 import type {
@@ -81,9 +81,9 @@ export function useModal(): UseModalReturnType {
       getInstance()?.setModalProps(props);
     },
     // 获取模态框的打开状态
-    getOpen: computed((): boolean => {
-      return openData[~~unref(uid)];
-    }),
+    // getOpen: computed((): boolean => {
+    //   return openData[~~unref(uid)];
+    // }),
     /**
      * 用于打开模态框, 并可传递数据
      * 如果 openOnSet 为 true, 则直接更新 dataTransfer
@@ -141,7 +141,7 @@ export const useModalInner = (callbackFn?: Fn): UseModalInnerReturnType => {
   const register = (modalMethod: ModalMethods, uuid: number) => {
     tryOnUnmounted(() => {
       modalInstanceRef.value = null;
-      console.log("🚀 ~ 内部组件卸载 ~ uid.value:", uuid);
+      // console.log("🚀 ~ 内部组件卸载 ~ uid.value:", uuid);
     });
     uidRef.value = uuid;
     modalInstanceRef.value = modalMethod;
@@ -152,6 +152,7 @@ export const useModalInner = (callbackFn?: Fn): UseModalInnerReturnType => {
   // 监听 dataTransfer 中对应 uid 的数据变化
   watchEffect(() => {
     const data = dataTransfer[unref(uidRef)];
+    // console.log("🚀 ~ watchEffect ~ data:", data)
     // 如果数据存在且传入了有效的回调函数，则在下一个 DOM 更新周期后执行回调函数。
     if (!data) return;
     if (!callbackFn || !isFunction(callbackFn)) return;
@@ -168,9 +169,9 @@ export const useModalInner = (callbackFn?: Fn): UseModalInnerReturnType => {
       getInstance()?.setModalProps(props);
     },
     // 获取模态框的打开状态
-    getOpen: computed((): boolean => {
-      return openData[~~unref(uidRef)];
-    }),
+    // getOpen: computed((): boolean => {
+    //   return openData[~~unref(uidRef)];
+    // }),
     closeModal: () => {
       getInstance()?.setModalProps({ modelValue: false });
     },

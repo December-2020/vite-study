@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-02-18 11:01:02
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-19 10:51:05
+ * @LastEditTime: 2025-02-21 14:24:18
  */
 import type { DialogProps } from "element-plus";
 
@@ -12,7 +12,7 @@ export type RegisterFn = (modalMethods: ModalMethods, uuid: number) => void;
 export interface ReturnMethods extends ModalMethods {
   openModal: <T = any>(props?: boolean, data?: T, openOnSet?: boolean) => void;
   closeModal: () => void;
-  getOpen?: ComputedRef<boolean>;
+  // getOpen?: ComputedRef<boolean>;
 }
 
 export interface ModalMethods {

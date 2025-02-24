@@ -1,6 +1,6 @@
-import { number } from "echarts/core";
+// import { number } from "echarts/core";
 
-interface LineCount {
+export interface LineCount {
   id: string;
   title: string;
   type: "年" | "季" | "月" | "周" | "日";

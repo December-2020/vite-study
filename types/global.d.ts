@@ -27,3 +27,8 @@ export type Mutable<T> = {
  *  T | null 包装
  */
 export type Nullable<T> = T | null;
+
+/** 
+ * 定义对象
+ */
+export type AnyObject = Record<string, any>;

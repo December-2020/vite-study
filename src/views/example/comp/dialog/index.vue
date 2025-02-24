@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-02-10 11:04:12
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-21 16:58:40
+ * @LastEditTime: 2025-02-24 11:14:06
 -->
 <template>
   <div class="wrapper">
@@ -16,7 +16,10 @@
       </div>
       <div class="item">
         <ElAlert title="内外数据交互" show-icon :closable="false" />
-        <BaseButton @click="openModal3(true, { test: 'testData' })" class="mt-1">
+        <BaseButton
+          @click="openModal3(true, { test: 'testData' })"
+          class="mt-1"
+        >
           打开弹窗并传递数据
         </BaseButton>
       </div>
@@ -35,12 +38,13 @@
       <!-- 基础使用 -->
       <Modal4 @register="register4" />
       <!-- 内外数据交互 -->
-      <Modal3 @register="register3" />
+      <Modal3 @register="register3" @confirm="modalConfirm3" />
       <!-- 动态组件 -->
       <component
         :is="currentModal"
         v-model="compModal"
         v-if="currentModal"
+        :testData="{ test: 'testData' }"
       />
       <!-- 
         !bug: 
@@ -54,13 +58,16 @@
 
 <script setup lang="ts">
 import type { Component } from "vue";
-import type { Nullable } from "#/global";
+import type { Nullable, AnyObject } from "#/global";
 
 import Modal1 from "./components/Modal1.vue";
 import Modal2 from "./components/Modal2.vue";
 import Modal3 from "./components/Modal3.vue";
 import Modal4 from "./components/Modal4.vue";
+import { ElNotification } from "element-plus";
 import { useModal } from "@/hooks/useModal";
+
+import "element-plus/theme-chalk/el-notification.css";
 
 defineOptions({ name: "CompDialog" });
 /* 基础使用 */
@@ -69,10 +76,6 @@ const [register4, { openModal: openModal4 }] = useModal();
 /* 内外数据交互 */
 const [register3, { openModal: openModal3, closeModal: closeModal3 }] =
   useModal();
-// const handleConfirm = () => {
-//   console.log("confirm");
-//   closeModal3();
-// };
 
 /* 动态组件 */
 const compModal = ref(false);
@@ -88,6 +91,17 @@ const openModal = (num: number) => {
   }
   nextTick(() => {
     compModal.value = true;
+  });
+};
+
+const modalConfirm3 = (e: AnyObject) => {
+  // console.log("传递出来的数据", e);
+  closeModal3();
+  ElNotification({
+    title: "传递出来的数据",
+    message: JSON.stringify(e),
+    type: "success",
+    position: "top-right",
   });
 };
 </script>

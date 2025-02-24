@@ -2,10 +2,14 @@
  * @Author: Komorebi
  * @Date: 2025-02-18 16:59:49
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-21 16:44:08
+ * @LastEditTime: 2025-02-24 10:44:52
 -->
 <template>
-  <BaseDialog title="弹窗标题3" @register="registerModal" @confirm="confirm">
+  <BaseDialog
+    title="弹窗标题3"
+    @register="registerModal"
+    @confirm="handleConfirm"
+  >
     <h2>测试弹窗3</h2>
     <p>传递进来的数据: {{ formData }}</p>
   </BaseDialog>
@@ -26,12 +30,14 @@ const [registerModal] = useModalInner(async (data) => {
   // changeLoading(false);
 });
 
-const confirm = ()=>{
-  /** 
-   * ! 数据如何传递出去
-   */
-  console.log(1111);
-}
+/**
+ * * 传递数据到弹窗外部
+ * ! register 必须书写, 否则控制台会报警告
+ */
+const emit = defineEmits(["confirm", "register"]);
+const handleConfirm = () => {
+  emit("confirm", { formData: toRaw(unref(formData)) });
+};
 </script>
 
 <style scoped lang="scss"></style>

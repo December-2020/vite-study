@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-14 11:31:48
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-01-03 09:42:55
+ * @LastEditTime: 2025-02-24 15:31:23
 -->
 <template>
   <div class="wrapper flex justify-between items-center h-100%">
@@ -30,7 +30,10 @@
       <!-- 仅 pc 显示 -->
       <template v-if="store.appSet.isPC">
         <!-- 搜索icon -->
-        <div class="m-r-10px p-6px cursor-pointer">
+        <div 
+          class="m-r-10px p-6px cursor-pointer"
+          @click="openModal()"
+        >
           <SvgIcon icon-class="common-search" />
         </div>
         <!-- 全屏 -->
@@ -54,7 +57,11 @@
         </div>
       </BaseDropdown>
     </div>
+
+    <!-- 搜索弹窗 -->
+    <SearchModal @register="register" />
   </div>
+
 </template>
 
 <script setup lang="ts">
@@ -62,11 +69,13 @@ import type { DropdownItemProps } from "@/components/composition/BaseDropdown.vu
 
 import store from "@/store";
 import UserPhoto from "@/assets/images/user_photo.gif";
+import SearchModal from "./SearchModal.vue";
 import { ElMessage } from "element-plus";
 import { useFullscreen } from "@vueuse/core";
 import { useRouter } from "vue-router";
 import { useI18n } from "@/hooks/useI18n";
 import { storeToRefs } from "pinia";
+import { useModal } from "@/hooks/useModal";
 
 interface Props {
   // 是否显示 收起菜单的svg
@@ -190,6 +199,9 @@ const operationCommand = (command: string) => {
     }
   }
 };
+
+// 全局搜索
+const [register, { openModal }] = useModal();
 
 // 全屏切换
 const { isFullscreen, isSupported, toggle } = useFullscreen();

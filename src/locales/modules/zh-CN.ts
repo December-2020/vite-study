@@ -5,6 +5,17 @@
  * @LastEditTime: 2024-10-11 09:42:01
  */
 export default {
+  // 全局通用
+  Layout: {
+    search: {
+      title: "搜索",
+      confirm: "确认",
+      toggle: "切换",
+      close: "关闭",
+      noResult: "暂无搜索结果",
+    },
+  },
+
   // 通用组件
   Components: {
     inputPlaceholder: "请输入内容",

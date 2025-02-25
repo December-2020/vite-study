@@ -5,6 +5,17 @@
  * @LastEditTime: 2025-01-10 11:39:37
  */
 export default {
+  // 全局通用
+  Layout: {
+    search: {
+      title: "Search",
+      confirm: "Confirm",
+      toggle: "Toggle",
+      close: "Close",
+      noResult: "No search results available at the moment",
+    },
+  },
+
   // 通用组件
   Components: {
     inputPlaceholder: "Please enter content",
@@ -41,7 +52,7 @@ export default {
     exit: "Exit",
     noSupportFullScreen:
       "This browser currently does not support full screen display",
-    closeConsole: "Please close the console before going full screen"
+    closeConsole: "Please close the console before going full screen",
   },
 
   // 登录页面
@@ -77,7 +88,7 @@ export default {
         customerService: "Customer Service",
         researchAndDevelopment: "Research And Development",
         market: "Market",
-      }
-    }
-  }
+      },
+    },
+  },
 };

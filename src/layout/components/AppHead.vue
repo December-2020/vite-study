@@ -30,10 +30,7 @@
       <!-- 仅 pc 显示 -->
       <template v-if="store.appSet.isPC">
         <!-- 搜索icon -->
-        <div 
-          class="m-r-10px p-6px cursor-pointer"
-          @click="openModal()"
-        >
+        <div class="m-r-10px p-6px cursor-pointer" @click="openModal(true, {})">
           <SvgIcon icon-class="common-search" />
         </div>
         <!-- 全屏 -->
@@ -61,7 +58,6 @@
     <!-- 搜索弹窗 -->
     <SearchModal @register="register" />
   </div>
-
 </template>
 
 <script setup lang="ts">

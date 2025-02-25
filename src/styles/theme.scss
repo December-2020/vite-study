@@ -1,13 +1,13 @@
 $themes: (
   dark: (
     // 导航栏背景色
-    nav-bg-color: #141414,
+    el-menu-bg-color: #141414,
     // 导航栏字体颜色
-    nav-font-color: #d2d7e0,
+    el-menu-text-color: #d2d7e0,
     // 活动的导航栏背景色
-    nav-active-bg-color: #18222c,
+    el-menu-active-color: #18222c,
     // 活动的导航栏字体颜色
-    nav-active-font-color: #3c92ea,
+    el-menu-hover-bg-color: #3c92ea,
 
     // 内容背景色
     content-bg-color: #1b1b1f,
@@ -21,13 +21,13 @@ $themes: (
 
   light: (
     // 导航栏背景色
-    nav-bg-color: #fafafa,
+    el-menu-bg-color: #fafafa,
     // 导航栏字体颜色
-    nav-font-color: #303133,
+    el-menu-text-color: #303133,
     // 活动的导航栏背景色
-    nav-active-bg-color: #ecf5ff,
+    el-menu-active-color: #ecf5ff,
     // 活动的导航栏字体颜色
-    nav-active-font-color: #51a7ff,
+    el-menu-hover-bg-color: #51a7ff,
 
     // 内容背景色
     content-bg-color: #eee,

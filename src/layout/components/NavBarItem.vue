@@ -111,6 +111,4 @@ const menuClick = () => {
 </script>
 
 <style scoped lang="scss">
-// @media (max-width: 768px) {
-// }
 </style>

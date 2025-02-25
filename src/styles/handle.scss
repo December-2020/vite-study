@@ -60,25 +60,12 @@ $curTheme: dark;
   }
 }
 
-// https://www.bluematador.com/blog/how-to-share-variables-between-js-and-sass
-// :export {}
-
-// 修改菜单颜色
-// 暂未实现, 先挂起
-@mixin nav_bg_color() {
+/**
+ * ! 菜单修改已生效
+ */
+/* .el-menu {
   @include useTheme {
-    --el-menu-bg-color: getVar("nav-bg-color") !important;
+    background-color: getVar("el-menu-bg-color") !important;
+    color: getVar("el-menu-text-color") !important;
   }
-}
-@mixin nav_font_color() {
-  @include useTheme {
-    $color: getVar("nav-font-color");
-    // color: getVar("nav-font-color") !important;
-    --el-menu-text-color: $color;
-  }
-}
-@mixin nav_active_font_color() {
-  @include useTheme {
-    --el-menu-active-color: getVar("nav-active-font-color") !important;
-  }
-}
+} */

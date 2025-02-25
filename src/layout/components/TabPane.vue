@@ -98,8 +98,6 @@ const changeRoute = (e: TabPaneName) => {
         }
         &.is-active {
           border-bottom: none;
-          // @include background_color("nav-active-font-color");
-          // @include font_color("content-font-color");
         }
       }
     }

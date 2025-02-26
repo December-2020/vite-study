@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-14 11:31:48
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-24 15:31:23
+ * @LastEditTime: 2025-02-26 14:01:39
 -->
 <template>
   <div class="wrapper flex justify-between items-center h-100%">
@@ -67,7 +67,7 @@ import store from "@/store";
 import UserPhoto from "@/assets/images/user_photo.gif";
 import SearchModal from "./SearchModal.vue";
 import { ElMessage } from "element-plus";
-import { useFullscreen } from "@vueuse/core";
+import { useFullscreen, onKeyStroke, onKeyDown, onKeyUp } from "@vueuse/core";
 import { useRouter } from "vue-router";
 import { useI18n } from "@/hooks/useI18n";
 import { storeToRefs } from "pinia";
@@ -116,17 +116,6 @@ const router = useRouter();
  *      自动分析出侦听数据源
  *      用法：执行 异步操作 或 更新UI
  */
-// watch(
-//   () => router.currentRoute.value,
-//   (newVal) => {
-//     // 当前路由的name
-//     //  let currRouteName = newVal.name;
-//     const { name: currRouteName, matched: matchList } = newVal;
-//     // let list
-//     console.log({ currRouteName, matchList, watch: true });
-//   },
-//   { immediate: true }
-// );
 const routeList = ref<RouteType[]>([]);
 watchEffect(() => {
   const { name: currRouteName, matched: matchList } = router.currentRoute.value;
@@ -198,6 +187,40 @@ const operationCommand = (command: string) => {
 
 // 全局搜索
 const [register, { openModal }] = useModal();
+// 监听键盘事件 Ctrl + K 打开搜索框(仅pc端)
+/**
+ * onKeyDown
+ *    按下瞬间执行某些操作的场景, 比如输入框中按下回车键触发搜索提示
+ * onKeyPressed
+ *    按键持续按下时不断执行某个操作的场景, 比如长按删除键删除文本, 角色持续移动
+ * onKeyStroke
+ *    按键按下并释放后触发, 比如提交表单时, 按下回车键并释放才提交表单
+ * onKeyUp
+ *    按键释放后再执行, 比如释放某个快捷键后恢复界面的某些状态
+ */
+// 监听ctrl
+const isCtrlPressed = ref(false);
+onKeyDown("Control", () => {
+  isCtrlPressed.value = true;
+},
+// 按下后仅触发一次
+{ dedupe: true }
+);
+onKeyUp("Control", () => {
+  isCtrlPressed.value = false;
+});
+onKeyStroke(
+  ["k", "K"],
+  (e: Event) => {
+    if (isCtrlPressed.value) {
+      // console.log("🚀 ~ onKeyStroke");
+      e.preventDefault();
+      openModal(true, {});
+    }
+  },
+  // 按下后仅触发一次
+  { dedupe: true }
+);
 
 // 全屏切换
 const { isFullscreen, isSupported, toggle } = useFullscreen();

@@ -18,6 +18,7 @@
         size="large"
         width="100%"
         ref="searchInput"
+        @keyup.enter="handleEnter"
       >
         <template #prefix>
           <ElIcon><Search /></ElIcon>
@@ -69,6 +70,11 @@ const [registerModal] = useModalInner(() => {
     searchInput.value?.focus();
   });
 });
+
+// enter 事件
+const handleEnter = () => {
+  console.log("enter1111");
+};
 </script>
 
 <style scoped lang="scss">

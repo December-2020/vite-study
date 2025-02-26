@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-02-24 15:35:02
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-25 15:39:33
+ * @LastEditTime: 2025-02-26 11:13:50
 -->
 <template>
   <BaseDialog
@@ -61,8 +61,13 @@ import { useModalInner } from "@/hooks/useModal";
 
 const searchInput = ref();
 const [registerModal] = useModalInner(() => {
-  searchInput.value?.focus()
-  console.log("🚀 ~ searchInput:", );
+  /** 
+   * * 为了避免在弹窗打开时，input 无法获取焦点
+   * * 使用 nextTick 来确保 input 获取焦点
+   */
+  nextTick(() => {
+    searchInput.value?.focus();
+  });
 });
 </script>
 

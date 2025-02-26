@@ -200,11 +200,13 @@ const [register, { openModal }] = useModal();
  */
 // 监听ctrl
 const isCtrlPressed = ref(false);
-onKeyDown("Control", () => {
-  isCtrlPressed.value = true;
-},
-// 按下后仅触发一次
-{ dedupe: true }
+onKeyDown(
+  "Control",
+  () => {
+    isCtrlPressed.value = true;
+  },
+  // 按下后仅触发一次
+  { dedupe: true }
 );
 onKeyUp("Control", () => {
   isCtrlPressed.value = false;

@@ -2,17 +2,17 @@
  * @Author: Komorebi
  * @Date: 2024-09-26 09:14:33
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-01-10 11:39:37
+ * @LastEditTime: 2025-02-26 14:35:42
  */
 export default {
   // 全局通用
   Layout: {
     search: {
-      title: "Search",
-      confirm: "Confirm",
-      toggle: "Toggle",
-      close: "Close",
-      noResult: "No search results available at the moment",
+      title: "Search docs",
+      confirm: "to select",
+      toggle: "to navigate",
+      close: "to close",
+      noResult: "No recent searches",
     },
   },
 

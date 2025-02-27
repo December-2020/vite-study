@@ -104,7 +104,7 @@ const keyword = ref("");
 const resultList = ref([]);
 const highlightIndex = ref(-1);
 
-watchDebounced(
+const stopWatchInput = watchDebounced(
   keyword,
   (val) => {
     console.log(val, "change");
@@ -135,7 +135,9 @@ const highlightPrev = () => {
 // };
 
 onUnmounted(() => {
-  console.log("onUnmounted");
+  console.log("🚀 ~ onUnmounted ~ stopWatchInput:", stopWatchInput);
+  // 释放内存
+  stopWatchInput();
 });
 </script>
 

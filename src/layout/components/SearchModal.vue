@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-02-24 15:35:02
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-26 16:45:52
+ * @LastEditTime: 2025-02-27 15:10:35
 -->
 <template>
   <BaseDialog
@@ -18,7 +18,7 @@
         size="large"
         width="100%"
         v-model="keyword"
-        ref="searchInput"
+        ref="searchInputRef"
         @keyup.enter="handleEnter"
         @keyup.down="highlightNext"
         @keyup.up="highlightPrev"
@@ -60,30 +60,46 @@
 </template>
 
 <script setup lang="ts">
+import type { AppRouteRecordRaw } from "#/route";
+
 import { Search } from "@element-plus/icons-vue";
 import { watchDebounced } from "@vueuse/core";
 import { useRouter } from "vue-router";
 import { useModalInner } from "@/hooks/useModal";
+import { useI18n } from "@/hooks/useI18n";
 
-const searchInput = ref();
+interface SearchItem extends Pick<AppRouteRecordRaw, "name" | "children"> {
+  title: string;
+}
+
+// 所有路由列表
+const router = useRouter();
+const searchList = ref<SearchItem[]>([]);
+const searchInputRef = ref();
 const [registerModal] = useModalInner(() => {
-  /**
-   * * 为了避免在弹窗打开时，input 无法获取焦点
-   * * 使用 nextTick 来确保 input 获取焦点
-   */
   nextTick(() => {
-    searchInput.value?.focus();
+    /**
+     * * 为了避免在弹窗打开时，input 无法获取焦点
+     * * 使用 nextTick 来确保 input 获取焦点
+     */
+    searchInputRef.value?.focus();
+    // 获取路由列表
+    const routeList = router.getRoutes();
+    searchList.value = routeList.flatMap((item) =>
+      !item.meta.hidden && item.meta.title
+        ? ([
+            {
+              title: useI18n(item.meta.title, "Route"),
+              name: item.name,
+              children: item.children,
+            },
+          ] as SearchItem[])
+        : []
+    );
+    console.log("🚀 ~ searchList:", searchList.value);
   });
 });
 
-const router = useRouter();
-const routeList = router.getRoutes();
-const searchList = routeList.flatMap((item) =>
-  !item.meta.hidden && item.meta.title
-    ? [{ meta: item.meta, name: item.name, children: item.children }]
-    : []
-);
-console.log("🚀 ~ searchList:", searchList);
 const keyword = ref("");
 const resultList = ref([]);
 const highlightIndex = ref(-1);

@@ -66,8 +66,10 @@ const reClickFn = (el: HTMLButtonElement, e: Event) => {
   // 将定时器存储到 WeakMap 中
   timerMap.set(el, timer);
 };
-// https://cn.vuejs.org/guide/reusability/custom-directives.html#custom-directives
-// 必须以这种方式命名自定义指令, 以使得可以直接在模板中使用
+/** 
+ * @see https://cn.vuejs.org/guide/reusability/custom-directives.html#custom-directives
+ * 必须以这种方式命名自定义指令, 以使得可以直接在模板中使用
+ */
 const vPreventReclick: ObjectDirective<HTMLButtonElement> = {
   // 在绑定元素的父组件及他自己的所有子节点都挂载完成后调用
   mounted(el: HTMLButtonElement, binding: DirectiveBinding) {

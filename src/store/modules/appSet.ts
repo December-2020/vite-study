@@ -236,7 +236,8 @@ const useAppSet = defineStore("appSet", {
     /**
      * 序列化 / 反序列化
      * 默认使用 JSON.stringify / destr
-     * (destr) https://github.com/unjs/destr
+     * (destr) 
+     * @see https://github.com/unjs/destr
      */
     // serializer: {
     //   // 解密

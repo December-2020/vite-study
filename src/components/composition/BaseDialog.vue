@@ -95,7 +95,7 @@ const props = withDefaults(defineProps<ModalProps>(), {
   contentMaxHeight: "70vh",
   /**
    * 更多参数参考element-plus文档
-   * https://element-plus.org/zh-CN/component/scrollbar.html
+   * @see https://element-plus.org/zh-CN/component/scrollbar.html
    */
 });
 

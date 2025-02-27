@@ -21,7 +21,7 @@ export const Login_Route: AppRouteRecordRaw = {
 export const Error_404_Route: AppRouteRecordRaw = {
   /**
    * 从 vue2 向 vue3 迁移
-   * https://router.vuejs.org/zh/guide/migration/
+   * @see https://router.vuejs.org/zh/guide/migration/
    */
   // path: "/:pathMatch(.*)*",
   path: "/404",

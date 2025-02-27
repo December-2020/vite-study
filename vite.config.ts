@@ -29,7 +29,9 @@ import { presetUno, presetAttributify } from "unocss";
 // mock 插件
 import { viteMockServe } from "vite-plugin-mock";
 
-// https://vitejs.dev/config/
+/** 
+ * @see https://vitejs.dev/config/
+ */
 export default defineConfig(({ command, mode }) => {
   // 根据当前工作目录中的 `mode` 加载 .env 文件
   // 设置第三个参数为 '' 来加载所有环境变量，而不管是否有 `VITE_` 前缀。
@@ -180,7 +182,10 @@ export default defineConfig(({ command, mode }) => {
       // strictPort: true,
       // 在开发服务器启动时自动在浏览器中打开应用程序
       open: true,
-      // 设置代理  https://github.com/http-party/node-http-proxy#options
+      /** 
+       * @see https://github.com/http-party/node-http-proxy#options
+       * 设置代理
+       */
       proxy: {
         // 正则表达式写法：http://localhost:5173/api/bar -> http://192.168.2.221:8500/bar
         "^/api": {

@@ -15,7 +15,7 @@ import { useEventListener } from "@/hooks/useEventListener";
 export function useECharts(elRef: Ref<HTMLDivElement>) {
   /**
    * dark、customed 都是echarts的内置主题
-   * 详情参考: https://echarts.apache.org/zh/theme-builder.html
+   * @see https://echarts.apache.org/zh/theme-builder.html
    */
   const theme = computed(() =>
     store.appSet.isDarkTheme ? "dark" : "customed"

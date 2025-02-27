@@ -147,7 +147,7 @@ const handleBreadGo = (routeName: string) => {
   // console.log("🚀 ~ breadRefList:", breadRefList);
   /**
    * ! dropdown-item 动态更新的bug
-   * 详情见: https://github.com/element-plus/element-plus/issues/16639
+   * @see https://github.com/element-plus/element-plus/issues/16639
    * 有点类似, 但实际并不相同
    * 方案一: 用 setTimeout 执行 handleClose
    * 方案二: 改用 popover 组件

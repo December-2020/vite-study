@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-02-24 15:35:02
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-27 15:10:35
+ * @LastEditTime: 2025-02-27 16:30:34
 -->
 <template>
   <BaseDialog
@@ -135,7 +135,6 @@ const highlightPrev = () => {
 // };
 
 onUnmounted(() => {
-  console.log("🚀 ~ onUnmounted ~ stopWatchInput:", stopWatchInput);
   // 释放内存
   stopWatchInput();
 });

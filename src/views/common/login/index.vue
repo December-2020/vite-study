@@ -51,6 +51,7 @@ import i18n from "@/locales";
 import store from "@/store";
 import API from "@/apis/demo/user";
 import { useRouter, useRoute } from "vue-router";
+import { getAsyncRoutes, addRoutes } from "@/router";
 import { useLineAnimate } from "@/hooks/useLineAnimate";
 
 defineOptions({ name: "Login" });
@@ -114,6 +115,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       }
       const res = await API.Get_User_Info(formData);
       if (res.success) {
+        addRoutes(getAsyncRoutes());
         store.user.login(res.data);
         router.replace(path);
       }
@@ -122,11 +124,6 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     }
   });
 };
-
-/* 生命周期 */
-onMounted(() => {
-  // setOptions({ width: 300, height: 300 });
-});
 </script>
 
 <style scoped lang="scss">

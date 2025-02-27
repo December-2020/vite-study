@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-14 11:31:48
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-26 14:01:39
+ * @LastEditTime: 2025-02-27 16:57:56
 -->
 <template>
   <div class="wrapper flex justify-between items-center h-100%">
@@ -67,11 +67,12 @@ import store from "@/store";
 import UserPhoto from "@/assets/images/user_photo.gif";
 import SearchModal from "./SearchModal.vue";
 import { ElMessage } from "element-plus";
-import { useFullscreen, onKeyStroke, onKeyDown, onKeyUp } from "@vueuse/core";
 import { useRouter } from "vue-router";
-import { useI18n } from "@/hooks/useI18n";
 import { storeToRefs } from "pinia";
+import { useFullscreen, onKeyStroke, onKeyDown, onKeyUp } from "@vueuse/core";
+import { useI18n } from "@/hooks/useI18n";
 import { useModal } from "@/hooks/useModal";
+import { resetRouter } from "@/router";
 
 interface Props {
   // 是否显示 收起菜单的svg
@@ -171,12 +172,14 @@ const operationList = [{ label: "退出系统", command: "logout" }];
 const operationCommand = (command: string) => {
   switch (command) {
     case "logout": {
+      // 清除登录数据
       store.user.logout();
-      /**
-       * *清空路由记录栈
-       */
+      // 清除缓存的tab记录
+      store.appSet.clearTab();
       // 路由回退到最开始的路由
       router.replace({ name: "Login" });
+      // 重置路由
+      resetRouter();
       break;
     }
     default: {

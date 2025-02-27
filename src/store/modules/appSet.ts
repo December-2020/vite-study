@@ -65,7 +65,7 @@ const useAppSet = defineStore("appSet", {
     },
     // 判断当前设备是否为PC
     isPC(): boolean {
-      /** 
+      /**
        * !bug 移动设备下,首次进入页面,设备类型为PC
        */
       let _flag = this.device === DeviceEnum.PC;
@@ -224,6 +224,11 @@ const useAppSet = defineStore("appSet", {
       close(currentRoute.value);
       await replace(toTarget);
     },
+    // 清空路由(退出登录时)
+    clearTab() {
+      this.tabList = [];
+      this.cacheTabList = new Set();
+    },
   },
 
   // 安装了 pinia-plugin-persistedstate 插件,才能使用该配置
@@ -236,7 +241,7 @@ const useAppSet = defineStore("appSet", {
     /**
      * 序列化 / 反序列化
      * 默认使用 JSON.stringify / destr
-     * (destr) 
+     * (destr)
      * @see https://github.com/unjs/destr
      */
     // serializer: {

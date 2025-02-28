@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 11:02:36
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-11-11 14:59:03
+ * @LastEditTime: 2025-02-28 09:28:11
  */
 import type { AppRouteRecordRaw } from "#/route";
 
@@ -18,6 +18,7 @@ export const Login_Route: AppRouteRecordRaw = {
   },
   component: () => import("@/views/common/login/index.vue"),
 };
+// 404 路由页面
 export const Error_404_Route: AppRouteRecordRaw = {
   /**
    * 从 vue2 向 vue3 迁移
@@ -31,6 +32,7 @@ export const Error_404_Route: AppRouteRecordRaw = {
   },
   component: () => import("@/views/common/404/index.vue"),
 };
+// 重定向页面
 export const Redirect_Route: AppRouteRecordRaw = {
   path: "/redirect/:path(.*)*",
   name: "Redirect",
@@ -38,6 +40,14 @@ export const Redirect_Route: AppRouteRecordRaw = {
     hidden: true,
   },
   component: () => import("@/views/common/redirect/index.vue"),
+};
+// 无匹配路由, 重定向到 404 页面
+export const No_Match_Route: AppRouteRecordRaw = {
+  path: "/:pathMatch(.*)*",
+  redirect: "/404",
+  meta: {
+    hidden: true,
+  },
 };
 
 export const constantRoutes: AppRouteRecordRaw[] = [

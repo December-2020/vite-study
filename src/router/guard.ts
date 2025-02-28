@@ -2,9 +2,9 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 11:14:49
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-11-08 11:02:51
+ * @LastEditTime: 2025-02-28 10:20:41
  */
-import type { Router } from "vue-router";
+import type { Router, RouteRecordRaw } from "vue-router";
 
 // NProgress是页面跳转或者发生异步请求是浏览器顶部的进度条
 import NProgress from "nprogress";
@@ -12,10 +12,13 @@ import "nprogress/nprogress.css";
 import store from "@/store";
 import { useTitle } from "@vueuse/core";
 import { useI18n } from "@/hooks/useI18n";
-import { WHITE_NAME_LIST } from "@/router/modules/constant";
+import { addRoutes, getAsyncRoutes } from "@/router";
+import { WHITE_NAME_LIST, No_Match_Route } from "@/router/modules/constant";
 
 // 隐藏右上角的进度环
 NProgress.configure({ showSpinner: false });
+// 判断路由是不是初次进入或者刷新，避免路由死循环
+let registerRouteFresh = true;
 
 export const routerGuard = (router: Router) => {
   // 路由前置守卫
@@ -39,6 +42,16 @@ export const routerGuard = (router: Router) => {
       if (to.name === "Login") {
         next({ path: "/" });
       } else {
+        if (registerRouteFresh) {
+          const routeList = getAsyncRoutes();
+          routeList.push(No_Match_Route as RouteRecordRaw);
+          // console.log("🚀 ~ router.beforeEach ~ routeList:", routeList);
+          addRoutes(routeList);
+          registerRouteFresh = false;
+          // console.log({ to, from, next });
+          next({ ...to, replace: true });
+          return;
+        }
         next();
       }
     } else {

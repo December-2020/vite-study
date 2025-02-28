@@ -2,14 +2,18 @@
  * @Author: Komorebi
  * @Date: 2024-09-26 11:26:00
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-27 17:13:00
+ * @LastEditTime: 2025-02-28 10:58:53
  */
 import type { App } from "vue";
 import type { RouteRecordRaw } from "vue-router";
 import type { AppRouteRecordRaw } from "#/route";
 
 import { createRouter, createWebHistory } from "vue-router";
-import { constantRoutes, WHITE_NAME_LIST } from "./modules/constant";
+import {
+  constantRoutes,
+  WHITE_NAME_LIST,
+  // No_Match_Route,
+} from "./modules/constant";
 
 const routeList: AppRouteRecordRaw[] = [
   {
@@ -22,13 +26,7 @@ const routeList: AppRouteRecordRaw[] = [
   ...constantRoutes,
   // ...asyncRoutes,
   // 无匹配时404路由必须放最后
-  {
-    path: "/:pathMatch(.*)*",
-    redirect: "/404",
-    meta: {
-      hidden: true,
-    },
-  },
+  // No_Match_Route,
 ];
 
 const router = createRouter({

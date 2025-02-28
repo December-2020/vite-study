@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:28:06
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-08 15:50:13
+ * @LastEditTime: 2025-02-28 09:18:10
 -->
 <template>
   <div class="wrapper overflow-hidden">
@@ -51,7 +51,6 @@ import i18n from "@/locales";
 import store from "@/store";
 import API from "@/apis/demo/user";
 import { useRouter, useRoute } from "vue-router";
-import { getAsyncRoutes, addRoutes } from "@/router";
 import { useLineAnimate } from "@/hooks/useLineAnimate";
 
 defineOptions({ name: "Login" });
@@ -115,9 +114,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       }
       const res = await API.Get_User_Info(formData);
       if (res.success) {
-        addRoutes(getAsyncRoutes());
         store.user.login(res.data);
-        router.replace(path);
+        router.push(path);
       }
     } else {
       console.log("error submit!", fields);

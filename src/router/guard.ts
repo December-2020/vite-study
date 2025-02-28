@@ -45,10 +45,8 @@ export const routerGuard = (router: Router) => {
         if (registerRouteFresh) {
           const routeList = getAsyncRoutes();
           routeList.push(No_Match_Route as RouteRecordRaw);
-          // console.log("🚀 ~ router.beforeEach ~ routeList:", routeList);
           addRoutes(routeList);
           registerRouteFresh = false;
-          // console.log({ to, from, next });
           next({ ...to, replace: true });
           return;
         }

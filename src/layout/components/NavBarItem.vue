@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-11 16:35:02
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-01-02 13:54:44
+ * @LastEditTime: 2025-02-28 15:42:05
 -->
 <template>
   <!-- el-menu 标签下只能有 el-menu-item 或者 el-sub-menu 标签 -->
@@ -110,5 +110,3 @@ const menuClick = () => {
 };
 </script>
 
-<style scoped lang="scss">
-</style>

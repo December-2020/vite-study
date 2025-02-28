@@ -14,7 +14,7 @@ const Test: AppRouteRecordRaw = {
   children: [
     {
       path: "test2",
-      name: "Test-2",
+      name: "Test-2_2",
       meta: {
         title: "chart.test2",
       },

@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-26 11:26:00
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-28 10:58:53
+ * @LastEditTime: 2025-02-28 16:43:33
  */
 import type { App } from "vue";
 import type { RouteRecordRaw } from "vue-router";
@@ -59,7 +59,7 @@ export const resetRouter = () => {
     }
   });
   // 不刷新页面的情况下修改当前页面的历史记录
-  history.replaceState(null, "", "");
+  // history.replaceState(null, "", "/");
 };
 
 // 获取动态路由

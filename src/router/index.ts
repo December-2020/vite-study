@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-26 11:26:00
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-03-01 11:48:58
+ * @LastEditTime: 2025-03-01 13:56:14
  */
 import type { App } from "vue";
 import type { RouteRecordRaw } from "vue-router";
@@ -14,6 +14,7 @@ import {
   WHITE_NAME_LIST,
   No_Match_Route,
 } from "./modules/constant";
+import { checkDuplicateRouteNames } from "./check";
 
 const asyncRoutes = getAsyncRoutes();
 
@@ -79,9 +80,8 @@ export function getAsyncRoutes() {
   return asyncRoutes;
 }
 
-// const Env = import.meta.env;
-// if (Env.DEV) {
-//   console.log("当前环境为开发环境");
-// }else{
-//   console.log("当前环境为不是开发环境");
-// }
+const Env = import.meta.env;
+if (Env.DEV) {
+  // console.log("当前环境为开发环境");
+  checkDuplicateRouteNames(asyncRoutes);
+}

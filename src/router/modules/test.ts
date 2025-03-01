@@ -1,3 +1,9 @@
+/*
+ * @Author: Komorebi
+ * @Date: 2024-10-19 14:28:03
+ * @LastEditors: Komorebi
+ * @LastEditTime: 2025-03-01 13:59:48
+ */
 import type { AppRouteRecordRaw } from "#/route";
 
 import { LeftLayout } from "./constant";

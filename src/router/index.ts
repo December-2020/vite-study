@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-26 11:26:00
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-28 16:43:33
+ * @LastEditTime: 2025-03-01 11:48:58
  */
 import type { App } from "vue";
 import type { RouteRecordRaw } from "vue-router";
@@ -12,8 +12,10 @@ import { createRouter, createWebHistory } from "vue-router";
 import {
   constantRoutes,
   WHITE_NAME_LIST,
-  // No_Match_Route,
+  No_Match_Route,
 } from "./modules/constant";
+
+const asyncRoutes = getAsyncRoutes();
 
 const routeList: AppRouteRecordRaw[] = [
   {
@@ -24,9 +26,9 @@ const routeList: AppRouteRecordRaw[] = [
     },
   },
   ...constantRoutes,
-  // ...asyncRoutes,
+  ...asyncRoutes,
   // 无匹配时404路由必须放最后
-  // No_Match_Route,
+  No_Match_Route,
 ];
 
 const router = createRouter({
@@ -63,7 +65,7 @@ export const resetRouter = () => {
 };
 
 // 获取动态路由
-export const getAsyncRoutes = () => {
+export function getAsyncRoutes() {
   const asyncRoutes: AppRouteRecordRaw[] = [];
   // 类型断言: 每个模块的默认导出都是 AppRouteRecordRaw 类型或 AppRouteRecordRaw[] 类型
   const modules = import.meta.glob("./modules/!(constant).ts", {
@@ -74,5 +76,12 @@ export const getAsyncRoutes = () => {
     const moduleList = Array.isArray(module) ? module : [module];
     asyncRoutes.push(...moduleList);
   });
-  return asyncRoutes as RouteRecordRaw[];
-};
+  return asyncRoutes;
+}
+
+// const Env = import.meta.env;
+// if (Env.DEV) {
+//   console.log("当前环境为开发环境");
+// }else{
+//   console.log("当前环境为不是开发环境");
+// }

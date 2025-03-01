@@ -12,13 +12,13 @@ import "nprogress/nprogress.css";
 import store from "@/store";
 import { useTitle } from "@vueuse/core";
 import { useI18n } from "@/hooks/useI18n";
-import { addRoutes, getAsyncRoutes } from "@/router";
+// import { addRoutes, getAsyncRoutes } from "@/router";
 import { WHITE_NAME_LIST, No_Match_Route } from "@/router/modules/constant";
 
 // 隐藏右上角的进度环
 NProgress.configure({ showSpinner: false });
 // 判断路由是不是初次进入或者刷新，避免路由死循环
-let registerRouteFresh = true;
+// let registerRouteFresh = true;
 
 export const routerGuard = (router: Router) => {
   // 路由前置守卫
@@ -42,14 +42,14 @@ export const routerGuard = (router: Router) => {
       if (to.name === "Login") {
         next({ path: "/" });
       } else {
-        if (registerRouteFresh) {
+        /* if (registerRouteFresh) {
           const routeList = getAsyncRoutes();
           routeList.push(No_Match_Route as RouteRecordRaw);
           addRoutes(routeList);
           registerRouteFresh = false;
           next({ ...to, replace: true });
           return;
-        }
+        } */
         next();
       }
     } else {

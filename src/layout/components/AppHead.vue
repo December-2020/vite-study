@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-14 11:31:48
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-27 16:57:56
+ * @LastEditTime: 2025-03-01 11:44:17
 -->
 <template>
   <div class="wrapper flex justify-between items-center h-100%">
@@ -17,7 +17,6 @@
         <el-breadcrumb-item v-for="item in routeList" :key="item.path">
           <template v-if="item.childList.length">
             <BaseDropdown :options="item.childList" @command="handleBreadGo">
-              <!-- ref="breadRefList" -->
               <span>{{ item.title }}</span>
             </BaseDropdown>
           </template>
@@ -72,7 +71,7 @@ import { storeToRefs } from "pinia";
 import { useFullscreen, onKeyStroke, onKeyDown, onKeyUp } from "@vueuse/core";
 import { useI18n } from "@/hooks/useI18n";
 import { useModal } from "@/hooks/useModal";
-import { resetRouter } from "@/router";
+// import { resetRouter } from "@/router";
 
 interface Props {
   // 是否显示 收起菜单的svg
@@ -142,10 +141,9 @@ watchEffect(() => {
   // console.log(list, "list ~~~");
   routeList.value = list as RouteType[];
 });
-// const breadRefList = ref([]);
+
 // 面包屑路由跳转
 const handleBreadGo = (routeName: string) => {
-  // console.log("🚀 ~ breadRefList:", breadRefList);
   /**
    * ! dropdown-item 动态更新的bug
    * @see https://github.com/element-plus/element-plus/issues/16639
@@ -154,15 +152,6 @@ const handleBreadGo = (routeName: string) => {
    * 方案二: 改用 popover 组件
    */
   router.push({ name: routeName });
-  // let _list = breadRefList.value;
-  // if (_list && _list.length) {
-  //   _list.forEach((item) => {
-  //     console.log(1111, { item });
-  //     setTimeout(() => {
-  //       item.handleClose();
-  //     }, 100);
-  //   });
-  // }
 };
 
 // @ts-ignore 用户名称
@@ -179,7 +168,7 @@ const operationCommand = (command: string) => {
       // 路由回退到最开始的路由
       router.replace({ name: "Login" });
       // 重置路由
-      resetRouter();
+      // resetRouter();
       break;
     }
     default: {

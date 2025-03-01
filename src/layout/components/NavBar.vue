@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-11 14:43:02
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-28 16:34:24
+ * @LastEditTime: 2025-03-01 11:50:09
 -->
 <template>
   <el-scrollbar wrap-class="nav-scroll">
@@ -48,17 +48,17 @@ const Router = useRouter();
 /**
  * 获取一级路由
  */
-// // 不包含动态添加的路由
-// const routes = Router.options.routes as unknown as AppRouteRecordRaw[];
-// // 侧边栏菜单列表
-// const menuList = computed(() => {
-//   return routes.filter((item) => !item.meta?.hidden);
-// });
+// 不包含动态添加的路由
+const routes = Router.options.routes as unknown as AppRouteRecordRaw[];
+// 侧边栏菜单列表
+const menuList = computed(() => {
+  return routes.filter((item) => !item.meta?.hidden);
+});
 // 包含动态添加的路由
-const routeList = Router.getRoutes() as unknown as AppRouteRecordRaw[];
-const menuList = routeList.filter(
-  (route) => route.path.split("/").length === 2 && !route.meta?.hidden
-);
+// const routeList = Router.getRoutes() as unknown as AppRouteRecordRaw[];
+// const menuList = routeList.filter(
+//   (route) => route.path.split("/").length === 2 && !route.meta?.hidden
+// );
 
 // 菜单栏是否展开与收起
 const isCollapse = computed(() => store.appSet.isPC && store.appSet.isCollapse);

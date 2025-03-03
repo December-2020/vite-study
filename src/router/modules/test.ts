@@ -6,7 +6,7 @@
  */
 import type { AppRouteRecordRaw } from "#/route";
 
-import { LeftLayout } from "./constant";
+import { PageLayout } from "./constant";
 
 const Test: AppRouteRecordRaw = {
   path: "/test",
@@ -16,7 +16,7 @@ const Test: AppRouteRecordRaw = {
     title: "chart.test",
     icon: "charts",
   },
-  component: LeftLayout,
+  component: PageLayout,
   children: [
     {
       path: "test2",

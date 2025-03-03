@@ -4,7 +4,7 @@
  * @LastEditors: Komorebi
  * @LastEditTime: 2025-02-28 10:20:41
  */
-import type { Router, RouteRecordRaw } from "vue-router";
+import type { Router } from "vue-router";
 
 // NProgress是页面跳转或者发生异步请求是浏览器顶部的进度条
 import NProgress from "nprogress";
@@ -12,13 +12,10 @@ import "nprogress/nprogress.css";
 import store from "@/store";
 import { useTitle } from "@vueuse/core";
 import { useI18n } from "@/hooks/useI18n";
-// import { addRoutes, getAsyncRoutes } from "@/router";
-import { WHITE_NAME_LIST, No_Match_Route } from "@/router/modules/constant";
+import { WHITE_NAME_LIST } from "@/router/modules/constant";
 
 // 隐藏右上角的进度环
 NProgress.configure({ showSpinner: false });
-// 判断路由是不是初次进入或者刷新，避免路由死循环
-// let registerRouteFresh = true;
 
 export const routerGuard = (router: Router) => {
   // 路由前置守卫
@@ -37,19 +34,12 @@ export const routerGuard = (router: Router) => {
     useTitle(useI18n(to.meta.title, "Route"));
     // 判断用户是否登录
     const hasToken = store.user.userToken;
+    // TODO: 添加路由 与 重置路由, 并将permissionStore清空状态
     if (hasToken) {
       // 如果有 token 并且即将去登录页面
       if (to.name === "Login") {
         next({ path: "/" });
       } else {
-        /* if (registerRouteFresh) {
-          const routeList = getAsyncRoutes();
-          routeList.push(No_Match_Route as RouteRecordRaw);
-          addRoutes(routeList);
-          registerRouteFresh = false;
-          next({ ...to, replace: true });
-          return;
-        } */
         next();
       }
     } else {

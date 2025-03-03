@@ -6,7 +6,7 @@
  */
 import type { AppRouteRecordRaw } from "#/route";
 
-import { LeftLayout } from "./constant";
+import { PageLayout } from "./constant";
 
 const Charts: AppRouteRecordRaw = {
   path: "/charts",
@@ -16,7 +16,7 @@ const Charts: AppRouteRecordRaw = {
     title: "chart.title",
     icon: "charts",
   },
-  component: LeftLayout,
+  component: PageLayout,
   children: [
     {
       path: "line",
@@ -52,15 +52,6 @@ const Charts: AppRouteRecordRaw = {
           },
           component: () => import("@/views/test/index1.vue"),
         },
-        // {
-        //   path: "test2",
-        //   name: "Test-2",
-        //   meta: {
-        //     title: "chart.test2",
-        //     hidden: true,
-        //   },
-        //   component: () => import("@/views/test/index2.vue"),
-        // },
         {
           path: "test3",
           name: "Test-3",

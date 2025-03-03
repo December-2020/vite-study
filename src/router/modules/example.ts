@@ -6,7 +6,7 @@
  */
 import type { AppRouteRecordRaw } from "#/route";
 
-import { LeftLayout } from "./constant";
+import { PageLayout } from "./constant";
 
 const Example: AppRouteRecordRaw = {
   path: "/example",
@@ -16,7 +16,7 @@ const Example: AppRouteRecordRaw = {
     title: "example.title",
     icon: "example",
   },
-  component: LeftLayout,
+  component: PageLayout,
   children: [
     {
       path: "ellipsis",

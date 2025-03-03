@@ -9,6 +9,7 @@ import type { App } from "vue";
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import appSet from "./modules/appSet";
 import user from "./modules/user";
+import permission from "./modules/permission";
 
 // 使用pinia
 import { createPinia } from "pinia";
@@ -16,6 +17,7 @@ import { createPinia } from "pinia";
 interface IAppStore {
   appSet: ReturnType<typeof appSet>;
   user: ReturnType<typeof user>;
+  permission: ReturnType<typeof permission>;
 }
 const appStore: IAppStore = {} as IAppStore;
 
@@ -27,4 +29,5 @@ export const registerStore = (app: App) => {
   app.use(pinia);
   appStore.appSet = appSet();
   appStore.user = user();
+  appStore.permission = permission();
 };

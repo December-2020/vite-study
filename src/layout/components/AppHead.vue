@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-14 11:31:48
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-03-01 11:44:17
+ * @LastEditTime: 2025-03-03 16:01:53
 -->
 <template>
   <div class="wrapper flex justify-between items-center h-100%">
@@ -167,6 +167,17 @@ const operationCommand = (command: string) => {
       store.appSet.clearTab();
       // 路由回退到最开始的路由
       router.replace({ name: "Login" });
+      // router.replace({
+      //   name: "Login",
+      //   query: {
+      //     redirect: encodeURIComponent(router.currentRoute.value.fullPath),
+      //   },
+      // });
+      // 当前路由地址
+      console.log(
+        encodeURIComponent(router.currentRoute.value.fullPath),
+        "当前路由地址"
+      );
       // 重置路由
       // resetRouter();
       break;

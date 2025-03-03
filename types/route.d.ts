@@ -2,10 +2,11 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:55:52
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-11-15 09:50:56
+ * @LastEditTime: 2025-03-03 14:16:21
  */
 import type { RouteRecordRaw, RouteMeta } from "vue-router";
 import type { Recordable } from "#/global";
+// import { RoleEnum } from "@/enums/app";
 
 // 扩展路由元信息
 declare module "vue-router" {
@@ -57,8 +58,7 @@ export interface AppRouteRecordRaw
   redirect?: string;
 }
 
-
-/** 
+/**
  * 专门为页面顶部的路由缓存导航所设计的类型
  */
 export interface TabPane {
@@ -66,3 +66,20 @@ export interface TabPane {
   name?: string;
   isAffix?: boolean;
 }
+
+/**
+ * 菜单类型(导航栏)
+ */
+// export interface Menu {
+//   title: string;
+//   path: string;
+//   icon?: string;
+//   name?: string;
+//   children?: Menu[];
+//   meta?: Partial<RouteMeta>;
+//   // 排序
+//   orderNo?: number;
+//   // roles?: RoleEnum[];
+//   // disabled?: boolean;
+//   hideMenu?: boolean;
+// }

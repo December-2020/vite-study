@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-26 11:26:00
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-03-01 13:56:14
+ * @LastEditTime: 2025-03-03 16:54:15
  */
 import type { App } from "vue";
 import type { RouteRecordRaw } from "vue-router";
@@ -12,24 +12,32 @@ import { createRouter, createWebHistory } from "vue-router";
 import {
   constantRoutes,
   WHITE_NAME_LIST,
-  No_Match_Route,
+  // No_Match_Route,
 } from "./modules/constant";
 import { checkDuplicateRouteNames } from "./check";
 
-const asyncRoutes = getAsyncRoutes();
+const routeModuleList: AppRouteRecordRaw[] = [];
+// 类型断言: 每个模块的默认导出都是 AppRouteRecordRaw 类型或 AppRouteRecordRaw[] 类型
+const modules = import.meta.glob("./modules/!(constant).ts", {
+  eager: true,
+}) as Record<string, { default?: AppRouteRecordRaw | AppRouteRecordRaw[] }>;
+Object.keys(modules).forEach((key) => {
+  const module = modules[key].default || {};
+  const moduleList = Array.isArray(module) ? module : [module];
+  routeModuleList.push(...moduleList);
+});
+// 开发环境下检查路由 name 是否重复
+const Env = import.meta.env;
+if (Env.DEV) {
+  checkDuplicateRouteNames(routeModuleList);
+}
+export const asyncRoutes = [...routeModuleList];
 
 const routeList: AppRouteRecordRaw[] = [
-  {
-    path: "/",
-    redirect: "/charts",
-    meta: {
-      hidden: true,
-    },
-  },
   ...constantRoutes,
-  ...asyncRoutes,
+  // ...asyncRoutes,
   // 无匹配时404路由必须放最后
-  No_Match_Route,
+  // No_Match_Route,
 ];
 
 const router = createRouter({
@@ -42,13 +50,6 @@ export default router;
 // 注册路由
 export const registerRouter = (app: App) => {
   app.use(router);
-};
-
-// 添加路由
-export const addRoutes = (routeList: RouteRecordRaw[]) => {
-  routeList.forEach((route) => {
-    router.addRoute(route);
-  });
 };
 
 // 重置路由
@@ -64,24 +65,3 @@ export const resetRouter = () => {
   // 不刷新页面的情况下修改当前页面的历史记录
   // history.replaceState(null, "", "/");
 };
-
-// 获取动态路由
-export function getAsyncRoutes() {
-  const asyncRoutes: AppRouteRecordRaw[] = [];
-  // 类型断言: 每个模块的默认导出都是 AppRouteRecordRaw 类型或 AppRouteRecordRaw[] 类型
-  const modules = import.meta.glob("./modules/!(constant).ts", {
-    eager: true,
-  }) as Record<string, { default?: AppRouteRecordRaw | AppRouteRecordRaw[] }>;
-  Object.keys(modules).forEach((key) => {
-    const module = modules[key].default || {};
-    const moduleList = Array.isArray(module) ? module : [module];
-    asyncRoutes.push(...moduleList);
-  });
-  return asyncRoutes;
-}
-
-const Env = import.meta.env;
-if (Env.DEV) {
-  // console.log("当前环境为开发环境");
-  checkDuplicateRouteNames(asyncRoutes);
-}

@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-26 09:05:19
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-09-29 15:26:11
+ * @LastEditTime: 2025-03-03 14:03:12
  */
 /**
  * @description: 语言包类型
@@ -26,4 +26,12 @@ export enum DeviceEnum {
 export enum ThemeEnum {
   DARK = "dark",
   LIGHT = "light",
+}
+
+/**
+ * @description: 角色类型
+ */
+export enum RoleEnum {
+  SUPER = "super",
+  ORDINARY = "ordinary",
 }

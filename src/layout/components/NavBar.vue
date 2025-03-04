@@ -49,16 +49,16 @@ const Router = useRouter();
  * 获取一级路由
  */
 // 不包含动态添加的路由
-const routes = Router.options.routes as unknown as AppRouteRecordRaw[];
-// 侧边栏菜单列表
-const menuList = computed(() => {
-  return routes.filter((item) => !item.meta?.hidden);
-});
+// const routes = Router.options.routes as unknown as AppRouteRecordRaw[];
+// // 侧边栏菜单列表
+// const menuList = computed(() => {
+//   return routes.filter((item) => !item.meta?.hidden);
+// });
 // 包含动态添加的路由
-// const routeList = Router.getRoutes() as unknown as AppRouteRecordRaw[];
-// const menuList = routeList.filter(
-//   (route) => route.path.split("/").length === 2 && !route.meta?.hidden
-// );
+const routeList = Router.getRoutes() as unknown as AppRouteRecordRaw[];
+const menuList = routeList.filter(
+  (route) => route.path.split("/").length === 2 && !route.meta?.hidden
+);
 
 // 菜单栏是否展开与收起
 const isCollapse = computed(() => store.appSet.isPC && store.appSet.isCollapse);

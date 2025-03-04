@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-14 11:31:48
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-03-03 16:01:53
+ * @LastEditTime: 2025-03-04 15:52:40
 -->
 <template>
   <div class="wrapper flex justify-between items-center h-100%">
@@ -71,7 +71,7 @@ import { storeToRefs } from "pinia";
 import { useFullscreen, onKeyStroke, onKeyDown, onKeyUp } from "@vueuse/core";
 import { useI18n } from "@/hooks/useI18n";
 import { useModal } from "@/hooks/useModal";
-// import { resetRouter } from "@/router";
+import { resetRouter } from "@/router";
 
 interface Props {
   // 是否显示 收起菜单的svg
@@ -165,21 +165,17 @@ const operationCommand = (command: string) => {
       store.user.logout();
       // 清除缓存的tab记录
       store.appSet.clearTab();
+      // 重置路由状态
+      store.permission.resetState();
       // 路由回退到最开始的路由
-      router.replace({ name: "Login" });
-      // router.replace({
-      //   name: "Login",
-      //   query: {
-      //     redirect: encodeURIComponent(router.currentRoute.value.fullPath),
-      //   },
-      // });
-      // 当前路由地址
-      console.log(
-        encodeURIComponent(router.currentRoute.value.fullPath),
-        "当前路由地址"
-      );
-      // 重置路由
-      // resetRouter();
+      router.replace({
+        name: "Login",
+        query: {
+          redirect: router.currentRoute.value.fullPath,
+        },
+      });
+      // 清空路由
+      resetRouter();
       break;
     }
     default: {

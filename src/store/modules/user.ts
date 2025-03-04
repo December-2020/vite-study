@@ -51,6 +51,9 @@ const useUser = defineStore("user", {
         });
         permissionStore.setDynamicAddedRoute();
       }
+      return new Promise((resolve) => {
+        resolve(true); 
+      })
     },
     logout() {
       removeToken();

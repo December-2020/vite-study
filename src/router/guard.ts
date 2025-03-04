@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 11:14:49
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-28 10:20:41
+ * @LastEditTime: 2025-03-04 16:37:35
  */
 import type { Router } from "vue-router";
 
@@ -12,14 +12,15 @@ import "nprogress/nprogress.css";
 import store from "@/store";
 import { useTitle } from "@vueuse/core";
 import { useI18n } from "@/hooks/useI18n";
-import { WHITE_NAME_LIST } from "@/router/modules/constant";
+// import { resetRouter } from "@/router";
+import { WHITE_NAME_LIST, Login_Route } from "@/router/modules/constant";
 
 // 隐藏右上角的进度环
 NProgress.configure({ showSpinner: false });
 
 export const routerGuard = (router: Router) => {
   // 路由前置守卫
-  router.beforeEach((to, from, next) => {
+  router.beforeEach(async (to, from, next) => {
     /**
      * 控制进度条显示位置
      * 可以通过 parent 更改进度条显示位置
@@ -34,26 +35,54 @@ export const routerGuard = (router: Router) => {
     useTitle(useI18n(to.meta.title, "Route"));
     // 判断用户是否登录
     const hasToken = store.user.userToken;
-    // TODO: 添加路由 与 重置路由, 并将permissionStore清空状态
-    if (hasToken) {
-      // 如果有 token 并且即将去登录页面
-      if (to.name === "Login") {
+    // 在白名单中
+    if (WHITE_NAME_LIST.includes(to.name as string)) {
+      // 如果有token并且跳转到登录页
+      if (to.path === Login_Route.path && hasToken) {
+        await store.user.afterLogin();
         next({ path: "/" });
-      } else {
-        next();
+        return;
       }
-    } else {
-      // 无 token
-      if (WHITE_NAME_LIST.includes(to.name as string)) {
-        next();
-      } else {
-        next(`/login?redirect=${to.path}`);
-      }
+      next();
+      return;
     }
+
+    // 未带token
+    if (!hasToken) {
+      // 重定向到登录页面并携带当前页面的路径
+      const redirectData: {
+        path: string;
+        replace: boolean;
+        query?: Recordable<string>;
+      } = {
+        path: Login_Route.path,
+        replace: true,
+      };
+      if (to.fullPath) {
+        redirectData.query = {
+          ...redirectData.query,
+          redirect: to.fullPath,
+        };
+      }
+      next(redirectData);
+      return;
+    }
+
+    // 动态路由加载(首次)
+    if (!store.permission.getIsDynamicAddedRoute) {
+      await store.user.afterLogin();
+      // 现在的to动态路由加载之前的，可能为PAGE_NOT_FOUND_ROUTE（例如，登陆后，刷新的时候）
+      // 此处应当重定向到fullPath，否则会加载404页面内容
+      next({ path: to.fullPath, replace: true, query: to.query });
+      return;
+    }
+
+    // 正常访问
+    next();
   });
 
   // 路由后置钩子
-  router.afterEach(() => {
+  router.afterEach((to) => {
     // 完成进度条
     NProgress.done();
   });

@@ -45,7 +45,17 @@
 </template>
 
 <script setup lang="ts">
+import store from "@/store";
+import { ThemeEnum } from "@/enums/app";
+
 defineOptions({ name: "404" });
+
+onMounted(() => {
+  const htmlEl = document.documentElement;
+  const flag = store.appSet.isDarkTheme;
+  htmlEl.classList.add(flag ? ThemeEnum.DARK : ThemeEnum.LIGHT);
+  htmlEl.classList.remove(flag ? ThemeEnum.LIGHT : ThemeEnum.DARK);
+});
 </script>
 
 <style lang="scss" scoped>
@@ -230,6 +240,9 @@ defineOptions({ name: "404" });
         display: block;
       }
     }
+  }
+  a {
+    text-decoration: none;
   }
 }
 </style>

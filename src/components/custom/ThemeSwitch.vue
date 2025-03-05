@@ -28,6 +28,7 @@ import {
   useAnimate,
 } from "@vueuse/core";
 import store from "@/store";
+import { ThemeEnum } from "@/enums/app";
 
 /**
  * *在没有该组件的页面刷新, 会丢失主题
@@ -41,8 +42,8 @@ import store from "@/store";
 const isDark = useDark({
   selector: "html",
   attribute: "class",
-  valueDark: "dark",
-  valueLight: "light",
+  valueDark: ThemeEnum.DARK,
+  valueLight: ThemeEnum.LIGHT,
 });
 
 const themeRef = ref();

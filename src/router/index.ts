@@ -16,7 +16,7 @@ import {
 } from "./modules/constant";
 import { checkDuplicateRouteNames } from "./check";
 
-const routeModuleList: AppRouteRecordRaw[] = [];
+export const asyncRoutes: AppRouteRecordRaw[] = [];
 // 类型断言: 每个模块的默认导出都是 AppRouteRecordRaw 类型或 AppRouteRecordRaw[] 类型
 const modules = import.meta.glob("./modules/!(constant).ts", {
   eager: true,
@@ -24,14 +24,13 @@ const modules = import.meta.glob("./modules/!(constant).ts", {
 Object.keys(modules).forEach((key) => {
   const module = modules[key].default || {};
   const moduleList = Array.isArray(module) ? module : [module];
-  routeModuleList.push(...moduleList);
+  asyncRoutes.push(...moduleList);
 });
 // 开发环境下检查路由 name 是否重复
 const Env = import.meta.env;
 if (Env.DEV) {
-  checkDuplicateRouteNames(routeModuleList);
+  checkDuplicateRouteNames(asyncRoutes);
 }
-export const asyncRoutes = [...routeModuleList];
 
 const routeList: AppRouteRecordRaw[] = [
   ...constantRoutes,

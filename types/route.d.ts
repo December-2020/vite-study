@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:55:52
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-03-03 14:16:21
+ * @LastEditTime: 2025-03-05 09:40:07
  */
 import type { RouteRecordRaw, RouteMeta } from "vue-router";
 import type { Recordable } from "#/global";

@@ -5,6 +5,7 @@
  * @LastEditTime: 2025-03-04 16:37:35
  */
 import type { Router } from "vue-router";
+import type { Recordable } from "#/global";
 
 // NProgress是页面跳转或者发生异步请求是浏览器顶部的进度条
 import NProgress from "nprogress";

@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-14 11:31:48
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-03-04 15:52:40
+ * @LastEditTime: 2025-03-25 16:28:25
 -->
 <template>
   <div class="wrapper flex justify-between items-center h-100%">
@@ -72,6 +72,7 @@ import { useFullscreen, onKeyStroke, onKeyDown, onKeyUp } from "@vueuse/core";
 import { useI18n } from "@/hooks/useI18n";
 import { useModal } from "@/hooks/useModal";
 import { resetRouter } from "@/router";
+import { useEventListener } from "@/hooks/useEventListener";
 
 interface Props {
   // 是否显示 收起菜单的svg
@@ -176,6 +177,14 @@ const operationCommand = (command: string) => {
       });
       // 清空路由
       resetRouter();
+      // 阻止浏览器后退按钮的默认行为
+      useEventListener({
+        el: window,
+        name: "popstate",
+        listener: () => {
+          history.pushState(null, "", document.URL);
+        },
+      });
       break;
     }
     default: {

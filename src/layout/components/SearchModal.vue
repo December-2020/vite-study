@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-02-24 15:35:02
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-27 16:30:34
+ * @LastEditTime: 2025-03-26 17:23:27
 -->
 <template>
   <BaseDialog
@@ -29,7 +29,16 @@
       </BaseInput>
     </template>
     <div class="wrap-content font-size-16px">
-      <div class="empty">
+      <div class="search-list" v-show="searchList.length">
+        <div
+          v-for="(item, index) in searchList"
+          :key="item.name"
+          :class="['search-list_item', { highlight: highlightIndex === index }]"
+        >
+          <div class="title" v-html="item.title"></div>
+        </div>
+      </div>
+      <div class="empty" v-show="!searchList.length">
         {{ $t("Layout.search.noResult") }}
       </div>
     </div>
@@ -68,14 +77,28 @@ import { useRouter } from "vue-router";
 import { useModalInner } from "@/hooks/useModal";
 import { useI18n } from "@/hooks/useI18n";
 
-interface SearchItem extends Pick<AppRouteRecordRaw, "name" | "children"> {
+interface SearchItem extends Pick<AppRouteRecordRaw, "name"> {
   title: string;
+  children?: SearchItem[];
 }
 
 // 所有路由列表
 const router = useRouter();
 const searchList = ref<SearchItem[]>([]);
+const optionList = ref<SearchItem[]>([]);
 const searchInputRef = ref();
+
+// 递归获取路由
+const getRecursRoute = (route: AppRouteRecordRaw) => {
+  let _searchItem: SearchItem = {
+    title: useI18n(route.meta.title, "Route") || "",
+    name: route.name,
+  };
+  if (route.children && route.children.length) {
+    _searchItem.children = route.children.map((child) => getRecursRoute(child));
+  }
+  return _searchItem;
+};
 const [registerModal] = useModalInner(() => {
   nextTick(() => {
     /**
@@ -85,18 +108,13 @@ const [registerModal] = useModalInner(() => {
     searchInputRef.value?.focus();
     // 获取路由列表
     const routeList = router.getRoutes();
-    searchList.value = routeList.flatMap((item) =>
-      !item.meta.hidden && item.meta.title
-        ? ([
-            {
-              title: useI18n(item.meta.title, "Route"),
-              name: item.name,
-              children: item.children,
-            },
-          ] as SearchItem[])
+    // 获取动态的一级路由
+    optionList.value = routeList.flatMap((item) =>
+      !item.meta.hidden && item.meta.title && item.path.split("/").length === 2
+        ? [getRecursRoute(item as AppRouteRecordRaw)]
         : []
     );
-    console.log("🚀 ~ searchList:", searchList.value);
+    // console.log("🚀 ~ optionList:", optionList.value);
   });
 });
 
@@ -104,11 +122,48 @@ const keyword = ref("");
 const resultList = ref([]);
 const highlightIndex = ref(-1);
 
+// 高亮关键字
+const highlightKeyword = (text: string, keyword: string) => {
+  const regex = new RegExp(keyword, "gi");
+  return text.replace(
+    regex,
+    (match) => `<span class="highlight">${match}</span>`
+  );
+};
+// 递归获取搜索结果
+const getRecursResult = (
+  list: SearchItem[],
+  keyword: string,
+  parentTitle = ""
+) => {
+  if (!list.length || keyword.trim() === "") return [];
+  const resultList: SearchItem[] = [];
+  for (const item of list) {
+    const currTitle = parentTitle ? `${parentTitle}/${item.title}` : item.title;
+    if (item.title.includes(keyword)) {
+      // 高亮标题
+      const highlightedTitle = highlightKeyword(currTitle, keyword);
+      resultList.push({ ...item, title: highlightedTitle });
+    }
+    if (item.children?.length) {
+      const childResultList = getRecursResult(
+        item.children,
+        keyword,
+        currTitle
+      );
+      resultList.push(...childResultList);
+    }
+  }
+  return resultList;
+};
 const stopWatchInput = watchDebounced(
   keyword,
   (val) => {
-    console.log(val, "change");
+    // console.log(val, "change");
     highlightIndex.value = -1;
+    let _searchList: SearchItem[] = getRecursResult(optionList.value, val);
+    searchList.value = _searchList;
+    console.log("🚀 ~ searchList:", searchList);
   },
   { debounce: 500 }
 );

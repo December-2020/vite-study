@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-02-24 15:35:02
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-03-27 14:44:13
+ * @LastEditTime: 2025-03-27 15:28:21
 -->
 <template>
   <BaseDialog
@@ -122,14 +122,6 @@ const [registerModal, { closeModal }] = useModalInner(() => {
 const keyword = ref("");
 const searchList = ref<SearchItem[]>([]);
 const highlightIndex = ref(-1);
-// 高亮关键字
-const highlightKeyword = (text: string, keyword: string) => {
-  const regex = new RegExp(keyword, "gi");
-  return text.replace(
-    regex,
-    (match) => `<span class="highlight">${match}</span>`
-  );
-};
 // 递归获取搜索结果
 const getRecursResult = (
   list: SearchItem[],
@@ -142,9 +134,15 @@ const getRecursResult = (
     const currTitle = parentTitle
       ? `${parentTitle} / ${item.title}`
       : item.title;
-    if (item.title.includes(keyword)) {
-      // 高亮标题
-      const highlightedTitle = highlightKeyword(currTitle, keyword);
+    // 正则表达式，忽略大小写
+    const Regex = new RegExp(keyword, "gi");
+    // 匹配关键字
+    if (Regex.test(item.title)) {
+      // 高亮关键字
+      const highlightedTitle = currTitle.replace(
+        Regex,
+        (match) => `<span class="highlight">${match}</span>`
+      );
       resultList.push({ ...item, title: highlightedTitle });
     }
     if (item.children?.length) {

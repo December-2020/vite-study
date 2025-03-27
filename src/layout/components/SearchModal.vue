@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-02-24 15:35:02
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-03-27 15:28:21
+ * @LastEditTime: 2025-03-27 15:41:34
 -->
 <template>
   <BaseDialog
@@ -108,7 +108,7 @@ const [registerModal, { closeModal }] = useModalInner(() => {
     searchInputRef.value?.focus();
     // 获取路由列表
     const routeList = router.getRoutes();
-    console.log("🚀 ~ nextTick ~ routeList:", routeList);
+    // console.log("🚀 ~ nextTick ~ routeList:", routeList);
     // 获取动态的一级路由
     optionList.value = routeList.flatMap((item) =>
       !item.meta.hidden && item.meta.title && item.path.split("/").length === 2
@@ -160,7 +160,11 @@ const stopWatchInput = watchDebounced(
   keyword,
   (val) => {
     let _searchList: SearchItem[] = getRecursResult(optionList.value, val);
-    searchList.value = _searchList;
+    /** 
+     * * 剔除有子路由的项目
+     * * 当有子路由时, 跳转的是Layout组件, 而不是具体的路由组件
+     */
+    searchList.value = _searchList.filter((item) => !item.children);
     // console.log("🚀 ~ searchList:", searchList);
     let index = _searchList.length > 0 ? 0 : -1;
     highlightIndex.value = index;

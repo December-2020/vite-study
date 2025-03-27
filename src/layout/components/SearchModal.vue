@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-02-24 15:35:02
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-03-26 17:23:27
+ * @LastEditTime: 2025-03-27 14:44:13
 -->
 <template>
   <BaseDialog
@@ -19,13 +19,14 @@
         width="100%"
         v-model="keyword"
         ref="searchInputRef"
-        @keyup.enter="handleEnter"
-        @keyup.down="highlightNext"
-        @keyup.up="highlightPrev"
+        @keyup.up="searchPrev"
+        @keyup.down="searchDown"
+        @keyup.enter="searchEnter"
+        preventKeyboardEvent
       >
-        <template #prefix>
-          <ElIcon><Search /></ElIcon>
-        </template>
+        <ElIcon #prefix>
+          <Search />
+        </ElIcon>
       </BaseInput>
     </template>
     <div class="wrap-content font-size-16px">
@@ -34,6 +35,7 @@
           v-for="(item, index) in searchList"
           :key="item.name"
           :class="['search-list_item', { highlight: highlightIndex === index }]"
+          @click="toggleSearchItem(item, index)"
         >
           <div class="title" v-html="item.title"></div>
         </div>
@@ -84,10 +86,8 @@ interface SearchItem extends Pick<AppRouteRecordRaw, "name"> {
 
 // 所有路由列表
 const router = useRouter();
-const searchList = ref<SearchItem[]>([]);
 const optionList = ref<SearchItem[]>([]);
 const searchInputRef = ref();
-
 // 递归获取路由
 const getRecursRoute = (route: AppRouteRecordRaw) => {
   let _searchItem: SearchItem = {
@@ -99,7 +99,7 @@ const getRecursRoute = (route: AppRouteRecordRaw) => {
   }
   return _searchItem;
 };
-const [registerModal] = useModalInner(() => {
+const [registerModal, { closeModal }] = useModalInner(() => {
   nextTick(() => {
     /**
      * * 为了避免在弹窗打开时，input 无法获取焦点
@@ -108,6 +108,7 @@ const [registerModal] = useModalInner(() => {
     searchInputRef.value?.focus();
     // 获取路由列表
     const routeList = router.getRoutes();
+    console.log("🚀 ~ nextTick ~ routeList:", routeList);
     // 获取动态的一级路由
     optionList.value = routeList.flatMap((item) =>
       !item.meta.hidden && item.meta.title && item.path.split("/").length === 2
@@ -119,9 +120,8 @@ const [registerModal] = useModalInner(() => {
 });
 
 const keyword = ref("");
-const resultList = ref([]);
+const searchList = ref<SearchItem[]>([]);
 const highlightIndex = ref(-1);
-
 // 高亮关键字
 const highlightKeyword = (text: string, keyword: string) => {
   const regex = new RegExp(keyword, "gi");
@@ -139,7 +139,9 @@ const getRecursResult = (
   if (!list.length || keyword.trim() === "") return [];
   const resultList: SearchItem[] = [];
   for (const item of list) {
-    const currTitle = parentTitle ? `${parentTitle}/${item.title}` : item.title;
+    const currTitle = parentTitle
+      ? `${parentTitle} / ${item.title}`
+      : item.title;
     if (item.title.includes(keyword)) {
       // 高亮标题
       const highlightedTitle = highlightKeyword(currTitle, keyword);
@@ -159,35 +161,43 @@ const getRecursResult = (
 const stopWatchInput = watchDebounced(
   keyword,
   (val) => {
-    // console.log(val, "change");
-    highlightIndex.value = -1;
     let _searchList: SearchItem[] = getRecursResult(optionList.value, val);
     searchList.value = _searchList;
-    console.log("🚀 ~ searchList:", searchList);
+    // console.log("🚀 ~ searchList:", searchList);
+    let index = _searchList.length > 0 ? 0 : -1;
+    highlightIndex.value = index;
   },
   { debounce: 500 }
 );
 
-// enter 事件
-const handleEnter = () => {
-  console.log("enter1111");
+// 搜索框事件
+const searchPrev = () => {
+  highlightIndex.value = Math.max(highlightIndex.value - 1, 0);
 };
-const highlightNext = () => {
-  console.log("highlightNext");
+const searchDown = () => {
   highlightIndex.value = Math.min(
     highlightIndex.value + 1,
-    resultList.value.length - 1
+    searchList.value.length - 1
   );
 };
-const highlightPrev = () => {
-  console.log("highlightPrev");
-  highlightIndex.value = Math.max(highlightIndex.value - 1, -1);
+const searchEnter = () => {
+  const index = unref(highlightIndex);
+  const _searchList = unref(searchList);
+  if (index > -1 && _searchList.length > 0) {
+    navigateTo(_searchList[index]);
+  }
 };
-// const navigateTo = (item) => {
-//   // router.push(item.path);
-//   keyword.value = '';
-//   resultList.value = [];
-// };
+const toggleSearchItem = (item: SearchItem, index: number) => {
+  highlightIndex.value = index;
+  navigateTo(item);
+};
+const navigateTo = (item: SearchItem) => {
+  router.push({ name: item.name });
+  keyword.value = "";
+  highlightIndex.value = -1;
+  searchList.value = [];
+  closeModal();
+};
 
 onUnmounted(() => {
   // 释放内存
@@ -200,6 +210,38 @@ onUnmounted(() => {
   &-content {
     @include font_color("content-font-color");
     min-height: 100px;
+    .search-list {
+      cursor: pointer;
+      &_item {
+        @include background_color("content-font-bg-color");
+        @include font_color("content-font-color");
+        padding: 8px;
+        box-sizing: border-box;
+        border-radius: 4px;
+        &:not(:first-child) {
+          margin-top: 8px;
+        }
+        &.highlight,
+        &:hover {
+          @include background_color("el-menu-hover-bg-color");
+          @include font_color("content-font-color");
+          div {
+            :deep(span) {
+              &.highlight {
+                @include font_color("content-font-color");
+              }
+            }
+          }
+        }
+        div {
+          :deep(span) {
+            &.highlight {
+              @include font_color("el-menu-hover-bg-color");
+            }
+          }
+        }
+      }
+    }
     .empty {
       height: 100px;
       line-height: 100px;

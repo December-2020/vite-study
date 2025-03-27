@@ -1,6 +1,6 @@
 <template>
   <component
-    :is="h(ElInput, props, $slots)"
+    :is="h(ElInput, { ...props, onKeydown }, $slots)"
     v-model="model"
     @clear="emit('clear')"
     @blur="emit('blur')"
@@ -90,6 +90,8 @@ interface Props {
   // inputStyle?: StyleValue;
   // 自定义组件宽度
   width?: number | string;
+  // 阻止输入框的键盘事件
+  preventKeyboardEvent?: boolean;
 }
 
 /**
@@ -114,8 +116,9 @@ const props = withDefaults(defineProps<Props>(), {
   autofocus: false,
   validateEvent: true,
   width: 198,
+  preventKeyboardEvent: false,
 });
-const emit = defineEmits(["focus", "blur", "clear"]);
+const emit = defineEmits(["focus", "blur", "clear", "keydown"]);
 
 /**
  * * Vue3.4以上才能使用 defineModel
@@ -172,6 +175,17 @@ const inputWidth = computed(() => {
     }
   }
 });
+
+/** 
+ * 键盘事件
+ */
+const onKeydown = (e: any) => {
+  const keyList = ["ArrowUp", "ArrowDown"];
+  if (props.preventKeyboardEvent && keyList.includes(e.key)) {
+    e.preventDefault();
+    emit("keydown", e);
+  }
+};
 
 /**
  * 获取子组件的 ref

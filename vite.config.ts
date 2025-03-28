@@ -69,6 +69,8 @@ export default defineConfig(({ command, mode }) => {
         dirs: ["src/components/composition", "src/components/custom"],
         extensions: ["vue", "tsx"],
         dts: "types/components.d.ts",
+        // 不允许子目录搜索, 默认 false
+        deep: false,
       }),
       createSvgIconsPlugin({
         // 指定需要缓存的图标文件夹

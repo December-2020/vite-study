@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-26 09:14:33
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-26 14:35:42
+ * @LastEditTime: 2025-03-28 10:57:11
  */
 export default {
   // 全局通用
@@ -41,7 +41,11 @@ export default {
     example: {
       title: "example",
       ellipsis: "Text omission",
-      dialog: "Dialog",
+      components: {
+        title: "Components",
+        dialog: "Dialog",
+        editor: "Rich text editor",
+      },
     },
   },
 

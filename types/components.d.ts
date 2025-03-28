@@ -48,6 +48,7 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     SvgIcon: typeof import('./../src/components/composition/SvgIcon.vue')['default']
     ThemeSwitch: typeof import('./../src/components/custom/ThemeSwitch.vue')['default']
+    TipTap: typeof import('./../src/components/composition/TipTap.vue')['default']
   }
   export interface ComponentCustomProperties {
     vLoading: typeof import('element-plus/es')['ElLoadingDirective']

@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-26 09:15:04
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-10-11 09:42:01
+ * @LastEditTime: 2025-03-28 10:52:06
  */
 export default {
   // 全局通用
@@ -42,7 +42,11 @@ export default {
     example: {
       title: "例子",
       ellipsis: "文本省略",
-      dialog: "弹窗",
+      components: {
+        title: "组件",
+        dialog: "弹窗",
+        editor: "富文本编辑器",
+      },
     },
   },
 

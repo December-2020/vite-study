@@ -278,7 +278,8 @@ methods: {
     npm uninstall three-orbit-controls
   - 使用lodash工具库
     npm i lodash
-
+  - 使用Tiptap富文本编辑器
+    npm install @tiptap/vue-3 @tiptap/pm @tiptap/starter-kit
 
 ## 十、其他相关
 

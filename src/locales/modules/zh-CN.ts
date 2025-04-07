@@ -42,11 +42,11 @@ export default {
     example: {
       title: "例子",
       ellipsis: "文本省略",
-      components: {
-        title: "组件",
-        dialog: "弹窗",
-        editor: "富文本编辑器",
-      },
+    },
+    components: {
+      title: "组件",
+      dialog: "弹窗",
+      editor: "富文本编辑器",
     },
   },
 

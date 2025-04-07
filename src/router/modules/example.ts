@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-01-10 11:20:50
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-03-28 11:01:01
+ * @LastEditTime: 2025-04-07 15:23:12
  */
 import type { AppRouteRecordRaw } from "#/route";
 
@@ -25,31 +25,6 @@ const Example: AppRouteRecordRaw = {
         title: "example.ellipsis",
       },
       component: () => import("@/views/example/ellipsis/index.vue"),
-    },
-    {
-      path: "comp",
-      name: "ExampleComp",
-      meta: {
-        title: "example.components.title",
-      },
-      children: [
-        {
-          path: "dialog",
-          name: "CompDialog",
-          meta: {
-            title: "example.components.dialog",
-          },
-          component: () => import("@/views/example/comp/dialog/index.vue"),
-        },
-        {
-          path: "editor",
-          name: "CompEditor",
-          meta: {
-            title: "example.components.editor",
-          },
-          component: () => import("@/views/example/comp/editor/index.vue"),
-        },
-      ],
     },
   ],
 };

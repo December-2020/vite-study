@@ -45,7 +45,7 @@ export default {
     components: {
       title: "Components",
       dialog: "Dialog",
-      editor: "Rich text editor",
+      editor: "Rich text",
     },
   },
 

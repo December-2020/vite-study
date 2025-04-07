@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-03-28 11:17:22
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-04-07 14:46:17
+ * @LastEditTime: 2025-04-07 17:25:37
 -->
 <template>
   <div class="tiptap-wrap">
@@ -18,27 +18,6 @@
       >
         <SvgIcon :icon-class="`richtext-${item}`" />
       </div>
-      <!-- <div class="tool-icon_item">
-        <SvgIcon icon-class="richtext-bold" />
-      </div>
-      <div class="tool-icon_item">
-        <SvgIcon icon-class="richtext-italic" />
-      </div>
-      <div class="tool-icon_item">
-        <SvgIcon icon-class="richtext-font_underline" />
-      </div>
-      <div class="tool-icon_item">
-        <SvgIcon icon-class="richtext-font_strikethrough" />
-      </div>
-      <div class="tool-icon_item">
-        <SvgIcon icon-class="richtext-align_left" />
-      </div>
-      <div class="tool-icon_item">
-        <SvgIcon icon-class="richtext-align_center" />
-      </div>
-      <div class="tool-icon_item">
-        <SvgIcon icon-class="richtext-align_right" />
-      </div> -->
     </div>
     <!-- 编辑器 -->
     <editor-content :editor="editor" />
@@ -57,6 +36,11 @@ import StarterKit from "@tiptap/starter-kit";
 const editor = useEditor({
   content: "<p>I'm running Tiptap with Vue.js. 🎉</p>",
   extensions: [StarterKit],
+  editorProps: {
+    attributes: {
+      class: "tiptap-editor",
+    },
+  },
 });
 
 /* 第一行icon */
@@ -69,17 +53,34 @@ const IconList = [
   "align_center",
   "align_right",
 ];
-const iconKeyList = reactive<string[]>([]);
+/** 
+ * bold => toggleBold
+ * italic => toggleItalic
+ * font_underline => toggleUnderline
+ * font_strikethrough => toggleStrikethrough
+ * align_left => setTextAlign("left")
+ * align_center => setTextAlign("center")
+ * align_right => setTextAlign("right")
+ */
+const iconKeyList = ref<string[]>([]);
 const activeIcon = computed(() => {
-  return (key: string) => iconKeyList.includes(key);
+  return (key: string) => unref(iconKeyList).includes(key);
 });
 const toggleIcon = (key: string) => {
-  let index = iconKeyList.indexOf(key);
-  if (index === -1) {
-    iconKeyList.push(key);
-    return;
+  // 如果不存在, 则添加, 否则移除
+  let index = iconKeyList.value.indexOf(key);
+  if (index !== -1) {
+    iconKeyList.value.splice(index, 1);
+  } else {
+    // 对齐方式只能有一种
+    if (key.startsWith("align")) {
+      iconKeyList.value = iconKeyList.value.filter(
+        (item) => !item.startsWith("align")
+      );
+    }
+    // 添加新的
+    iconKeyList.value.push(key);
   }
-  iconKeyList.splice(index, 1);
 };
 </script>
 
@@ -88,16 +89,20 @@ const toggleIcon = (key: string) => {
   .tool-icon {
     &_item {
       cursor: pointer;
-      padding: 2px;
+      padding: 5px;
       border: 1px solid;
       @include border_color("content-bg-color");
+      border-radius: 4px;
       &:not(:first-child) {
-        margin-left: 5px;
+        margin-left: 1px;
       }
       &.active {
         @include border_color("el-menu-hover-bg-color");
       }
     }
+  }
+  :deep(.tiptap-editor) {
+    outline: none;
   }
 }
 </style>

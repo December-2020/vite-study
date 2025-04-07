@@ -46,7 +46,7 @@ export default {
     components: {
       title: "组件",
       dialog: "弹窗",
-      editor: "富文本编辑器",
+      editor: "富文本",
     },
   },
 

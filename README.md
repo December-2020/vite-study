@@ -2,36 +2,43 @@
 
 ## 一、项目介绍
 
-  本项目是一个Vue3的练手项目，ui框架使用的是 element-ui ，之所以使用这个ui，仅仅因为用顺手就懒得换了。全局状态管理用的是 pinia，请求是二次封装的axios。有使用基于组合式api的函数集合 VueUse，看了下里面的api，也有关于state相关的函数，但是已使用了pinia，也懒得换了。为减少css命名，使用 UnoCSS 原子化css。
-
+本项目是一个 Vue3 的练手项目，ui 框架使用的是 element-ui ，之所以使用这个 ui，仅仅因为用顺手就懒得换了。全局状态管理用的是 pinia，请求是二次封装的 axios。有使用基于组合式 api 的函数集合 VueUse，看了下里面的 api，也有关于 state 相关的函数，但是已使用了 pinia，也懒得换了。为减少 css 命名，使用 UnoCSS 原子化 css。
 
 ## 二、项目启动
 
 1. 安装依赖
+
 ```
 npm install
 ```
+
 或者执行命令
+
 ```
 npm run bootstrap
 ```
+
 2. 本地运行
-由于修改了node_modules中的包
-运行之前请先执行
+   由于修改了 node_modules 中的包
+   运行之前请先执行
+
 ```
 npm run postinstall
 ```
+
 将测试环境文件里面的 VITE_BASE_URL 请求路径改成服务器地址(与后端交互)
 现在使用的是 Mock 模拟请求, 可忽略该条修改
 然后执行命令
+
 ```
 npm run dev
 ```
+
 3. 打包代码
+
 ```
 npm run build
 ```
-
 
 ## 三、目录结构
 
@@ -64,14 +71,12 @@ npm run build
             |__ common 登录页面、404页面等无需权限的页面
     |__ types 全局类型文件
 
-
 ## 四、目录相关
 
 1、文件夹名称用小写（一个单词，例如：charts、login）  
 2、组件用大写开头的英文单词组（例如：BaseButton、SvgIcon，除了 index 或者组件引用的内部独立组件 header 这种）  
 3、页面用小写开头的英文单词组（例如：systemList、systemAdd、systemDetails ）
 4、正常引用文件为根目录（例如 ·@/utils/route·）除类似页面引用对应页面组件可·./components/xxx·
-
 
 ## 五、template
 
@@ -92,7 +97,6 @@ npm run build
   <div v-for="(item, index) in list">xxx</div>
 </div>
 ```
-
 
 ## 六、javascript
 
@@ -169,7 +173,6 @@ methods: {
 }
 ```
 
-
 ## 七、style(lang="scss")
 
 样式顺序：  
@@ -185,7 +188,6 @@ methods: {
 (5) 文本属性：font-family、font-size、font-weight、line-height 等  
 (6) 文本样式：text-align、text-decoration、white-space、text-overflow、word-break 等  
 (7) 动画属性：transition、animation 等
-
 
 ## 八、格式化配置
 
@@ -208,136 +210,179 @@ methods: {
 "trailingComma": "es5"
 }
 
-
 ## 九、已安装依赖
 
-  - 统一浏览器样式  
-    npm i normalize.css
-  - 安装sass  
-    npm i sass -D
-  - css样式自动添上前缀  
-    npm i autoprefixer -D  
-  - vite中使用svg
-    npm i vite-plugin-svg-icons -D
-  - 使用 element plus 的ui
-    npm i element-plus
-  - 按需自动引入插件
-    npm i -D unplugin-vue-components unplugin-auto-import
-  - 安装vue-router
-    npm i vue-router@4
-  - css动画库
-    npm i animate.css
-  - path 模块无法在客户端代码中使用
-    npm i path-browserify
-    npm i  @types/path-browserify -D
-  - 使用全局状态管理 pinia
-    npm i pinia
-  - 缓存 pinia (页面刷新或路由回退, 状态会丢失)
-    npm i pinia-plugin-persistedstate
-  - 国际化
-    npm i vue-i18n
-  - UnoCss css原子化
-    npm i unocss -D
-  - 使用 axios
-    npm i axios
-  - 全屏 (已有VueUse, 可以先卸载)
-    npm uninstall screenfull
-  - VueUse是一款基于组合式API的函数集合
-    npm i @vueuse/core
-    安装 @vueuse/components
-    npm i @vueuse/components
-  - nprogress 网页顶部进度条
-    npm i nprogress
-    npm i @types/nprogress -D
-  - 使用cookie
-    js-cookie (仅浏览器中使用)
-    npm i js-cookie
-    npm i @types/js-cookie -D
-    universal-cookie (浏览器和node.js环境下都可使用, 可结合VueUse)
-    npm uninstall universal-cookie@^7
-  - 添加临时补丁, 修改node_modules
-    npm i patch-package postinstall-postinstall
-  - 修改第三方组件, 修改nprogress/nprogress.js
-    npx patch-package nprogress
-  - 使用mock模拟请求
-    npm i mockjs
-    vite中使用还需安装插件, 但是3.0.2(2024.11.7)最新版本不支持生产环境使用
-    npm i vite-plugin-mock@2.9.8
-  - 在setup中自定义name属性
-    3.3+ (3.3版本及以上)
-    ```
-    defineOptions({ name: "组件名称" });
-    ```
-    以下版本可通过下面的vite插件进行设置
-    npm uninstall vite-plugin-vue-setup-extend -D
-  - 使用 echarts 绘制图表
-    npm i echarts
-  - 学习并使用 three.js 
-    npm uninstall three
-    轨道控制器可以使得相机围绕目标进行轨道运动
-    npm uninstall three-orbit-controls
-  - 使用lodash工具库
-    npm i lodash
-  - 使用Tiptap富文本编辑器
-    npm install @tiptap/vue-3 @tiptap/pm @tiptap/starter-kit
+- 统一浏览器样式  
+  npm i normalize.css
+- 安装 sass  
+  npm i sass -D
+- css 样式自动添上前缀  
+  npm i autoprefixer -D
+- vite 中使用 svg
+  npm i vite-plugin-svg-icons -D
+- 使用 element plus 的 ui
+  npm i element-plus
+- 按需自动引入插件
+  npm i -D unplugin-vue-components unplugin-auto-import
+- 安装 vue-router
+  npm i vue-router@4
+- css 动画库
+  npm i animate.css
+- path 模块无法在客户端代码中使用
+  npm i path-browserify
+  npm i @types/path-browserify -D
+- 使用全局状态管理 pinia
+  npm i pinia
+- 缓存 pinia (页面刷新或路由回退, 状态会丢失)
+  npm i pinia-plugin-persistedstate
+- 国际化
+  npm i vue-i18n
+- UnoCss css 原子化
+  npm i unocss -D
+- 使用 axios
+  npm i axios
+- 全屏 (已有 VueUse, 可以先卸载)
+  npm uninstall screenfull
+- VueUse 是一款基于组合式 API 的函数集合
+  npm i @vueuse/core
+  安装 @vueuse/components
+  npm i @vueuse/components
+- nprogress 网页顶部进度条
+  npm i nprogress
+  npm i @types/nprogress -D
+- 使用 cookie
+  js-cookie (仅浏览器中使用)
+  npm i js-cookie
+  npm i @types/js-cookie -D
+  universal-cookie (浏览器和 node.js 环境下都可使用, 可结合 VueUse)
+  npm uninstall universal-cookie@^7
+- 添加临时补丁, 修改 node_modules
+  npm i patch-package postinstall-postinstall
+- 修改第三方组件, 修改 nprogress/nprogress.js
+  npx patch-package nprogress
+- 使用 mock 模拟请求
+  npm i mockjs
+  vite 中使用还需安装插件, 但是 3.0.2(2024.11.7)最新版本不支持生产环境使用
+  npm i vite-plugin-mock@2.9.8
+- 在 setup 中自定义 name 属性
+  3.3+ (3.3 版本及以上)
+  ```
+  defineOptions({ name: "组件名称" });
+  ```
+  以下版本可通过下面的 vite 插件进行设置
+  npm uninstall vite-plugin-vue-setup-extend -D
+- 使用 echarts 绘制图表
+  npm i echarts
+- 学习并使用 three.js
+  npm uninstall three
+  轨道控制器可以使得相机围绕目标进行轨道运动
+  npm uninstall three-orbit-controls
+- 使用 lodash 工具库
+  npm i lodash
+- 使用 Tiptap 富文本编辑器
+  npm i @tiptap/vue-3 @tiptap/pm @tiptap/starter-kit
+  npm i @tiptap/extension-underline(下划线)
+  npm uninstall @tiptap/extension-strike (删除线)
+  npm i @tiptap/extension-text-align (文本对齐)
 
 ## 十、其他相关
 
-1. svg在线压缩
-- [svg压缩链接](https://www.zhangxinxu.com/sp/svgo/)
-2. element plus官网
+1. svg 在线压缩
+
+- [svg 压缩链接](https://www.zhangxinxu.com/sp/svgo/)
+
+2. element plus 官网
+
 - [Element Plus](https://element-plus.org/zh-CN/component/button.html)
+
 3. vue-router@4 官网
+
 - [vue-router](https://router.vuejs.org/zh/introduction.html)
-4. 推荐的css动画库
-- [animate.css官网](https://animate.style/)
-- [hover.css官网](http://ianlunn.github.io/Hover/)  
-5. 使用pinia
+
+4. 推荐的 css 动画库
+
+- [animate.css 官网](https://animate.style/)
+- [hover.css 官网](http://ianlunn.github.io/Hover/)
+
+5. 使用 pinia
+
 - [pinia](https://pinia.web3doc.top/introduction.html)
+
 6. 推荐开发工具及相关插件
+
 - [VS Code](https://code.visualstudio.com/)
 - [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
 - [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
+
 7. Github 上一篇写的挺好的指南, 详解 vue2 和 vue3 的变化。
+
 - [文档地址](https://vue3.chengpeiquan.com/upgrade.html)
+
 8. vue-i18n 国际化
-- [i18n官网](https://vue-i18n.intlify.dev/)
-- [i18n参考文档](https://kazupon.github.io/vue-i18n/zh/started.html)
+
+- [i18n 官网](https://vue-i18n.intlify.dev/)
+- [i18n 参考文档](https://kazupon.github.io/vue-i18n/zh/started.html)
+
 9. UnoCss
-- [UnoCss的Github](https://github.com/unocss/unocss)
+
+- [UnoCss 的 Github](https://github.com/unocss/unocss)
 - [样式查询地址](https://uno.antfu.me/)
-10. github上值得一看的学习文档
-- [js进阶问题列表](https://github.com/lydiahallie/javascript-questions/blob/master/zh-CN/README-zh_CN.md)
-- [js开发应知道的33个概念](https://github.com/stephentian/33-js-concepts)
-- [js风格编写指南](https://github.com/airbnb/javascript)
-- [js算法小册](https://github.com/TheAlgorithms/JavaScript/blob/master/Backtracking/AllCombinationsOfSizeK.js)
-- [很棒的js库-国内翻译](https://github.com/jobbole/awesome-javascript-cn)
+
+10. github 上值得一看的学习文档
+
+- [js 进阶问题列表](https://github.com/lydiahallie/javascript-questions/blob/master/zh-CN/README-zh_CN.md)
+- [js 开发应知道的 33 个概念](https://github.com/stephentian/33-js-concepts)
+- [js 风格编写指南](https://github.com/airbnb/javascript)
+- [js 算法小册](https://github.com/TheAlgorithms/JavaScript/blob/master/Backtracking/AllCombinationsOfSizeK.js)
+- [很棒的 js 库-国内翻译](https://github.com/jobbole/awesome-javascript-cn)
 - [免费的编程书籍](https://github.com/EbookFoundation/free-programming-books/blob/main/books/free-programming-books-zh.md)
-- [js中奇怪的问题](https://github.com/denysdovhan/wtfjs/blob/master/README-zh-cn.md)
-- [Vue3入门指南与实战案例](https://vue3.chengpeiquan.com/upgrade.html)
+- [js 中奇怪的问题](https://github.com/denysdovhan/wtfjs/blob/master/README-zh-cn.md)
+- [Vue3 入门指南与实战案例](https://vue3.chengpeiquan.com/upgrade.html)
 - [计算机网络基础](https://github.com/wxlvip/Interviewer/blob/master/01.%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C.md)
-11. Vue组合式API的函数集合
-- [VueUse中文文档](https://www.vueusejs.com/guide/)
+
+11. Vue 组合式 API 的函数集合
+
+- [VueUse 中文文档](https://www.vueusejs.com/guide/)
+
 12. 抓包工具 whistle
-- [whistle官网](https://wproxy.org/whistle/)
+
+- [whistle 官网](https://wproxy.org/whistle/)
+
 13. 根据模板生成相应的代码片段
+
 - [模板网站](https://snippet-generator.app/?description=&tabtrigger=&snippet=&mode=vscode)
-14. Mock.js参考示例
+
+14. Mock.js 参考示例
+
 - [Mock.js demo](http://mockjs.com/examples.html)
-15. 在线Json转typescript工具
+
+15. 在线 Json 转 typescript 工具
+
 - [网址](https://tooltt.com/json2typescript/)
+
 16. 持久化存储 pinia
+
 - [pinia-plugin-persistedstate](https://prazdevs.github.io/pinia-plugin-persistedstate/zh/guide/)
-17. echarts配置文档
+
+17. echarts 配置文档
+
 - [echarts setOption](https://echarts.apache.org/zh/option.html#title)
-18. three.js介绍文档
+
+18. three.js 介绍文档
+
 - [three.js](https://threejs.org/docs/index.html#manual/zh/introduction/Creating-a-scene)
 
+19. TipTap 富文本编辑器
+    富文本编辑器
 
-## 十一、github上一些有趣开源的项目
+- [TipTap](https://tiptap.dev/docs/editor/getting-started/install/vue3)
 
-1. FreeTube 是一款开源的桌面 YouTube 播放器，考虑到了隐私，可以在没有广告的情况下使用YouTube，并阻止谷歌使用其 cookie 和 JavaScript 跟踪您。
+## 十一、github 上一些有趣开源的项目
+
+1. FreeTube 是一款开源的桌面 YouTube 播放器，考虑到了隐私，可以在没有广告的情况下使用 YouTube，并阻止谷歌使用其 cookie 和 JavaScript 跟踪您。
+
 - [FreeTube](https://github.com/FreeTubeApp/FreeTube)
-2. LocalSend 是一款免费的文件共享开源应用程序，使用这个开源项目，你可以通过本地网络与附近的设备安全地共享文件和消息，而无需互联网连接。
-- [LocalSend](https://github.com/localsend/localsend)
 
+2. LocalSend 是一款免费的文件共享开源应用程序，使用这个开源项目，你可以通过本地网络与附近的设备安全地共享文件和消息，而无需互联网连接。
+
+- [LocalSend](https://github.com/localsend/localsend)

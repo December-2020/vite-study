@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-23 15:08:24
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-01-06 17:23:24
+ * @LastEditTime: 2025-04-29 13:43:34
  */
 import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
@@ -28,6 +28,8 @@ import UnoCss from "unocss/vite";
 import { presetUno, presetAttributify } from "unocss";
 // mock 插件
 import { viteMockServe } from "vite-plugin-mock";
+// vue-devtools
+import VueDevTools from "vite-plugin-vue-devtools";
 
 /** 
  * @see https://vitejs.dev/config/
@@ -114,6 +116,7 @@ export default defineConfig(({ command, mode }) => {
         //   setupProdMockServer();
         // `,
       }),
+      VueDevTools(),
     ],
     resolve: {
       // 以下文件在import时可以不写后缀

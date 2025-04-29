@@ -284,6 +284,13 @@ methods: {
   npm i @tiptap/extension-underline(下划线)
   npm uninstall @tiptap/extension-strike (删除线)
   npm i @tiptap/extension-text-align (文本对齐)
+- vue-devtools
+  npm i vite-plugin-vue-devtools -D
+  解决以下问题
+  1. 有时候 Chrome 更新了，插件版本没跟上，就用不了了；
+  2. 有些企业版浏览器或者特殊环境，根本装不了扩展；
+  3. 移动端真机调试？很难用，几乎废了。
+  仅在开发环境使用, 正式环境还是使用chrome插件
 
 ## 十、其他相关
 

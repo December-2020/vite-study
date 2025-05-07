@@ -279,11 +279,7 @@ methods: {
   npm uninstall three-orbit-controls
 - 使用 lodash 工具库
   npm i lodash
-- 使用 Tiptap 富文本编辑器
-  npm i @tiptap/vue-3 @tiptap/pm @tiptap/starter-kit
-  npm i @tiptap/extension-underline(下划线)
-  npm uninstall @tiptap/extension-strike (删除线)
-  npm i @tiptap/extension-text-align (文本对齐)
+- 使用  富文本编辑器
 - vue-devtools
   npm i vite-plugin-vue-devtools -D
   解决以下问题

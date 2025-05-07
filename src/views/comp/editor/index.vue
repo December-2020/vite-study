@@ -1,6 +1,5 @@
 <template>
   <div class="wrapper">
-    <TipTap />
   </div>
 </template>
 

@@ -13,11 +13,6 @@
     "postinstall": "patch-package"
   },
   "dependencies": {
-    "@tiptap/extension-text-align": "^2.11.7",
-    "@tiptap/extension-underline": "^2.11.7",
-    "@tiptap/pm": "^2.11.5",
-    "@tiptap/starter-kit": "^2.11.5",
-    "@tiptap/vue-3": "^2.11.5",
     "@vueuse/components": "^11.1.0",
     "@vueuse/core": "^11.1.0",
     "animate.css": "^4.1.1",

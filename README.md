@@ -279,7 +279,8 @@ methods: {
   npm uninstall three-orbit-controls
 - 使用 lodash 工具库
   npm i lodash
-- 使用  富文本编辑器
+- 使用 TinyMCE 富文本编辑器
+  npm i tinymce
 - vue-devtools
   npm i vite-plugin-vue-devtools -D
   解决以下问题

@@ -31,7 +31,7 @@ import { viteMockServe } from "vite-plugin-mock";
 // vue-devtools
 import VueDevTools from "vite-plugin-vue-devtools";
 
-/** 
+/**
  * @see https://vitejs.dev/config/
  */
 export default defineConfig(({ command, mode }) => {
@@ -68,7 +68,11 @@ export default defineConfig(({ command, mode }) => {
          *
          * custom 是定制的组件
          */
-        dirs: ["src/components/composition", "src/components/custom"],
+        dirs: [
+          "src/components/composition",
+          "src/components/custom",
+          "src/components/composition/Tinymce",
+        ],
         extensions: ["vue", "tsx"],
         dts: "types/components.d.ts",
         // 不允许子目录搜索, 默认 false
@@ -187,7 +191,7 @@ export default defineConfig(({ command, mode }) => {
       // strictPort: true,
       // 在开发服务器启动时自动在浏览器中打开应用程序
       open: true,
-      /** 
+      /**
        * @see https://github.com/http-party/node-http-proxy#options
        * 设置代理
        */

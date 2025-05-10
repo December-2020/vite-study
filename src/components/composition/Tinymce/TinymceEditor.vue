@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-05-09 15:34:33
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-05-09 16:27:17
+ * @LastEditTime: 2025-05-10 17:08:30
 -->
 <template>
   <div class="editor">
@@ -13,14 +13,17 @@
 <!-- 菜单栏 工具栏 内容栏 共同组合成一个富文本 -->
 
 <script setup lang="ts">
-import type { Editor, RawEditorSettings } from 'tinymce';
+import type { Editor, RawEditorSettings } from "tinymce";
 
-import tinymce from 'tinymce/tinymce';
+import tinymce from "tinymce/tinymce";
 import { buildShortUUID } from "@/utils/uuid";
 
 const props = defineProps({
-
-})
+  options: {
+    type: Object as PropType<Partial<RawEditorSettings>>,
+    default: () => ({}),
+  },
+});
 const emit = defineEmits([]);
 
 const tinymceId = ref<string>(buildShortUUID("tiny-vue"));

@@ -280,8 +280,7 @@ methods: {
 - 使用 lodash 工具库
   npm i lodash
 - 使用 TinyMCE 富文本编辑器
-  npm i tinymce
-  npm install --save "@tinymce/tinymce-vue@^5" (LTS Vue3)
+  npm i tinymce@^7
 - vue-devtools
   npm i vite-plugin-vue-devtools -D
   解决以下问题

@@ -376,10 +376,15 @@ methods: {
 
 - [three.js](https://threejs.org/docs/index.html#manual/zh/introduction/Creating-a-scene)
 
-19. TipTap 富文本编辑器
-    富文本编辑器
+19. TipTap 富文本编辑器(适合多人在线协作, 高度自定义, 项目中无使用)
 
 - [TipTap](https://tiptap.dev/docs/editor/getting-started/install/vue3)
+
+20. TinyMCE 富文本编辑器
+
+- [中文文档(最近更新已经是几年前)](http://tinymce.ax-z.cn/quick-start.php)
+- [官方文档(纯英文)](https://www.tiny.cloud/docs/tinymce/latest/npm-projects/)
+- [一个使用案例](https://juejin.cn/post/7377335032354947126)
 
 ## 十一、github 上一些有趣开源的项目
 
@@ -390,3 +395,7 @@ methods: {
 2. LocalSend 是一款免费的文件共享开源应用程序，使用这个开源项目，你可以通过本地网络与附近的设备安全地共享文件和消息，而无需互联网连接。
 
 - [LocalSend](https://github.com/localsend/localsend)
+
+3. 免费的Cursor AI 编辑器 Pro 会员功能的工具(仅供学习)
+
+- [Cursor Free VIP](https://github.com/yeongpin/cursor-free-vip)

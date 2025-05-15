@@ -399,3 +399,4 @@ methods: {
 3. 免费的Cursor AI 编辑器 Pro 会员功能的工具(仅供学习)
 
 - [Cursor Free VIP](https://github.com/yeongpin/cursor-free-vip)
+- [Cursor AI 编辑器](https://docs.cursor.com/welcome)

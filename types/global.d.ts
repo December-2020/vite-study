@@ -32,3 +32,20 @@ export type Nullable<T> = T | null;
  * 定义对象
  */
 export type AnyObject = Record<string, any>;
+
+
+/** 
+ * 任意类型的异步函数
+ * 
+ * PromiseLike 只有then
+ * Promise 包含所有
+ */
+export type AnyAsyncFunction = (...args: any[]) => PromiseLike<any>;
+/** 
+ * 任意类型的普通函数
+ */
+export type AnyFunction = (...args: any[]) => any;
+/** 
+ * 任意类型的函数
+ */
+export type AnyFunctionType = AnyAsyncFunction | AnyFunction;

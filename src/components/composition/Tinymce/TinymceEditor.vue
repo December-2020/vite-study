@@ -2,11 +2,13 @@
  * @Author: Komorebi
  * @Date: 2025-05-09 15:34:33
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-05-24 16:22:04
+ * @LastEditTime: 2025-05-28 11:18:02
 -->
 <template>
   <div class="editor-wrap">
-    <textarea :id="tinymceId" ref="elRef" />
+    <!-- inline 是开启内联模式 -->
+    <textarea :id="tinymceId" ref="elRef" v-if="!initOptions.inline" />
+    <slot v-else></slot>
   </div>
 </template>
 
@@ -118,12 +120,11 @@ const initOptions = computed((): RawEditorOptions => {
 // 组件初始化完成
 function setupEditor(e: EditorEvent<any>) {
   const editor = unref(editorRef);
-  if(!editor) return;
+  if (!editor) return;
 
   const value = model.value || "";
   editor.setContent(value as string);
 }
-
 </script>
 
 <style scoped lang="scss">

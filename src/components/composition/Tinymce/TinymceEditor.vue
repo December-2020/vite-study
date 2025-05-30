@@ -2,11 +2,10 @@
  * @Author: Komorebi
  * @Date: 2025-05-09 15:34:33
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-05-28 11:18:02
+ * @LastEditTime: 2025-05-30 17:12:43
 -->
 <template>
   <div class="editor-wrap">
-    <!-- inline 是开启内联模式 -->
     <textarea :id="tinymceId" ref="elRef" v-if="!initOptions.inline" />
     <slot v-else></slot>
   </div>
@@ -17,9 +16,13 @@
 <script setup lang="ts">
 import type { Editor, RawEditorOptions, EditorEvent } from "tinymce";
 
-// import tinymce from "tinymce/tinymce";
+import tinymce from "tinymce/tinymce";
 import { buildShortUUID } from "@/utils/uuid";
 import { plugins as defaultPlugins, toolbar as defaultToolbar } from "./config";
+import {
+  onMountedOrActivated,
+  onBeforeUnmountOrDeactivated,
+} from "@/hooks/useActivate";
 
 /**
  * tinymce插件可按需导入
@@ -57,7 +60,7 @@ const props = defineProps({
  * 声明 "modelValue" prop，由父组件通过 v-model 使用
  */
 const model = defineModel();
-const emit = defineEmits(["change"]);
+const emit = defineEmits(["change","inited","init-error"]);
 
 const tinymceId = ref<string>(buildShortUUID("tiny-vue"));
 // textarea的ref
@@ -117,6 +120,20 @@ const initOptions = computed((): RawEditorOptions => {
 });
 
 // 组件初始化
+function initEditor() {
+  const el = unref(elRef);
+  if (el) {
+    el.style.visibility = "";
+  }
+  tinymce
+    .init(unref(initOptions))
+    .then((editor) => {
+      emit("inited", editor);
+    })
+    .catch((err) => {
+      emit("init-error", err);
+    });
+}
 // 组件初始化完成
 function setupEditor(e: EditorEvent<any>) {
   const editor = unref(editorRef);
@@ -125,6 +142,27 @@ function setupEditor(e: EditorEvent<any>) {
   const value = model.value || "";
   editor.setContent(value as string);
 }
+// 组件销毁
+function destroyEditor() {
+  if (tinymce != null) {
+    const { selector } = unref(initOptions);
+    tinymce.remove(selector as string);
+  }
+}
+
+// 生命周期钩子
+onMountedOrActivated(() => {
+  // inline 是开启内联模式, 默认为false
+  if (!initOptions.value.inline) {
+    tinymceId.value = buildShortUUID("tiny-vue");
+  }
+  nextTick(() => {
+    initEditor();
+  });
+});
+onBeforeUnmountOrDeactivated(() => {
+  destroyEditor();
+});
 </script>
 
 <style scoped lang="scss">

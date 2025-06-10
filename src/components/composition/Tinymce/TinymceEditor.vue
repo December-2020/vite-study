@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-05-09 15:34:33
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-05-30 17:12:43
+ * @LastEditTime: 2025-06-10 14:18:36
 -->
 <template>
   <div class="editor-wrap">
@@ -17,6 +17,33 @@
 import type { Editor, RawEditorOptions, EditorEvent } from "tinymce";
 
 import tinymce from "tinymce/tinymce";
+import "tinymce/themes/silver";
+import "tinymce/models/dom";
+import "tinymce/icons/default/icons";
+
+import "tinymce/plugins/advlist";
+import "tinymce/plugins/lists";
+import "tinymce/plugins/accordion";
+import "tinymce/plugins/anchor";
+import "tinymce/plugins/autolink";
+import "tinymce/plugins/autoresize";
+import "tinymce/plugins/autosave";
+import "tinymce/plugins/code";
+import "tinymce/plugins/codesample";
+import "tinymce/plugins/directionality";
+import "tinymce/plugins/fullscreen";
+import "tinymce/plugins/insertdatetime";
+import "tinymce/plugins/link";
+import "tinymce/plugins/media";
+import "tinymce/plugins/nonbreaking";
+import "tinymce/plugins/pagebreak";
+import "tinymce/plugins/preview";
+// import "tinymce/plugins/save";
+import "tinymce/plugins/searchreplace";
+import "tinymce/plugins/visualblocks";
+import "tinymce/plugins/visualchars";
+import "tinymce/plugins/wordcount";
+
 import { buildShortUUID } from "@/utils/uuid";
 import { plugins as defaultPlugins, toolbar as defaultToolbar } from "./config";
 import {
@@ -60,7 +87,7 @@ const props = defineProps({
  * 声明 "modelValue" prop，由父组件通过 v-model 使用
  */
 const model = defineModel();
-const emit = defineEmits(["change","inited","init-error"]);
+const emit = defineEmits(["change", "inited", "init-error"]);
 
 const tinymceId = ref<string>(buildShortUUID("tiny-vue"));
 // textarea的ref
@@ -89,6 +116,7 @@ const initOptions = computed((): RawEditorOptions => {
   const { height, options, toolbar, plugins } = props;
   return {
     selector: `#${unref(tinymceId)}`,
+    license_key: "gpl",
     height,
     toolbar,
     plugins,
@@ -121,10 +149,10 @@ const initOptions = computed((): RawEditorOptions => {
 
 // 组件初始化
 function initEditor() {
-  const el = unref(elRef);
-  if (el) {
-    el.style.visibility = "";
-  }
+  // const el = unref(elRef);
+  // if (el) {
+  //   el.style.visibility = "";
+  // }
   tinymce
     .init(unref(initOptions))
     .then((editor) => {
@@ -141,6 +169,7 @@ function setupEditor(e: EditorEvent<any>) {
 
   const value = model.value || "";
   editor.setContent(value as string);
+  console.log("🚀 ~ 初始化完成: " + editor.id);
 }
 // 组件销毁
 function destroyEditor() {
@@ -148,6 +177,7 @@ function destroyEditor() {
     const { selector } = unref(initOptions);
     tinymce.remove(selector as string);
   }
+  console.log("🚀 ~ 组件销毁: ", tinymce);
 }
 
 // 生命周期钩子

@@ -26,5 +26,11 @@ export function onMountedOrActivated(hook: AnyFunctionType) {
  * @param hook 任何函数（包括异步函数）
  */
 export function onBeforeUnmountOrDeactivated(hook: AnyFunctionType) {
-  hook();
+  onBeforeUnmount(() => {
+    hook();
+  });
+
+  onDeactivated(() => {
+    hook();
+  });
 }

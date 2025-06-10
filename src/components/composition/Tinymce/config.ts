@@ -1,3 +1,9 @@
+/*
+ * @Author: Komorebi
+ * @Date: 2025-05-15 17:07:11
+ * @LastEditors: Komorebi
+ * @LastEditTime: 2025-06-10 14:26:32
+ */
 /**
  * 您要设置的任何插件都必须导入
  * 详细插件列表请参见https://www.tinymce.com/docs/plugins/
@@ -6,40 +12,59 @@
  */
 
 /**
- * advlist 高级列表插件,该插件通过css扩展了默认的UL和OL列表样式
- *   * 插件之间有可能存在依赖关系，advlist必须在lists插件启用的情况下才能使用
- * Accordion  创建可展开和可折叠的部分
- * Anchor  插入锚点（有时称为书签）
- * Autolink  自动创建超链接
- * Autoresize  自动调整TinyMCE的大小以适应内容
- * Autosave  在本地浏览器中自动保存内容
- * Character Map  在TinyMCE中插入特殊字符
- * Code  编辑内容的HTML源代码
- * Code Sample  插入并嵌入语法突出显示的代码段
- * Directionality  用于设置内容从左到右或从右到左方向的工具栏按钮
- * Emoticons  为您的内容添加一个笑脸
- * Full Screen  全屏显示TinyMCE
  * Help  显示帮助对话框
  * Image  将图像插入TinyMCE
  * Import CSS  自动将CSS类名填充到Format下拉列表中
- * Insert Date/Time  将当前日期和/或时间插入TinyMCE
- * Link  向内容添加超链接
  * Lists  规范浏览器之间的列表行为
- * List Styles  创建样式编号和项目符号列表
- * Media  添加HTML5视频和音频元素
- * Nonbreaking Space  插入一个非换行空格
- * Page Break  添加分页符
- * Preview  以只读格式显示当前内容的对话框
  * Quick Toolbars   用户界面控件可更快地创建内容
  * Save  在TinyMCE工具栏中添加一个保存按钮
- * Search and Replace   查找并替换TinyMCE中的内容
  * Table  表格编辑功能
- * Visual Blocks  允许用户查看块级元素，如段落
- * Visual Characters  请查看不可见字符，如非换行空格
- * Word Count  在TinyMCE状态栏中显示字数
  */
 export const plugins = [
-  "advlist anchor autolink autosave code codesample  directionality fullscreen insertdatetime link lists media nonbreaking pagebreak preview save searchreplace visualblocks visualchars wordcount",
+  /** 
+   * 高级列表插件,该插件通过css扩展了默认的UL和OL列表样式
+   * * 插件之间有可能存在依赖关系，advlist必须在lists插件启用的情况下才能使用
+   */
+  "advlist",
+  "lists",
+  // 创建可展开和可折叠的部分
+  "accordion",
+  // 插入锚点（有时称为书签）
+  "anchor",
+  // 自动创建超链接
+  "autolink",
+  // 自动调整TinyMCE的大小以适应内容
+  "autoresize",
+  // 自动保存内容
+  "autosave",
+  // 编辑内容的HTML源代码
+  "code",
+  // 插入并嵌入语法突出显示的代码段
+  "codesample",
+  // 用于设置内容从左到右或从右到左方向的工具栏按钮
+  "directionality",
+  // 全屏显示TinyMCE
+  "fullscreen",
+  // 将当前日期和/或时间插入TinyMCE
+  "insertdatetime",
+  // 向内容添加超链接
+  "link",
+  // 添加HTML5视频和音频元素
+  "media",
+  // 插入非换行空格
+  "nonbreaking",
+  // 添加分页符
+  "pagebreak",
+  // 以只读格式显示当前内容的对话框
+  "preview",
+  // 查找并替换TinyMCE中的内容
+  "searchreplace",
+  // 允许用户查看块级元素，如段落
+  "visualblocks",
+  // 显示不可见字符，如非换行空格
+  "visualchars",
+  // 显示字数统计
+  "wordcount",
 ];
 
 /**

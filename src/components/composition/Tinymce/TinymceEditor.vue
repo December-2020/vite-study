@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-05-09 15:34:33
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-06-10 14:18:36
+ * @LastEditTime: 2025-06-11 14:00:10
 -->
 <template>
   <div class="editor-wrap">
@@ -18,9 +18,12 @@ import type { Editor, RawEditorOptions, EditorEvent } from "tinymce";
 
 import tinymce from "tinymce/tinymce";
 import "tinymce/themes/silver";
-import "tinymce/models/dom";
 import "tinymce/icons/default/icons";
-
+import "tinymce/models/dom";
+/**
+ * tinymce插件可按需导入
+ * @see https://www.tiny.cloud/docs/tinymce/latest/plugins/#open-source-plugins
+ */
 import "tinymce/plugins/advlist";
 import "tinymce/plugins/lists";
 import "tinymce/plugins/accordion";
@@ -44,18 +47,13 @@ import "tinymce/plugins/visualblocks";
 import "tinymce/plugins/visualchars";
 import "tinymce/plugins/wordcount";
 
+// import store from "@/store";
 import { buildShortUUID } from "@/utils/uuid";
 import { plugins as defaultPlugins, toolbar as defaultToolbar } from "./config";
 import {
   onMountedOrActivated,
   onBeforeUnmountOrDeactivated,
 } from "@/hooks/useActivate";
-
-/**
- * tinymce插件可按需导入
- * @see https://www.tiny.cloud/docs/tinymce/latest/plugins/#open-source-plugins
- * import 'tinymce/plugins/advlist';
- */
 
 const props = defineProps({
   options: {
@@ -102,9 +100,11 @@ const editorWidth = computed(() => {
   }
   return width;
 });
+
 /**
  * TODO: 计算主题色
  */
+// const theme = computed(() => (store.appSet.isDarkTheme ? "dark" : "customed"));
 /**
  * TODO: 国际化
  */
@@ -122,26 +122,33 @@ const initOptions = computed((): RawEditorOptions => {
     plugins,
     /**
      * 默认配置
+     *
+     * tools 可显示
+     * table help 添加后无显示
      */
-    // table tools help
     menubar: "file edit insert view format",
     // 隐藏右下角技术支持
     branding: false,
-    // 自动获得焦点
-    auto_focus: true,
+    default_link_target: "_blank",
+    // auto_focus: true,
     // 禁用链接对话框中的链接标题输入字段
     link_title: false,
     // 关闭图像、表格或媒体对象的大小调整手柄。
     // 默认情况下，此选项处于启用状态，允许您调整表格和图像的大小。
     object_resizing: false,
+    /* skin: "oxide",
+    skin_url: "/src/assets/tinymce/skins/oxide/skin.min.css",
+    // 设置编辑器中可编辑区域内的样式
+    content_css: "/src/assets/tinymce/skins/oxide/content.min.css", */
     /**
      * 覆盖默认配置
      */
     ...options,
     // 初始化前执行
     setup: function (editor) {
+      console.log("🚀 ~ initOptions ~ editor:", editor);
       editorRef.value = editor;
-      console.log("ID为: " + editor.id + " 的编辑器即将初始化.");
+      // console.log("ID为: " + editor.id + " 的编辑器即将初始化.");
       editor.on("init", (e) => setupEditor(e));
     },
   };
@@ -149,10 +156,11 @@ const initOptions = computed((): RawEditorOptions => {
 
 // 组件初始化
 function initEditor() {
-  // const el = unref(elRef);
-  // if (el) {
-  //   el.style.visibility = "";
-  // }
+  /* const el = unref(elRef);
+  if (el) {
+    // visible
+    el.style.visibility = "";
+  } */
   tinymce
     .init(unref(initOptions))
     .then((editor) => {
@@ -196,7 +204,15 @@ onBeforeUnmountOrDeactivated(() => {
 </script>
 
 <style scoped lang="scss">
+@import "/src/assets/tinymce/skins/oxide/content.min.css";
+@import "/src/assets/tinymce/skins/oxide/skin.min.css";
+
 .editor-wrap {
   width: v-bind("editorWidth");
+
+  :deep(.tox-tinymce) {
+    visibility: visible !important;
+    height: 100% !important;
+  }
 }
 </style>

@@ -6,13 +6,14 @@
 -->
 <template>
   <div class="wrapper">
-    <TinymceEditor />
+    <TinymceEditor v-model="editorVal"/>
   </div>
 </template>
 
 <script setup lang="ts">
 defineOptions({ name: "CompEditor" });
 
+const editorVal = ref("测试");
 </script>
 
 <style scoped lang="scss"></style>

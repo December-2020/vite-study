@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-05-09 15:34:33
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-06-11 14:00:10
+ * @LastEditTime: 2025-06-20 17:07:55
 -->
 <template>
   <div class="editor-wrap">
@@ -114,18 +114,13 @@ const editorWidth = computed(() => {
  */
 const initOptions = computed((): RawEditorOptions => {
   const { height, options, toolbar, plugins } = props;
-  return {
+  const baseOptions: RawEditorOptions = {
     selector: `#${unref(tinymceId)}`,
     license_key: "gpl",
     height,
     toolbar,
     plugins,
-    /**
-     * 默认配置
-     *
-     * tools 可显示
-     * table help 添加后无显示
-     */
+    // table help 添加后无显示
     menubar: "file edit insert view format",
     // 隐藏右下角技术支持
     branding: false,
@@ -136,31 +131,45 @@ const initOptions = computed((): RawEditorOptions => {
     // 关闭图像、表格或媒体对象的大小调整手柄。
     // 默认情况下，此选项处于启用状态，允许您调整表格和图像的大小。
     object_resizing: false,
-    /* skin: "oxide",
-    skin_url: "/src/assets/tinymce/skins/oxide/skin.min.css",
-    // 设置编辑器中可编辑区域内的样式
-    content_css: "/src/assets/tinymce/skins/oxide/content.min.css", */
-    /**
-     * 覆盖默认配置
+    /** 
+     * 修改皮肤路径的配置方式
+     * 下列文件的来源是从node_modules中复制的
      */
-    ...options,
+    skin: "oxide-dark",
+    skin_url: "/src/assets/tinymce/skins/oxide-dark",
+    // 设置编辑器中可编辑区域内的样式
+    content_css: "/src/assets/tinymce/skins/oxide-dark/content.min.css",
     // 初始化前执行
     setup: function (editor) {
-      console.log("🚀 ~ initOptions ~ editor:", editor);
+      // console.log("🚀 ~ initOptions ~ editor:", editor);
       editorRef.value = editor;
-      // console.log("ID为: " + editor.id + " 的编辑器即将初始化.");
+
       editor.on("init", (e) => setupEditor(e));
+
+      // Add change event handler
+      editor.on("change keyup setcontent", () => {
+        const content = editor.getContent();
+        model.value = content;
+        emit("change", content);
+      });
     },
+  };
+
+  // 最后合并用户选项以允许覆盖默认值
+  return {
+    ...baseOptions,
+    ...options,
   };
 });
 
 // 组件初始化
 function initEditor() {
-  /* const el = unref(elRef);
+ /*  const el = unref(elRef);
   if (el) {
-    // visible
-    el.style.visibility = "";
+    // 将初始可见性设置为隐藏，直到编辑器初始化完成
+    el.style.visibility = "hidden";
   } */
+
   tinymce
     .init(unref(initOptions))
     .then((editor) => {
@@ -170,6 +179,7 @@ function initEditor() {
       emit("init-error", err);
     });
 }
+
 // 组件初始化完成
 function setupEditor(e: EditorEvent<any>) {
   const editor = unref(editorRef);
@@ -177,15 +187,16 @@ function setupEditor(e: EditorEvent<any>) {
 
   const value = model.value || "";
   editor.setContent(value as string);
-  console.log("🚀 ~ 初始化完成: " + editor.id);
+  // console.log("🚀 ~ 初始化完成: " + editor.id);
 }
+
 // 组件销毁
 function destroyEditor() {
   if (tinymce != null) {
     const { selector } = unref(initOptions);
     tinymce.remove(selector as string);
   }
-  console.log("🚀 ~ 组件销毁: ", tinymce);
+  // console.log("🚀 ~ 组件销毁: ", tinymce);
 }
 
 // 生命周期钩子
@@ -198,21 +209,20 @@ onMountedOrActivated(() => {
     initEditor();
   });
 });
+
 onBeforeUnmountOrDeactivated(() => {
   destroyEditor();
 });
 </script>
 
 <style scoped lang="scss">
-@import "/src/assets/tinymce/skins/oxide/content.min.css";
-@import "/src/assets/tinymce/skins/oxide/skin.min.css";
-
 .editor-wrap {
   width: v-bind("editorWidth");
 
   :deep(.tox-tinymce) {
-    visibility: visible !important;
-    height: 100% !important;
+    .tox-promotion{
+      display: none;
+    }
   }
 }
 </style>

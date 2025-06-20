@@ -2,11 +2,11 @@
  * @Author: Komorebi
  * @Date: 2025-03-28 09:31:40
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-05-09 16:14:33
+ * @LastEditTime: 2025-06-20 15:37:56
 -->
 <template>
   <div class="wrapper">
-    <TinymceEditor v-model="editorVal"/>
+    <TinymceEditor v-model="editorVal" />
   </div>
 </template>
 

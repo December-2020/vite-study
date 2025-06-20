@@ -385,6 +385,7 @@ methods: {
 - [中文文档(最近更新已经是几年前)](http://tinymce.ax-z.cn/quick-start.php)
 - [官方文档(纯英文)](https://www.tiny.cloud/docs/tinymce/latest/npm-projects/)
 - [一个使用案例](https://juejin.cn/post/7377335032354947126)
+- [语言包下载](https://www.tiny.cloud/get-tiny/language-packages/)
 
 ## 十一、github 上一些有趣开源的项目
 
@@ -400,3 +401,10 @@ methods: {
 
 - [Cursor Free VIP](https://github.com/yeongpin/cursor-free-vip)
 - [Cursor AI 编辑器](https://docs.cursor.com/welcome)
+
+  如何使用
+  1. Win + X 选择 Windows PowerShell (管理员)
+  2. 输入以下命令
+  ```
+  irm https://raw.githubusercontent.com/yeongpin/cursor-free-vip/main/scripts/install.ps1 | iex
+  ```

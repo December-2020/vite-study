@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-05-09 15:34:33
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-06-20 17:07:55
+ * @LastEditTime: 2025-06-21 15:13:01
 -->
 <template>
   <div class="editor-wrap">
@@ -14,7 +14,7 @@
 <!-- 菜单栏 工具栏 内容栏 共同组合成一个富文本 -->
 
 <script setup lang="ts">
-import type { Editor, RawEditorOptions, EditorEvent } from "tinymce";
+import type { Editor, RawEditorOptions } from "tinymce";
 
 import tinymce from "tinymce/tinymce";
 import "tinymce/themes/silver";
@@ -47,7 +47,7 @@ import "tinymce/plugins/visualblocks";
 import "tinymce/plugins/visualchars";
 import "tinymce/plugins/wordcount";
 
-// import store from "@/store";
+import store from "@/store";
 import { buildShortUUID } from "@/utils/uuid";
 import { plugins as defaultPlugins, toolbar as defaultToolbar } from "./config";
 import {
@@ -102,14 +102,19 @@ const editorWidth = computed(() => {
 });
 
 /**
- * TODO: 计算主题色
+ * 明暗主题
  */
-// const theme = computed(() => (store.appSet.isDarkTheme ? "dark" : "customed"));
+const theme = computed(() => `oxide${store.appSet.isDarkTheme ? "-dark" : ""}`);
 /**
- * TODO: 国际化
+ * 国际化
  */
+const language = computed(() => {
+  const lang = store.appSet.lang;
+  const Type = { "zh-CN": "zh_CN", "en-US": "en" };
+  return Type[lang];
+});
 /**
- * TODO: 初始化配置
+ * 初始化配置
  * @see http://tinymce.ax-z.cn/configure/integration-and-setup.php
  */
 const initOptions = computed((): RawEditorOptions => {
@@ -131,22 +136,30 @@ const initOptions = computed((): RawEditorOptions => {
     // 关闭图像、表格或媒体对象的大小调整手柄。
     // 默认情况下，此选项处于启用状态，允许您调整表格和图像的大小。
     object_resizing: false,
-    /** 
+    /**
      * 修改皮肤路径的配置方式
      * 下列文件的来源是从node_modules中复制的
      */
-    skin: "oxide-dark",
-    skin_url: "/src/assets/tinymce/skins/oxide-dark",
+    skin: theme.value,
+    skin_url: `/src/assets/tinymce/skins/${theme.value}`,
     // 设置编辑器中可编辑区域内的样式
-    content_css: "/src/assets/tinymce/skins/oxide-dark/content.min.css",
+    content_css: `/src/assets/tinymce/skins/${theme.value}/content.min.css`,
+    // 语言
+    language: language.value,
+    language_url:
+      language.value === "en"
+        ? ""
+        : `/src/assets/tinymce/langs/${language.value}.js`,
     // 初始化前执行
     setup: function (editor) {
-      // console.log("🚀 ~ initOptions ~ editor:", editor);
       editorRef.value = editor;
+      editor.on("init", () => {
+        setupEditor();
+        // 主题、语言切换时, 不销毁已存在的内容
+        // editor.setContent(model.value as string);
+      });
 
-      editor.on("init", (e) => setupEditor(e));
-
-      // Add change event handler
+      // 文本内容变化时, 同步到model
       editor.on("change keyup setcontent", () => {
         const content = editor.getContent();
         model.value = content;
@@ -162,26 +175,39 @@ const initOptions = computed((): RawEditorOptions => {
   };
 });
 
+// 监听 initOptions 中的主题、语言变化
+watch(
+  () => [initOptions.value.skin, initOptions.value.language],
+  () => {
+    // console.log(model.value,'model');
+    destroyEditor();
+    initEditor();
+  }
+);
+
 // 组件初始化
 function initEditor() {
- /*  const el = unref(elRef);
-  if (el) {
-    // 将初始可见性设置为隐藏，直到编辑器初始化完成
-    el.style.visibility = "hidden";
-  } */
+  // 确保dom元素已经准备好
+  nextTick(() => {
+    // 组件卸载时不显示textarea
+    const el = unref(elRef);
+    if (el) {
+      el.style.visibility = "hidden";
+    }
 
-  tinymce
-    .init(unref(initOptions))
-    .then((editor) => {
-      emit("inited", editor);
-    })
-    .catch((err) => {
-      emit("init-error", err);
-    });
+    tinymce
+      .init(unref(initOptions))
+      .then((editor) => {
+        emit("inited", editor);
+      })
+      .catch((err) => {
+        emit("init-error", err);
+      });
+  });
 }
 
 // 组件初始化完成
-function setupEditor(e: EditorEvent<any>) {
+function setupEditor() {
   const editor = unref(editorRef);
   if (!editor) return;
 
@@ -206,6 +232,9 @@ onMountedOrActivated(() => {
     tinymceId.value = buildShortUUID("tiny-vue");
   }
   nextTick(() => {
+    // 销毁之前的实例
+    destroyEditor();
+    // 初始化实例
     initEditor();
   });
 });
@@ -220,7 +249,7 @@ onBeforeUnmountOrDeactivated(() => {
   width: v-bind("editorWidth");
 
   :deep(.tox-tinymce) {
-    .tox-promotion{
+    .tox-promotion {
       display: none;
     }
   }

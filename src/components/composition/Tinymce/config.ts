@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-05-15 17:07:11
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-06-10 14:26:32
+ * @LastEditTime: 2025-06-21 16:37:10
  */
 /**
  * 您要设置的任何插件都必须导入
@@ -81,7 +81,7 @@ export const plugins = [
  * styleselect（格式设置）
  * formatselect（段落格式）
  * fontselect（字体选择）
- * fontsizeselect（字号选择）
+ * fontsize（字号选择）
  * cut（剪切）
  * copy（复制）
  * paste（粘贴）
@@ -100,6 +100,6 @@ export const plugins = [
  * eg: undo redo | styleselect | bold italic | link image
  */
 export const toolbar = [
-  "fontsizeselect lineheight searchreplace bold italic underline strikethrough alignleft aligncenter alignright outdent indent  blockquote undo redo removeformat subscript superscript code codesample",
-  "bullist numlist link  preview anchor pagebreak insertdatetime media fullscreen",
+  "fontsize lineheight searchreplace bold italic underline strikethrough alignleft aligncenter alignright outdent indent  blockquote undo redo removeformat subscript superscript code codesample",
+  "forecolor backcolor hr bullist numlist link  preview anchor pagebreak insertdatetime media fullscreen",
 ];

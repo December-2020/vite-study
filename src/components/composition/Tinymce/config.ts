@@ -2,26 +2,30 @@
  * @Author: Komorebi
  * @Date: 2025-05-15 17:07:11
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-06-23 09:58:38
+ * @LastEditTime: 2025-06-23 16:45:38
  */
 /**
  * 您要设置的任何插件都必须导入
  * 详细插件列表请参见https://www.tinymce.com/docs/plugins/
  * 自定义构建请参见https://www.tinymce.com/download/custom-builds/
  * colorpicker/contextmenu/textcolor插件现已内置于核心编辑器中，请将其从编辑器配置中删除
+ * 
+ * * 步骤: 
+ * * 1. 下载插件包
+ * * 2. 将插件包解压到plugins文件夹中
+ * * 3. TinymceEditor.vue 中导入插件包
+ * * 4. 在下面plugins数组中添加插件包名称
+ * * 5. 在下面toolbar数组中添加插件包名称(需要使用的地方, 不一定是这里)
  */
 
 /**
- * Help  显示帮助对话框
- * Image  将图像插入TinyMCE
  * Import CSS  自动将CSS类名填充到Format下拉列表中
  * Lists  规范浏览器之间的列表行为
  * Quick Toolbars   用户界面控件可更快地创建内容
  * Save  在TinyMCE工具栏中添加一个保存按钮
- * Table  表格编辑功能
  */
 export const plugins = [
-  /** 
+  /**
    * 高级列表插件,该插件通过css扩展了默认的UL和OL列表样式
    * * 插件之间有可能存在依赖关系，advlist必须在lists插件启用的情况下才能使用
    */
@@ -65,6 +69,10 @@ export const plugins = [
   "visualchars",
   // 显示字数统计
   "wordcount",
+  // 将图像插入TinyMCE
+  "image",
+  // 插入表格
+  "table",
 ];
 
 /**
@@ -102,5 +110,5 @@ export const plugins = [
 export const toolbar = [
   "blocks fontfamily fontsize lineheight bullist numlist",
   "searchreplace bold italic underline strikethrough alignleft aligncenter alignright outdent indent  blockquote undo redo removeformat subscript superscript code codesample",
-  "forecolor backcolor hr  link  preview anchor pagebreak insertdatetime media fullscreen",
+  "forecolor backcolor hr  link  preview anchor pagebreak insertdatetime media fullscreen image",
 ];

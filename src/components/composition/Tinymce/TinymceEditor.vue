@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-05-09 15:34:33
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-06-21 15:13:01
+ * @LastEditTime: 2025-06-23 16:58:15
 -->
 <template>
   <div class="editor-wrap">
@@ -35,6 +35,7 @@ import "tinymce/plugins/code";
 import "tinymce/plugins/codesample";
 import "tinymce/plugins/directionality";
 import "tinymce/plugins/fullscreen";
+import "tinymce/plugins/image";
 import "tinymce/plugins/insertdatetime";
 import "tinymce/plugins/link";
 import "tinymce/plugins/media";
@@ -43,6 +44,7 @@ import "tinymce/plugins/pagebreak";
 import "tinymce/plugins/preview";
 // import "tinymce/plugins/save";
 import "tinymce/plugins/searchreplace";
+import "tinymce/plugins/table";
 import "tinymce/plugins/visualblocks";
 import "tinymce/plugins/visualchars";
 import "tinymce/plugins/wordcount";
@@ -125,8 +127,7 @@ const initOptions = computed((): RawEditorOptions => {
     height,
     toolbar,
     plugins,
-    // table help 添加后无显示
-    menubar: "file edit insert view format",
+    menubar: "file edit insert view format table",
     // 隐藏右下角技术支持
     branding: false,
     default_link_target: "_blank",

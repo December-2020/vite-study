@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-05-15 17:07:11
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-06-21 16:37:10
+ * @LastEditTime: 2025-06-23 09:58:38
  */
 /**
  * 您要设置的任何插件都必须导入
@@ -100,6 +100,7 @@ export const plugins = [
  * eg: undo redo | styleselect | bold italic | link image
  */
 export const toolbar = [
-  "fontsize lineheight searchreplace bold italic underline strikethrough alignleft aligncenter alignright outdent indent  blockquote undo redo removeformat subscript superscript code codesample",
-  "forecolor backcolor hr bullist numlist link  preview anchor pagebreak insertdatetime media fullscreen",
+  "blocks fontfamily fontsize lineheight bullist numlist",
+  "searchreplace bold italic underline strikethrough alignleft aligncenter alignright outdent indent  blockquote undo redo removeformat subscript superscript code codesample",
+  "forecolor backcolor hr  link  preview anchor pagebreak insertdatetime media fullscreen",
 ];

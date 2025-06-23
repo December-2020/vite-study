@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-01-10 11:18:41
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-01-13 11:54:16
+ * @LastEditTime: 2025-06-23 09:43:14
 -->
 <template>
   <div class="wrapper">
@@ -133,13 +133,19 @@ const collapseWidth = computed(() => {
           height: 1.77em;
           top: -3.54em;
           overflow: hidden;
+          width: 100%;
           /*
           * 英文可加上该值
           */
           // word-break: break-all;
           &::before {
             content: attr(title);
-            width: 50%;
+            // width: 50%;
+            /** 
+             * 本来预订是 50%, 但是会出现半个字的情况
+             * 所以改成了 50% - 0.3em
+             */
+            width: calc(50% - 0.3em);
             float: right;
             white-space: nowrap;
             overflow: hidden;

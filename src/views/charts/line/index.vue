@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:08:25
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-19 15:17:59
+ * @LastEditTime: 2025-06-23 15:46:12
 -->
 <template>
   <div class="wrapper">
@@ -105,7 +105,8 @@ onMounted(async () => {
   await getLineData();
 
   let dayList = lineData.value?.dayList || [];
-  let dayStartIndex = dayList.length - 7 > 0 ? dayList.length - 7 : 0;
+  let dayLength = dayList.length;
+  let dayStartIndex = dayLength - 9 > 0 ? dayLength - 9 : 0;
   // 折线-柱状混合图配置
   setOptions({
     // xAxis: {
@@ -149,7 +150,7 @@ onMounted(async () => {
         type: "inside", // 这个 dataZoom 组件是 inside 型 dataZoom 组件
         xAxisIndex: 0, //这里是从X轴的0刻度开始
         startValue: dayStartIndex, // 从头开始。
-        endValue: dayStartIndex + 7, // 一次性展示8个。
+        endValue: dayStartIndex + 9, // 一次性展示8个。
       },
     ],
     // // 图例
@@ -184,7 +185,10 @@ onMounted(async () => {
           },
           dataZoom: [
             {
-              endValue: dayStartIndex + 4, // 一次性展示5个。
+              // 从末尾数起
+              startValue: dayLength - 5 > 0 ? dayLength - 5 : 0,
+              // 一次性展示5个
+              endValue: dayLength - 1 > 0 ? dayLength - 1 : 0,
             },
           ],
         },
@@ -327,7 +331,7 @@ onMounted(async () => {
     &-pie-list {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      // gap: 10px;
+      gap: 10px;
     }
   }
 }

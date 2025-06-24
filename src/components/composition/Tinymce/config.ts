@@ -127,7 +127,7 @@ export const fonts =
   // "Inter=Inter, sans-serif;" +
   // "Roboto=Roboto, sans-serif;" +
   // "Noto Sans SC=Noto Sans SC, sans-serif;" +
-  // 其他常用字体
+  // 其他常用字体(官方默认)
   "Andale Mono=andale mono,times;" +
   "Arial=arial,helvetica,sans-serif;" +
   "Arial Black=arial black,avant garde;" +

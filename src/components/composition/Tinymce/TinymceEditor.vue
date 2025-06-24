@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-05-09 15:34:33
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-06-24 10:56:44
+ * @LastEditTime: 2025-06-24 17:14:18
 -->
 <template>
   <div class="editor-wrap">
@@ -52,6 +52,7 @@ import "tinymce/plugins/wordcount";
 import "@/assets/tinymce/fonts/google.css";
 
 import store from "@/store";
+import { ElMessage } from "element-plus";
 import { buildShortUUID } from "@/utils/uuid";
 import {
   plugins as defaultPlugins,
@@ -133,7 +134,7 @@ const initOptions = computed((): RawEditorOptions => {
     height,
     toolbar,
     plugins,
-    menubar: "file edit insert view format table",
+    menubar: "file edit insert view format table tools",
     // 隐藏右下角技术支持
     branding: false,
     default_link_target: "_blank",
@@ -151,14 +152,73 @@ const initOptions = computed((): RawEditorOptions => {
     skin_url: `/src/assets/tinymce/skins/${theme.value}`,
     // 设置编辑器中可编辑区域内的样式
     content_css: `/src/assets/tinymce/skins/${theme.value}/content.min.css`,
-    // 语言
+    /**
+     * 语言
+     */
     language: language.value,
     language_url:
       language.value === "en"
         ? ""
         : `/src/assets/tinymce/langs/${language.value}.js`,
-    // 字体
+    /**
+     * 字体选项
+     */
     font_family_formats: fonts,
+    /**
+     * 图片上传
+     */
+    // 启用“图像”对话框中的标题字段
+    image_title: true,
+    // 不允许自动上传由blob或数据URI表示的图像
+    automatic_uploads: false,
+    file_picker_types: "image",
+    // 图片上传回调
+    file_picker_callback: (cb, value, meta) => {
+      const input = document.createElement("input");
+      input.type = "file";
+      input.accept = "image/*";
+
+      // 文件选择回调
+      input.onchange = (e: Event) => {
+        const files = (e.target as HTMLInputElement).files;
+        // 无文件选择时退出
+        if (!files || files.length === 0) return;
+        // { name: "xxx.png" size: 9000, type: image/png }
+        const file = files[0];
+
+        // 验证文件类型和大小（可选）
+        if (!file.type.startsWith("image/")) {
+          ElMessage.error("请上传图片文件");
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = () => {
+          try {
+            // 处理base64数据
+            const base64Data = (reader.result as string).split(",")[1];
+            const blobId = `blob_${Date.now()}`;
+            console.log("🚀 ~ initOptions ~ blobId:", blobId);
+
+            // 使用非空断言（已确认editor存在）
+            const blobCache = tinymce.activeEditor!.editorUpload.blobCache;
+            const blobInfo = blobCache.create(blobId, file, base64Data);
+
+            blobCache.add(blobInfo);
+            cb(blobInfo.blobUri(), { title: file.name });
+          } catch (err) {
+            ElMessage.error("图片处理失败，请重试");
+            console.error("File processing error:", err);
+          }
+        };
+        reader.onerror = () => {
+          ElMessage.error("读取文件失败，请重试");
+        };
+        reader.readAsDataURL(file);
+      };
+
+      input.click();
+    },
     // 初始化前执行
     setup: function (editor) {
       editorRef.value = editor;
@@ -221,8 +281,17 @@ function setupEditor() {
   if (!editor) return;
 
   const value = model.value || "";
+  console.log("🚀 ~ setupEditor ~ value:", value)
   editor.setContent(value as string);
   // console.log("🚀 ~ 初始化完成: " + editor.id);
+  nextTick(() => {
+    // * 光标定位到最后
+    // if (value) {
+    //   editor.selection.setCursorLocation(null, value.length);
+    // }
+    // 自动聚焦
+    editor.focus();
+  });
 }
 
 // 组件销毁

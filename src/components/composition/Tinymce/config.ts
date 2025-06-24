@@ -2,15 +2,15 @@
  * @Author: Komorebi
  * @Date: 2025-05-15 17:07:11
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-06-23 16:45:38
+ * @LastEditTime: 2025-06-24 10:54:24
  */
 /**
  * 您要设置的任何插件都必须导入
  * 详细插件列表请参见https://www.tinymce.com/docs/plugins/
  * 自定义构建请参见https://www.tinymce.com/download/custom-builds/
  * colorpicker/contextmenu/textcolor插件现已内置于核心编辑器中，请将其从编辑器配置中删除
- * 
- * * 步骤: 
+ *
+ * * 步骤:
  * * 1. 下载插件包
  * * 2. 将插件包解压到plugins文件夹中
  * * 3. TinymceEditor.vue 中导入插件包
@@ -112,3 +112,36 @@ export const toolbar = [
   "searchreplace bold italic underline strikethrough alignleft aligncenter alignright outdent indent  blockquote undo redo removeformat subscript superscript code codesample",
   "forecolor backcolor hr  link  preview anchor pagebreak insertdatetime media fullscreen image",
 ];
+
+/**
+ * 字体
+ * 您可以通过在字体名称后面添加=fontname来指定字体的替代名称。
+ * 例如，宋体=SimSun; 这将允许您在编辑器中使用SimSun字体，而不是宋体。
+ * 您还可以使用|分隔符来指定多个字体名称。
+ */
+export const fonts =
+  // 中文字体
+  "宋体=SimSun; 黑体=SimHei; 微软雅黑=Microsoft YaHei;" +
+  "楷体=KaiTi; 隶书=LiSu; 幼圆=YouYuan;" +
+  // Google Fonts
+  // "Inter=Inter, sans-serif;" +
+  // "Roboto=Roboto, sans-serif;" +
+  // "Noto Sans SC=Noto Sans SC, sans-serif;" +
+  // 其他常用字体
+  "Andale Mono=andale mono,times;" +
+  "Arial=arial,helvetica,sans-serif;" +
+  "Arial Black=arial black,avant garde;" +
+  "Book Antiqua=book antiqua,palatino;" +
+  "Comic Sans MS=comic sans ms,sans-serif;" +
+  "Courier New=courier new,courier;" +
+  "Georgia=georgia,palatino;" +
+  "Helvetica=helvetica;" +
+  "Impact=impact,chicago;" +
+  "Symbol=symbol;" +
+  "Tahoma=tahoma,arial,helvetica,sans-serif;" +
+  "Terminal=terminal,monaco;" +
+  "Times New Roman=times new roman,times;" +
+  "Trebuchet MS=trebuchet ms,geneva;" +
+  "Verdana=verdana,geneva;" +
+  "Webdings=webdings;" +
+  "Wingdings=wingdings,zapf dingbats";

@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-05-09 15:34:33
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-06-23 16:58:15
+ * @LastEditTime: 2025-06-24 10:56:44
 -->
 <template>
   <div class="editor-wrap">
@@ -49,9 +49,15 @@ import "tinymce/plugins/visualblocks";
 import "tinymce/plugins/visualchars";
 import "tinymce/plugins/wordcount";
 
+import "@/assets/tinymce/fonts/google.css";
+
 import store from "@/store";
 import { buildShortUUID } from "@/utils/uuid";
-import { plugins as defaultPlugins, toolbar as defaultToolbar } from "./config";
+import {
+  plugins as defaultPlugins,
+  toolbar as defaultToolbar,
+  fonts,
+} from "./config";
 import {
   onMountedOrActivated,
   onBeforeUnmountOrDeactivated,
@@ -151,6 +157,8 @@ const initOptions = computed((): RawEditorOptions => {
       language.value === "en"
         ? ""
         : `/src/assets/tinymce/langs/${language.value}.js`,
+    // 字体
+    font_family_formats: fonts,
     // 初始化前执行
     setup: function (editor) {
       editorRef.value = editor;

@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-26 09:37:47
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-08 09:41:05
+ * @LastEditTime: 2025-06-26 11:13:25
  */
 import type {
   RouteLocationNormalized,
@@ -65,9 +65,6 @@ const useAppSet = defineStore("appSet", {
     },
     // 判断当前设备是否为PC
     isPC(): boolean {
-      /**
-       * !bug 移动设备下,首次进入页面,设备类型为PC
-       */
       let _flag = this.device === DeviceEnum.PC;
       // console.log(state.device, "state.device");
       return _flag;

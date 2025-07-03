@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-03-28 09:31:40
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-06-20 15:37:56
+ * @LastEditTime: 2025-07-03 09:23:59
 -->
 <template>
   <div class="wrapper">
@@ -13,7 +13,7 @@
 <script setup lang="ts">
 defineOptions({ name: "CompEditor" });
 
-const editorVal = ref("测试");
+const editorVal = ref("");
 </script>
 
 <style scoped lang="scss"></style>

@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-05-09 15:34:33
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-06-24 17:14:18
+ * @LastEditTime: 2025-07-02 16:37:43
 -->
 <template>
   <div class="editor-wrap">
@@ -30,7 +30,7 @@ import "tinymce/plugins/accordion";
 import "tinymce/plugins/anchor";
 import "tinymce/plugins/autolink";
 import "tinymce/plugins/autoresize";
-import "tinymce/plugins/autosave";
+// import "tinymce/plugins/autosave";
 import "tinymce/plugins/code";
 import "tinymce/plugins/codesample";
 import "tinymce/plugins/directionality";
@@ -51,6 +51,7 @@ import "tinymce/plugins/wordcount";
 
 import "@/assets/tinymce/fonts/google.css";
 
+import i18n from "@/locales";
 import store from "@/store";
 import { ElMessage } from "element-plus";
 import { buildShortUUID } from "@/utils/uuid";
@@ -131,6 +132,7 @@ const initOptions = computed((): RawEditorOptions => {
   const baseOptions: RawEditorOptions = {
     selector: `#${unref(tinymceId)}`,
     license_key: "gpl",
+    placeholder: i18n.global.t(`Components.inputPlaceholder`),
     height,
     toolbar,
     plugins,
@@ -281,17 +283,17 @@ function setupEditor() {
   if (!editor) return;
 
   const value = model.value || "";
-  console.log("🚀 ~ setupEditor ~ value:", value)
+  // console.log("🚀 ~ setupEditor ~ value:", value)
   editor.setContent(value as string);
   // console.log("🚀 ~ 初始化完成: " + editor.id);
-  nextTick(() => {
+  /* nextTick(() => {
     // * 光标定位到最后
     // if (value) {
-    //   editor.selection.setCursorLocation(null, value.length);
+    //   editor.selection.setCursorLocation(null, (value as string).length);
     // }
     // 自动聚焦
     editor.focus();
-  });
+  }); */
 }
 
 // 组件销毁

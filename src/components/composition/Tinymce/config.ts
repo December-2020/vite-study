@@ -40,7 +40,7 @@ export const plugins = [
   // 自动调整TinyMCE的大小以适应内容
   "autoresize",
   // 自动保存内容
-  "autosave",
+  // "autosave",
   // 编辑内容的HTML源代码
   "code",
   // 插入并嵌入语法突出显示的代码段

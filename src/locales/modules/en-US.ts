@@ -37,6 +37,7 @@ export default {
       test1: "Test Route 1",
       test2: "Test Route 2",
       test3: "Test Route 3",
+      amap: "AMAP",
     },
     example: {
       title: "example",

@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/jsconfig",
   "name": "vite_study",
   "private": true,
-  "version": "0.7.3",
+  "version": "0.8.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -13,6 +13,7 @@
     "postinstall": "patch-package"
   },
   "dependencies": {
+    "@amap/amap-jsapi-loader": "^1.0.1",
     "@tinymce/tinymce-vue": "^5.1.1",
     "@vueuse/components": "^11.1.0",
     "@vueuse/core": "^11.1.0",

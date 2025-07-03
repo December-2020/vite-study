@@ -288,6 +288,8 @@ methods: {
   2. 有些企业版浏览器或者特殊环境，根本装不了扩展；
   3. 移动端真机调试？很难用，几乎废了。
   仅在开发环境使用, 正式环境还是使用chrome插件
+- 高德地图
+  npm i @amap/amap-jsapi-loader
 
 ## 十、其他相关
 
@@ -386,6 +388,11 @@ methods: {
 - [官方文档(纯英文)](https://www.tiny.cloud/docs/tinymce/latest/npm-projects/)
 - [一个使用案例](https://juejin.cn/post/7377335032354947126)
 - [语言包下载](https://www.tiny.cloud/get-tiny/language-packages/)
+
+21. 高德地图
+
+- [高德开发平台](https://lbs.amap.com/api/javascript-api-v2/guide/abc/amap-vue)
+- [高德个人控制中心](https://console.amap.com/dev/key/app)
 
 ## 十一、github 上一些有趣开源的项目
 

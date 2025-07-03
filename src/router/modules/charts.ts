@@ -35,6 +35,14 @@ const Charts: AppRouteRecordRaw = {
       },
       component: () => import("@/views/charts/three/index.vue"),
     },
+    {
+      path: "amap",
+      name: "AMap",
+      meta: {
+        title: "chart.amap",
+      },
+      component: () => import("@/views/charts/map/index.vue"),
+    },
 
     // 测试路由
     {

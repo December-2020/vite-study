@@ -290,6 +290,10 @@ methods: {
   仅在开发环境使用, 正式环境还是使用chrome插件
 - 高德地图
   npm i @amap/amap-jsapi-loader
+- 截图
+  npm i html2canvas
+- 其他截图工具
+  npm i @zumer/snapdom
 
 ## 十、其他相关
 
@@ -393,6 +397,11 @@ methods: {
 
 - [高德开发平台](https://lbs.amap.com/api/javascript-api-v2/guide/abc/amap-vue)
 - [高德个人控制中心](https://console.amap.com/dev/key/app)
+
+22. 截图
+
+- [html2canvas文档](https://www.html2canvas.cn/html2canvas-getStart.html)
+- [snapDom的github地址](https://github.com/zumerlab/snapdom?tab=readme-ov-file#readme)
 
 ## 十一、github 上一些有趣开源的项目
 

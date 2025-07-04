@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-26 09:14:33
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-04-07 15:00:56
+ * @LastEditTime: 2025-07-04 13:56:52
  */
 export default {
   // 全局通用
@@ -46,6 +46,9 @@ export default {
       title: "Components",
       dialog: "Dialog",
       editor: "Rich text",
+      screenshot: "Screenshot",
+      html2canvas: "html2canvas",
+      snapDom: "snapDom",
     },
   },
 

@@ -31,7 +31,6 @@ export default {
     },
     chart: {
       title: "Charts",
-      three: "Three Chart",
       line: "Line Chart",
       test: "Test Route",
       test1: "Test Route 1",

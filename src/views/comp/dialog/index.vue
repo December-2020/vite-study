@@ -110,7 +110,7 @@ const modalConfirm3 = (e: AnyObject) => {
 .wrapper {
   &-title,
   &-content {
-    @include background_color("content-font-bg-color");
+    background-color: var(--content-font-bg-color);
   }
 
   &-content {

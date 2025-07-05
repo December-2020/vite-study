@@ -42,7 +42,7 @@
     font-weight: bold;
   }
   span {
-    @include font_color("content-bg-color");
+    color: var(--content-bg-color);
   }
 }
 </style>

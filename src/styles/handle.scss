@@ -1,71 +1,11 @@
 @import "./theme.scss";
 
-/**
-* 定义一个全局变量
-* 表示当前处于什么主题下
-*/
-$curTheme: dark;
-/**
-* 切换主题时 获取不同的主题色值
-* 定义复用的样式代码，接受传参，搭配@include使用
-*/
-@mixin useTheme {
-  /**
-  * @each 指令的格式是 $var in <list>
-  */
-  @each $key, $value in $themes {
-    // !global 把局部变量强升为全局变量
-    $curTheme: $key !global;
-    /**
-    * 判断html的class的属性值
-    * 暗色主题是html的class的值为dark
-    * # {} 是sass的差值表达式
-    * & sass嵌套里的父容器标识
-    * @content是混合器插槽, 像vue的slot
-    */
-    html[class="#{$key}"] & {
-      @content;
+// 遍历主题列表
+@each $theme, $map in $themes {
+  html[class="#{$theme}"] {
+    // 生成css变量
+    @each $key, $value in $map {
+      --#{$key}: #{$value};
     }
   }
 }
-
-// 从主题色map中取出对应颜色
-@function getVar($key) {
-  // 获取变量key所对应的键值
-  $themeMap: map-get($themes, $curTheme);
-  @return map-get($themeMap, $key);
-}
-
-/**
-* 在sass中使用
-* @include background_color(theme文件下的属性名);
-* 如: @include background_color('nav-bg-color');
-*/
-// 获取背景颜色
-@mixin background_color($color) {
-  @include useTheme {
-    background-color: getVar($color) !important;
-  }
-}
-// 获取字体颜色
-@mixin font_color($color) {
-  @include useTheme {
-    color: getVar($color) !important;
-  }
-}
-// 获取边框颜色
-@mixin border_color($color) {
-  @include useTheme {
-    border-color: getVar($color) !important;
-  }
-}
-
-/**
- * ! 菜单修改已生效
- */
-/* .el-menu {
-  @include useTheme {
-    background-color: getVar("el-menu-bg-color") !important;
-    color: getVar("el-menu-text-color") !important;
-  }
-} */

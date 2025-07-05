@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-11 14:34:37
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-08 16:27:03
+ * @LastEditTime: 2025-07-05 09:50:46
 -->
 <template>
   <!-- 左侧菜单模式 -->
@@ -63,14 +63,14 @@ const closeDrawer = () => {
   &-head {
     --el-header-height: auto;
     --el-header-padding: 0;
-    @include border_color("content-border-color");
+    border-color: var(--content-border-color);
     &-app {
-      @include border_color("content-border-color");
+      border-color: var(--content-border-color);
     }
   }
   &-main {
-    @include background_color("content-bg-color");
-    @include font_color("content-font-color");
+    background-color: var(--content-bg-color);
+    color: var(--content-font-color);
   }
 }
 </style>

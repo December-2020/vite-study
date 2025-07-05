@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-23 15:08:24
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-11-07 16:34:14
+ * @LastEditTime: 2025-07-05 09:50:13
  */
 import { createApp } from "vue";
 import App from "./App.vue";
@@ -17,6 +17,8 @@ import "element-plus/es/components/message/style/css";
 import "virtual:uno.css";
 // 引入 animate.css 动画库
 import "animate.css";
+// 引入全局样式
+import "@/styles/handle.scss";
 // 引入element内组件的暗色主题
 import "element-plus/theme-chalk/dark/css-vars.css";
 // 引入i18n

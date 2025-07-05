@@ -133,8 +133,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     left: calc(50% - 200px);
     top: calc(50% - 135px);
     border: solid 1px #eee;
-    @include background_color("content-bg-color");
-    @include font_color("content-font-color");
+    background-color: var(--content-bg-color);
+    color: var(--content-font-color);
     .header-wrapper {
       &-title {
         position: absolute;

@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-02-24 15:35:02
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-03-27 15:41:34
+ * @LastEditTime: 2025-07-05 09:59:21
 -->
 <template>
   <BaseDialog
@@ -210,13 +210,13 @@ onUnmounted(() => {
 <style scoped lang="scss">
 .wrap {
   &-content {
-    @include font_color("content-font-color");
+    color: var(--content-font-color);
     min-height: 100px;
     .search-list {
       cursor: pointer;
       &_item {
-        @include background_color("content-font-bg-color");
-        @include font_color("content-font-color");
+        background-color: var(--content-font-bg-color);
+        color: var(--content-font-color);
         padding: 8px;
         box-sizing: border-box;
         border-radius: 4px;
@@ -225,12 +225,12 @@ onUnmounted(() => {
         }
         &.highlight,
         &:hover {
-          @include background_color("el-menu-hover-bg-color");
-          @include font_color("content-font-color");
+          background-color: var(--el-menu-hover-bg-color);
+          color: var(--content-font-color);
           div {
             :deep(span) {
               &.highlight {
-                @include font_color("content-font-color");
+                color: var(--content-font-color);
               }
             }
           }
@@ -238,7 +238,7 @@ onUnmounted(() => {
         div {
           :deep(span) {
             &.highlight {
-              @include font_color("el-menu-hover-bg-color");
+              color: var(--el-menu-hover-bg-color);
             }
           }
         }
@@ -253,18 +253,21 @@ onUnmounted(() => {
   &-footer {
     text-align: left;
     border-top: solid 1px;
-    @include border_color("content-border-color");
-    @include font_color("content-font-color");
-    // @include background_color("content-bg-color");
-    margin-top: -8px;
-    padding-top: 8px;
+    border-color: var(--content-border-color);
+    color: var(--content-font-color);
+    background-color: var(--content-bg-color);
+    // margin-top: -8px;
+    // padding-top: 8px;
+    padding: 8px 12px;
+    box-sizing: border-box;
+    border-radius: 4px;
     .btn {
       &:not(:first-child) {
         margin-left: 10px;
       }
       &-item {
         .icon {
-          @include border_color("content-border-color");
+          border-color: var(--content-border-color);
           border: solid 1px;
           padding: 1px;
           border-radius: 2px;

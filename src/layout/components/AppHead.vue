@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-14 11:31:48
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-03-25 16:28:25
+ * @LastEditTime: 2025-07-04 17:16:59
 -->
 <template>
   <div class="wrapper flex justify-between items-center h-100%">
@@ -276,7 +276,7 @@ const toggleFullScreen = async () => {
     .icon {
       padding: 14px 10px;
       cursor: pointer;
-      @include font_color("content-font-color");
+      color: var(--content-font-color);
     }
   }
 }

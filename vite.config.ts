@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-23 15:08:24
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-04-29 13:43:34
+ * @LastEditTime: 2025-07-05 09:49:38
  */
 import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
@@ -165,19 +165,6 @@ export default defineConfig(({ command, mode }) => {
             grid: true,
           }),
         ],
-      },
-      // css预处理器
-      preprocessorOptions: {
-        // scss 全局变量
-        scss: {
-          /**
-           * !导入的文件路径必须加上分号, 不然报错
-           * !不能使用@import来导入, sass团队将废弃该语法
-           */
-          additionalData: `
-            @use "./src/styles/handle.scss" as *;
-          `,
-        },
       },
     },
 

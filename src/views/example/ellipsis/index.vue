@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-01-10 11:18:41
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-06-23 09:43:14
+ * @LastEditTime: 2025-07-05 10:43:09
 -->
 <template>
   <div class="wrapper">
@@ -80,7 +80,7 @@ const collapseWidth = computed(() => {
 <style scoped lang="scss">
 .wrapper {
   &-title {
-    @include background_color("content-font-bg-color");
+    background-color: var(--content-font-bg-color);
   }
   &-content {
     :deep(.el-collapse) {
@@ -151,7 +151,7 @@ const collapseWidth = computed(() => {
             overflow: hidden;
             text-overflow: ellipsis;
             direction: rtl;
-            @include background_color("content-font-bg-color");
+            background-color: var(--content-font-bg-color);
           }
         }
       }

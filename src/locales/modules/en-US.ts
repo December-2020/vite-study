@@ -98,4 +98,13 @@ export default {
       },
     },
   },
+
+  // 组件页面
+  Comp: {
+    screenshot: {
+      capture: "Capture",
+      download: "Download",
+      baseCase: "Base Case",
+    },
+  },
 };

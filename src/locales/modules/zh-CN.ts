@@ -98,4 +98,13 @@ export default {
       },
     },
   },
+
+  // 组件页面
+  Comp: {
+    screenshot: {
+      capture: "捕获",
+      download: "下载",
+      baseCase: "基础案例",
+    },
+  },
 };

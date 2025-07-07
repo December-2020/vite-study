@@ -2,17 +2,20 @@
  * @Author: Komorebi
  * @Date: 2025-07-04 14:45:42
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-07-04 16:11:03
+ * @LastEditTime: 2025-07-07 17:06:21
 -->
 <template>
-  <div class="wrapper">
+  <div class="wrapper" ref="domRef">
     <span>
       <b>Hello, <span class="highlight">This is a base demo</span>! </b>
     </span>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const domRef = ref();
+defineExpose({ domRef });
+</script>
 
 <style scoped lang="scss">
 .wrapper {
@@ -22,7 +25,12 @@
   padding: 32px 40px;
   font-weight: bold;
   border-radius: 12px;
-  background: linear-gradient(120deg, #f8fbff 60%, #eaf3fa 100%);
+  // 渐变 ([方向或角度], [颜色1 位置1], [颜色2 位置2], ...)
+  background: linear-gradient(
+    120deg,
+    var(--content-font-color) 60%,
+    var(--el-menu-text-color) 100%
+  );
   box-shadow: 0 4px 16px 0 rgba(30, 42, 80, 0.08);
   position: relative;
   border: none;
@@ -42,7 +50,7 @@
     font-weight: bold;
   }
   span {
-    color: var(--content-bg-color);
+    color: var(--content-font-bg-color);
   }
 }
 </style>

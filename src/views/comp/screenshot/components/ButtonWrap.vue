@@ -9,7 +9,7 @@
     <BaseButton @click="() => emits('capture')">
       {{ $t("Comp.screenshot.capture") }}
     </BaseButton>
-    <BaseButton @click="() => emits('download')">
+    <BaseButton @click="() => emits('download')" plain>
       {{ $t("Comp.screenshot.download") }}
     </BaseButton>
   </div>

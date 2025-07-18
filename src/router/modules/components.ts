@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-04-07 14:53:58
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-07-04 13:56:19
+ * @LastEditTime: 2025-07-18 11:53:15
  */
 import type { AppRouteRecordRaw } from "#/route";
 
@@ -40,26 +40,7 @@ const Comp: AppRouteRecordRaw = {
       meta: {
         title: "components.screenshot",
       },
-      children: [
-        {
-          path: "html2canvas",
-          name: "CompScreenshot-1",
-          meta: {
-            title: "components.html2canvas",
-          },
-          component: () =>
-            import("@/views/comp/screenshot/html2canvas/index.vue"),
-        },
-        {
-          path: "snapDom",
-          name: "CompScreenshot-2",
-          meta: {
-            title: "components.snapDom",
-          },
-          component: () =>
-            import("@/views/comp/screenshot/snapDom/index.vue"),
-        },
-      ],
+      component: () => import("@/views/comp/screenshot/index.vue"),
     },
   ],
 };

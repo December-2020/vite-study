@@ -31,8 +31,8 @@
 
 <script setup lang="ts">
 import { ComponentPublicInstance } from "vue";
-import BasicDom from "../components/BasicDom.vue";
-import ButtonWrap from "../components/ButtonWrap.vue";
+import BasicDom from "./components/BasicDom.vue";
+import ButtonWrap from "./components/ButtonWrap.vue";
 import { snapdom } from "@zumer/snapdom";
 import { ElMessage } from "element-plus";
 import { formatDateTime } from "@/utils/date";

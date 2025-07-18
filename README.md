@@ -290,9 +290,7 @@ methods: {
   仅在开发环境使用, 正式环境还是使用chrome插件
 - 高德地图
   npm i @amap/amap-jsapi-loader
-- 截图
-  npm i html2canvas
-- 其他截图工具
+- 网页转图片
   npm i @zumer/snapdom
 
 ## 十、其他相关

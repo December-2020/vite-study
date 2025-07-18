@@ -47,8 +47,6 @@ export default {
       dialog: "Dialog",
       editor: "Rich text",
       screenshot: "Screenshot",
-      html2canvas: "html2canvas",
-      snapDom: "snapDom",
     },
   },
 

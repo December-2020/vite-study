@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-07-04 11:16:32
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-07-17 17:07:27
+ * @LastEditTime: 2025-07-18 11:20:02
 -->
 <template>
   <div class="wrapper">
@@ -35,11 +35,9 @@ import BasicDom from "../components/BasicDom.vue";
 import ButtonWrap from "../components/ButtonWrap.vue";
 import { snapdom } from "@zumer/snapdom";
 import { ElMessage } from "element-plus";
+import { formatDateTime } from "@/utils/date";
 
 defineOptions({ name: "snapDom" });
-
-const dateStr = new Date().toISOString().replace(/[-:T.]/g, "");
-console.log("🚀 ~ dateStr:", dateStr)
 
 const basicDom = ref<ComponentPublicInstance<typeof BasicDom> | null>(null);
 const basicDomUrl = ref<string>("");
@@ -47,35 +45,54 @@ const handleCapture1 = async () => {
   // console.log("🚀 ~ handleCapture1 ~ basicDom:", basicDom.value);
   // console.log("🚀 ~ handleCapture1 ~ basicDom:", basicDom.value.domRef);
   const res = await snapdom(basicDom.value?.domRef);
-  // console.log("🚀 ~ handleCapture1 ~ res:", res)
+  // console.log("🚀 ~ handleCapture1 ~ res:", res.url)
   basicDomUrl.value = res.url;
 };
-const handleDownload1 = async () => {
+const handleDownload1 = () => {
   if (!basicDomUrl.value) {
     ElMessage.error("请先截图");
     return;
   }
-  try {
-    // 检查浏览器兼容性
-    if (!("download" in HTMLAnchorElement.prototype)) {
-      // Browser not supported
-      let errMsg = "您的浏览器不支持下载功能";
-      // ElMessage.error(errMsg);
-      throw new Error(errMsg);
-    }
-    // 将图片转换为blob
-    const response = await fetch(basicDomUrl.value);
-    console.log("🚀 ~ handleDownload1 ~ response:", response);
-    if (!response.ok) {
-      throw new Error(
-        `获取图片失败: ${response.status} ${response.statusText}`
-      );
-    }
+  // 生成文件名：年月日_时分
+  let date = formatDateTime(new Date())
+    .replace(/[\s]/g, "_")
+    .replace(/[-:]/g, "");
+  const fileName = `screenshot${date}.png`;
 
-    // 创建下载链接
-    const blob = await response.blob();
-    const fileName = "screenshot."; // 文件名
-  } catch (err) {}
+  /** 
+   * * svg 需要通过 canvas 转换为 png 或者 jpg 格式
+   * 1. 创建 canvas 元素
+   * 2. 创建图片对象
+   * 3. 图片对象加载完成后，将图片绘制到 canvas 上
+   */
+  // 创建图片对象
+  const image = new window.Image();
+  image.crossOrigin = "anonymous";
+  image.onload = function () {
+    const canvas = document.createElement("canvas");
+    canvas.width = image.width;
+    canvas.height = image.height;
+    const ctx = canvas.getContext("2d")!;
+    ctx.drawImage(image, 0, 0);
+    canvas.toBlob(function (blob) {
+      if (!blob) {
+        ElMessage.error("图片转换失败");
+        return;
+      }
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(link.href);
+      ElMessage.success("图片下载成功");
+    }, "image/png");
+  };
+  image.onerror = function () {
+    ElMessage.error("图片加载失败");
+  };
+  image.src = basicDomUrl.value;
 };
 </script>
 

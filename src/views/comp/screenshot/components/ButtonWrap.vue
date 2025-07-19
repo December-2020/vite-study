@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-07-05 14:22:59
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-07-05 14:23:12
+ * @LastEditTime: 2025-07-19 13:58:20
 -->
 <template>
   <div class="wrapper flex">
@@ -12,6 +12,7 @@
     <BaseButton @click="() => emits('download')" plain>
       {{ $t("Comp.screenshot.download") }}
     </BaseButton>
+    <slot></slot>
   </div>
 </template>
 

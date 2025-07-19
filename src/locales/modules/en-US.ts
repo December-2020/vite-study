@@ -104,6 +104,7 @@ export default {
       download: "Download",
       basicExample: "Basic Example",
       dynamicExample: "Dynamic Example",
+      canvas: "Canvas",
     },
   },
 };

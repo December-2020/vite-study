@@ -104,6 +104,7 @@ export default {
       download: "下载",
       basicExample: "基础案例",
       dynamicExample: "动态案例",
+      canvas: "画布",
     },
   },
 };

@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-07-04 11:16:32
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-07-19 11:36:08
+ * @LastEditTime: 2025-07-19 14:01:52
 -->
 <template>
   <div class="wrapper">
@@ -43,12 +43,32 @@
       />
       <template #footer>
         <div class="preview_img flex h-140px">
+          <img :src="animateDomUrl" class="transform-scale-80" />
+        </div>
+      </template>
+    </el-card>
+
+    <!-- 画布案例 -->
+    <el-card class="m-t-10px">
+      <template #header>
+        <div class="card-header">
+          <span>{{ $t("Comp.screenshot.canvas") }}</span>
+        </div>
+      </template>
+      <CanvasDom ref="canvasDom" />
+      <ButtonWrap
+        @capture="handleCapture3"
+        @download="handleDownload3"
+        class="mt-4"
+      />
+      <!-- <template #footer>
+        <div class="preview_img flex h-140px">
           <img
             :src="animateDomUrl"
             class="transform-scale-80"
           />
         </div>
-      </template>
+      </template> -->
     </el-card>
   </div>
 </template>
@@ -58,6 +78,7 @@ import { ComponentPublicInstance } from "vue";
 import BasicDom from "./components/BasicDom.vue";
 import ButtonWrap from "./components/ButtonWrap.vue";
 import AnimateDom from "./components/AnimateDom.vue";
+import CanvasDom from "./components/CanvasDom.vue";
 import { snapdom } from "@zumer/snapdom";
 import { ElMessage } from "element-plus";
 import { formatDateTime } from "@/utils/date";
@@ -87,6 +108,19 @@ const handleCapture2 = async () => {
 };
 const handleDownload2 = () => {
   downloadImg(animateDomUrl.value);
+};
+
+// 画布案例
+const canvasDom = ref<ComponentPublicInstance<typeof CanvasDom> | null>(null);
+const canvasDomUrl = ref<string>("");
+const handleCapture3 = async () => {
+  // const res = await snapdom(canvasDom.value?.domRef);
+  // canvasDomUrl.value = res.url;
+  console.log("🚀 ~ handleCapture3 ~ canvasDomUrl:");
+};
+const handleDownload3 = () => {
+  // downloadImg(canvasDomUrl.value);
+  console.log("🚀 ~ handleDownload3 ~ canvasDomUrl:");
 };
 
 // 下载图片

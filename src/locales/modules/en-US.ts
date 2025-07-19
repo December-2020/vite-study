@@ -102,7 +102,8 @@ export default {
     screenshot: {
       capture: "Capture",
       download: "Download",
-      baseCase: "Base Case",
+      basicExample: "Basic Example",
+      dynamicExample: "Dynamic Example",
     },
   },
 };

@@ -102,7 +102,8 @@ export default {
     screenshot: {
       capture: "捕获",
       download: "下载",
-      baseCase: "基础案例",
+      basicExample: "基础案例",
+      dynamicExample: "动态案例",
     },
   },
 };

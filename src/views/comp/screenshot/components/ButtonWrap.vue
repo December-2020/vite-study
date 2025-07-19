@@ -6,7 +6,7 @@
 -->
 <template>
   <div class="wrapper flex">
-    <BaseButton @click="() => emits('capture')">
+    <BaseButton @click="() => emits('capture')" plain>
       {{ $t("Comp.screenshot.capture") }}
     </BaseButton>
     <BaseButton @click="() => emits('download')" plain>

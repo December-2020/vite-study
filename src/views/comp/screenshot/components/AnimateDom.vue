@@ -92,14 +92,15 @@ defineExpose({ domRef });
     box-shadow: 0 4px 16px 0 rgba(30, 42, 80, 0.12);
     text-align: center;
     transition: box-shadow 0.3s;
-    animation: colorChange 3s linear infinite alternate,
-      bounceScaleCard 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+    // animation: colorChange 3s linear infinite alternate,
+    //   bounceScaleCard 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+    // TODO: 暂时先不写动画
     background: linear-gradient(90deg, #3ee8ff, #00e0ff);
     .emoji {
       display: inline-block;
       font-size: 1.6rem;
       /* emoji 独立上下跳动动画，和卡片略有错位更有趣 */
-      animation: bounceEmoji 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+      // animation: bounceEmoji 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
     }
     .desc {
       margin-top: 16px;

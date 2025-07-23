@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-07-04 11:16:32
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-07-19 14:01:52
+ * @LastEditTime: 2025-07-23 10:54:53
 -->
 <template>
   <div class="wrapper">
@@ -60,15 +60,17 @@
         @capture="handleCapture3"
         @download="handleDownload3"
         class="mt-4"
-      />
-      <!-- <template #footer>
-        <div class="preview_img flex h-140px">
+      >
+        <BaseButton @click="clearCanvas" plain>清空</BaseButton>
+      </ButtonWrap>
+      <template #footer>
+        <div class="preview_img flex h-160px">
           <img
-            :src="animateDomUrl"
+            :src="canvasDomUrl"
             class="transform-scale-80"
           />
         </div>
-      </template> -->
+      </template>
     </el-card>
   </div>
 </template>
@@ -114,13 +116,14 @@ const handleDownload2 = () => {
 const canvasDom = ref<ComponentPublicInstance<typeof CanvasDom> | null>(null);
 const canvasDomUrl = ref<string>("");
 const handleCapture3 = async () => {
-  // const res = await snapdom(canvasDom.value?.domRef);
-  // canvasDomUrl.value = res.url;
-  console.log("🚀 ~ handleCapture3 ~ canvasDomUrl:");
+  const res = await snapdom(canvasDom.value?.domRef);
+  canvasDomUrl.value = res.url;
 };
 const handleDownload3 = () => {
-  // downloadImg(canvasDomUrl.value);
-  console.log("🚀 ~ handleDownload3 ~ canvasDomUrl:");
+  downloadImg(canvasDomUrl.value);
+};
+const clearCanvas = () => {
+  canvasDom.value?.clearCanvas();
 };
 
 // 下载图片

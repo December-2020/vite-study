@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-07-19 11:58:25
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-07-23 11:52:39
+ * @LastEditTime: 2025-07-23 14:18:59
 -->
 <template>
   <div class="wrapper" ref="domRef">
@@ -13,7 +13,7 @@
       @mousemove="draw"
       @mouseup="stopDrawing"
       @mouseleave="stopDrawing"
-    />
+    ></canvas>
     <!-- @touchstart="startTouchDrawing"
       @touchmove="touchDraw"
       @touchend="stopDrawing"
@@ -22,6 +22,7 @@
 </template>
 
 <script setup lang="ts">
+import store from "@/store";
 import { getCssVariable } from "@/utils/css";
 
 interface Point {
@@ -68,6 +69,9 @@ onMounted(() => {
   resizeCanvas();
   // 初始化画布样式
   initCanvasStyles();
+});
+onUnmounted(() => {
+  themeWatch();
 });
 
 // 开始绘制
@@ -132,19 +136,17 @@ const initCanvasStyles = () => {
   canvasCtx.value.lineJoin = "round";
   // 线条宽度
   canvasCtx.value.lineWidth = 2;
-  // TODO:
-  // 线条颜色
-  // canvasCtx.value.strokeStyle = "#000";
   setCanvasColor();
 };
 // 设置画布背景色与线条颜色(适配主题)
 const setCanvasColor = () => {
   if (!canvasCtx.value || !canvasRef.value) return;
-  const color = getCssVariable("--content-font-color");
-  const bgColor = getCssVariable("--content-bg-color");
-  // console.log("🚀 ~ setCanvasColor ~ bgColor:", { bgColor, color });
-  canvasCtx.value.fillStyle = color;
-  canvasCtx.value.strokeStyle = bgColor;
+  const color = getCssVariable("--content-bg-color");
+  const bgColor = getCssVariable("--content-font-color");
+  // 线条颜色
+  canvasCtx.value.strokeStyle = color;
+  // 背景色
+  canvasCtx.value.fillStyle = bgColor;
   canvasCtx.value.fillRect(0, 0, canvasRef.value.width, canvasRef.value.height);
 };
 // 在两点间绘制线条
@@ -164,9 +166,6 @@ const clearCanvas = () => {
   if (!canvasCtx.value || !canvasRef.value) return;
   // 清空画布(实际为覆盖画布)
   setCanvasColor();
-  // TODO:
-  // canvasCtx.value.fillStyle = "#f5f7fb";
-  // canvasCtx.value.fillRect(0, 0, canvasRef.value.width, canvasRef.value.height);
   // 清空画布
   /* canvasCtx.value.clearRect(
     0,
@@ -176,6 +175,15 @@ const clearCanvas = () => {
   ); */
 };
 
+// 监听主题变化
+const themeWatch = watch(
+  () => store.appSet.isDarkTheme,
+  () => {
+    setCanvasColor();
+  }
+);
+
+// 暴露方法
 const domRef = ref();
 defineExpose({ domRef, clearCanvas });
 </script>
@@ -186,8 +194,6 @@ defineExpose({ domRef, clearCanvas });
   .signature-canvas {
     width: 100%;
     height: v-bind(canvasHeight);
-    // TODO: 画布适应主题, 画笔也是
-    // background-color: #f5f7fb;
   }
 }
 </style>

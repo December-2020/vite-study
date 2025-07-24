@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-07-19 11:58:25
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-07-23 14:18:59
+ * @LastEditTime: 2025-07-24 13:45:22
 -->
 <template>
   <div class="wrapper" ref="domRef">
@@ -24,6 +24,7 @@
 <script setup lang="ts">
 import store from "@/store";
 import { getCssVariable } from "@/utils/css";
+import { useEventListener } from "@/hooks/useEventListener";
 
 interface Point {
   x: number;
@@ -55,23 +56,19 @@ const isDraw = ref(false);
 const isDrawing = ref(false);
 // 画笔终点坐标
 const lastPoint = ref<Point>({ x: 0, y: 0 });
+// 移除窗口大小变化监听
+let removeResizeListener: Fn = () => {};
 
 /**
  * onMounted的回调函数延迟执行的特性，
  * 使得它可以访问在代码顺序上 "后面声明" 的const函数
  */
 onMounted(() => {
-  const canvas = canvasRef.value;
-  if (!canvas) return;
-  canvasCtx.value = canvas.getContext("2d");
-  // TODO: 监听窗口大小变化，重新设置画布尺寸
-  // 初始化画布尺寸
-  resizeCanvas();
-  // 初始化画布样式
-  initCanvasStyles();
+  initCanvas();
 });
 onUnmounted(() => {
   themeWatch();
+  removeResizeListener();
 });
 
 // 开始绘制
@@ -111,6 +108,44 @@ const stopDrawing = (e: MouseEvent) => {
   isDrawing.value = false;
 };
 
+// 初始化画布
+const initCanvas = () => {
+  const canvas = canvasRef.value;
+  if (!canvas) return;
+  canvasCtx.value = canvas.getContext("2d");
+  // 初始化画布尺寸
+  resizeCanvas();
+  // 初始化画布样式
+  initCanvasStyles();
+  // 监听窗口大小变化，重新设置画布尺寸
+  const { removeEvent } = useEventListener({
+    el: window,
+    name: "resize",
+    listener: resizeCanvas,
+  });
+  removeResizeListener = removeEvent;
+};
+// 初始化画布样式
+const initCanvasStyles = () => {
+  if (!canvasCtx.value) return;
+  // 线条端点的样式
+  canvasCtx.value.lineCap = "round";
+  // 线条连接点的样式
+  canvasCtx.value.lineJoin = "round";
+  // 线条宽度
+  canvasCtx.value.lineWidth = 2;
+};
+// 设置画布背景色与线条颜色(适配主题)
+const setCanvasColor = () => {
+  if (!canvasCtx.value || !canvasRef.value) return;
+  const color = getCssVariable("--content-bg-color");
+  const bgColor = getCssVariable("--content-font-color");
+  // 线条颜色
+  canvasCtx.value.strokeStyle = color;
+  // 背景色
+  canvasCtx.value.fillStyle = bgColor;
+  canvasCtx.value.fillRect(0, 0, canvasRef.value.width, canvasRef.value.height);
+};
 // 初始化画布尺寸(调整缩放比例)
 const resizeCanvas = () => {
   const canvas = canvasRef.value;
@@ -126,28 +161,7 @@ const resizeCanvas = () => {
   if (canvasCtx.value) {
     canvasCtx.value.scale(dpr, dpr);
   }
-};
-// 初始化画布样式
-const initCanvasStyles = () => {
-  if (!canvasCtx.value) return;
-  // 线条端点的样式
-  canvasCtx.value.lineCap = "round";
-  // 线条连接点的样式
-  canvasCtx.value.lineJoin = "round";
-  // 线条宽度
-  canvasCtx.value.lineWidth = 2;
   setCanvasColor();
-};
-// 设置画布背景色与线条颜色(适配主题)
-const setCanvasColor = () => {
-  if (!canvasCtx.value || !canvasRef.value) return;
-  const color = getCssVariable("--content-bg-color");
-  const bgColor = getCssVariable("--content-font-color");
-  // 线条颜色
-  canvasCtx.value.strokeStyle = color;
-  // 背景色
-  canvasCtx.value.fillStyle = bgColor;
-  canvasCtx.value.fillRect(0, 0, canvasRef.value.width, canvasRef.value.height);
 };
 // 在两点间绘制线条
 const drawLine = (startPoint: Point, endPoint: Point) => {

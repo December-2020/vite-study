@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-07-19 11:58:25
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-07-24 13:45:22
+ * @LastEditTime: 2025-07-30 16:39:49
 -->
 <template>
   <div class="wrapper" ref="domRef">
@@ -121,7 +121,18 @@ const initCanvas = () => {
   const { removeEvent } = useEventListener({
     el: window,
     name: "resize",
-    listener: resizeCanvas,
+    /** 
+     * ! 暂时还有问题，
+     * * 3次f12 
+     */
+    listener: () => {
+      nextTick(() => {
+        // 初始化画布尺寸
+        resizeCanvas();
+        // 初始化画布样式
+        initCanvasStyles();
+      });
+    },
   });
   removeResizeListener = removeEvent;
 };
@@ -155,11 +166,13 @@ const resizeCanvas = () => {
   const { clientWidth, clientHeight } = canvas.parentElement as HTMLElement;
   // 获取设备像素比
   const dpr = window.devicePixelRatio || 1;
+  // console.log("🚀 ~ resizeCanvas ~ dpr:", dpr);
   canvas.width = clientWidth * dpr;
   canvas.height = clientHeight * dpr;
   // 缩放上下文以匹配设备像素比
   if (canvasCtx.value) {
     canvasCtx.value.scale(dpr, dpr);
+    // console.log("🚀 ~ resizeCanvas ~ canvasCtx:", canvasCtx);
   }
   setCanvasColor();
 };
@@ -199,6 +212,10 @@ const themeWatch = watch(
 
 // 暴露方法
 const domRef = ref();
+/**
+ * domRef: 组件实例
+ * clearCanvas: 清空画布
+ */
 defineExpose({ domRef, clearCanvas });
 </script>
 

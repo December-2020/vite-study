@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-07-04 11:16:32
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-07-23 10:54:53
+ * @LastEditTime: 2025-07-30 16:46:27
 -->
 <template>
   <div class="wrapper">
@@ -65,10 +65,7 @@
       </ButtonWrap>
       <template #footer>
         <div class="preview_img flex h-160px">
-          <img
-            :src="canvasDomUrl"
-            class="transform-scale-80"
-          />
+          <img :src="canvasDomUrl" class="transform-scale-80" />
         </div>
       </template>
     </el-card>
@@ -116,7 +113,11 @@ const handleDownload2 = () => {
 const canvasDom = ref<ComponentPublicInstance<typeof CanvasDom> | null>(null);
 const canvasDomUrl = ref<string>("");
 const handleCapture3 = async () => {
-  const res = await snapdom(canvasDom.value?.domRef);
+  // 获取设备像素比 (同canvas)
+  const dpr = window.devicePixelRatio || 1;
+  const res = await snapdom(canvasDom.value?.domRef, {
+    dpr,
+  });
   canvasDomUrl.value = res.url;
 };
 const handleDownload3 = () => {

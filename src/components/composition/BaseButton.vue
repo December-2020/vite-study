@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-29 16:29:45
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-15 14:55:05
+ * @LastEditTime: 2025-08-07 09:52:34
 -->
 <template>
   <component
@@ -13,13 +13,28 @@
 
 <script setup lang="ts">
 import type { ButtonProps } from "element-plus";
-import type { DirectiveBinding, ObjectDirective } from "vue";
+import type {
+  DirectiveBinding,
+  ObjectDirective,
+  ExtractPublicPropTypes,
+} from "vue";
 
 import { h } from "vue";
 import { ElButton } from "element-plus";
 import "element-plus/theme-chalk/el-button.css";
 
-interface Props extends Partial<ButtonProps> {
+/** 
+ * ExtractPublicPropTypes
+ * 从组件的 props 选项中提取公共的 prop 类型。
+ * 这对于在组件外部使用时提供类型提示非常有用。
+ * 它会返回一个类型，其中包含组件 props 选项中定义的所有公共 prop 的类型。
+ * 注意：ExtractPublicPropTypes 只能用于从组件的 props 选项中提取公共的 prop 类型。
+ * 它不能用于从组件的 data 选项中提取公共的 data 类型。
+ * 仅3.3+支持
+
+ * 参考：URL_ADDRESS * 参考：https://cn.vuejs.org/api/utility-types#extractproptypes
+ */
+interface Props extends ExtractPublicPropTypes<ButtonProps> {
   isPreventReclick?: boolean;
   reClickTime?: number;
 }
@@ -66,7 +81,7 @@ const reClickFn = (el: HTMLButtonElement, e: Event) => {
   // 将定时器存储到 WeakMap 中
   timerMap.set(el, timer);
 };
-/** 
+/**
  * @see https://cn.vuejs.org/guide/reusability/custom-directives.html#custom-directives
  * 必须以这种方式命名自定义指令, 以使得可以直接在模板中使用
  */

@@ -22,9 +22,10 @@
 </template>
 
 <script setup lang="ts">
+import type { ExtractPublicPropTypes } from "vue";
 import type { SwitchProps } from "element-plus";
 
-type Props = Partial<SwitchProps>;
+interface Props extends ExtractPublicPropTypes<SwitchProps> {}
 
 const props = withDefaults(defineProps<Props>(), {
   activeValue: true,
@@ -32,12 +33,12 @@ const props = withDefaults(defineProps<Props>(), {
   validateEvent: true,
 });
 
-/** 
+/**
  * 获取slots的名称
- * 
+ *
  * defineSlots() 会返回一个对象，对象的 key 是 slot 的名称，value 是一个函数
  * 仅在 3.3.0+ 版本可用
- * 
+ *
  * useSlots() 会返回一个函数，函数的参数是 slot 的名称，返回值是一个数组
  * 等价于 setupContext.slots
  */

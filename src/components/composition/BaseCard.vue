@@ -17,9 +17,10 @@
 </template>
 
 <script setup lang="ts">
+import type { ExtractPublicPropTypes } from "vue";
 import type { CardProps } from "element-plus";
 
-interface Props extends Partial<CardProps> {}
+interface Props extends ExtractPublicPropTypes<CardProps> {}
 
 const props = withDefaults(defineProps<Props>(), {});
 

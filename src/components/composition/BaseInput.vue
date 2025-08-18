@@ -11,8 +11,8 @@
 </template>
 
 <script setup lang="ts">
-import type { Component } from "vue";
-import type { ComponentSize } from "element-plus";
+import type { ExtractPublicPropTypes } from "vue";
+import type { InputProps } from "element-plus";
 
 // ts中使用i18n
 import i18n from "@/locales";
@@ -31,7 +31,7 @@ import "element-plus/theme-chalk/el-input.css";
  * * 第二个参数是要传递的 prop，
  * * 第三个参数是子节点。
  */
-interface Props {
+interface Props extends ExtractPublicPropTypes<InputProps> {
   // 修饰符
   //   modelModifiers?: {
   //     lazy?: string;
@@ -42,52 +42,6 @@ interface Props {
   //     // 小数
   //     decimal?: string;
   //   };
-  // 输入框类型 (原生)
-  type?: string;
-  maxlength?: number | string;
-  minlength?: number;
-  /**
-   * 是否显示输入字数统计
-   * type 需为 text 或 textarea
-   * 配合 maxlength 一起使用
-   */
-  showWordLimit?: boolean;
-  placeholder?: string;
-  clearable?: boolean;
-  // 是否显示切换密码图标
-  showPassword?: boolean;
-  disabled?: boolean;
-  size?: ComponentSize;
-  prefixIcon?: string | Component;
-  rows?: number;
-  // textarea 高度是否自适应
-  autosize?: boolean | object;
-  /**
-   * 输入字段是否应该启用自动完成功能
-   * 表单中输入框填充
-   */
-  autocomplete?: "on" | "off";
-  name?: string;
-  // 只读
-  readonly?: boolean;
-  /**
-   * 数值区间
-   * min、max、step的类型都是暂定
-   * Firefox 不支持 input 标签的 max 和 min 属性
-   */
-  min?: string | number;
-  max?: string | number;
-  step?: string | number;
-  // 控制是否能被用户缩放
-  resize?: "none" | "both" | "horizontal" | "vertical";
-  // 自动获取焦点
-  autofocus?: boolean;
-  label?: string;
-  // tabIndex 属性设置或返回元素的 tab 键控制次序。
-  tabindex?: string | number;
-  // 输入时是否触发表单的校验
-  validateEvent?: boolean;
-  // inputStyle?: StyleValue;
   // 自定义组件宽度
   width?: number | string;
   // 阻止输入框的键盘事件
@@ -100,21 +54,9 @@ interface Props {
  * * 所以不能直接 placeholder: t("xxx")
  */
 const props = withDefaults(defineProps<Props>(), {
-  type: "text",
-  showWordLimit: false,
   placeholder: i18n.global.t(`Components.inputPlaceholder`),
-  clearable: false,
-  showPassword: false,
-  disabled: false,
   size: "default",
-  rows: 2,
-  // { minRows: 2, maxRows: 6 }
-  autosize: false,
-  autocomplete: "off",
-  readonly: false,
   resize: "none",
-  autofocus: false,
-  validateEvent: true,
   width: 198,
   preventKeyboardEvent: false,
 });
@@ -176,7 +118,7 @@ const inputWidth = computed(() => {
   }
 });
 
-/** 
+/**
  * 键盘事件
  */
 const onKeydown = (e: any) => {

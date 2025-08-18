@@ -2,8 +2,9 @@
  * @Author: Komorebi
  * @Date: 2025-02-18 11:01:02
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-21 14:24:18
+ * @LastEditTime: 2025-08-18 15:27:27
  */
+import type { ExtractPublicPropTypes } from "vue";
 import type { DialogProps } from "element-plus";
 
 export type UseModalReturnType = [RegisterFn, ReturnMethods];
@@ -21,8 +22,7 @@ export interface ModalMethods {
   // redoModalHeight?: () => void;
 }
 
-// type Props = Partial<Mutable<DialogProps>>;
-export interface ModalProps extends Partial<DialogProps> {
+export interface ModalProps extends ExtractPublicPropTypes<DialogProps> {
   isContentScroll?: boolean;
   contentMaxHeight?: string | number;
   hideFooter?: boolean;

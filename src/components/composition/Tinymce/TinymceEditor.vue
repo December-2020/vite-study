@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-05-09 15:34:33
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-07-02 16:37:43
+ * @LastEditTime: 2025-08-18 15:29:30
 -->
 <template>
   <div class="editor-wrap">
@@ -14,6 +14,7 @@
 <!-- 菜单栏 工具栏 内容栏 共同组合成一个富文本 -->
 
 <script setup lang="ts">
+import type { ExtractPublicPropTypes } from "vue";
 import type { Editor, RawEditorOptions } from "tinymce";
 
 import tinymce from "tinymce/tinymce";
@@ -67,7 +68,7 @@ import {
 
 const props = defineProps({
   options: {
-    type: Object as PropType<Partial<RawEditorOptions>>,
+    type: Object as PropType<ExtractPublicPropTypes<RawEditorOptions>>,
     default: () => ({}),
   },
   toolbar: {

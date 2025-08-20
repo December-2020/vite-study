@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-02-24 15:35:02
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-07-05 09:59:21
+ * @LastEditTime: 2025-08-20 15:33:22
 -->
 <template>
   <BaseDialog
@@ -225,7 +225,7 @@ onUnmounted(() => {
         }
         &.highlight,
         &:hover {
-          background-color: var(--el-menu-hover-bg-color);
+          background-color: var(--content-font-active-color);
           color: var(--content-font-color);
           div {
             :deep(span) {
@@ -238,7 +238,7 @@ onUnmounted(() => {
         div {
           :deep(span) {
             &.highlight {
-              color: var(--el-menu-hover-bg-color);
+              color: var(--content-font-active-color);
             }
           }
         }

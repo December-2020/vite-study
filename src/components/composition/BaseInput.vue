@@ -1,3 +1,9 @@
+<!--
+ * @Author: Komorebi
+ * @Date: 2024-09-26 11:28:51
+ * @LastEditors: Komorebi
+ * @LastEditTime: 2025-08-21 17:03:11
+-->
 <template>
   <component
     :is="h(ElInput, { ...props, onKeydown }, $slots)"
@@ -153,5 +159,10 @@ defineExpose(
 <style lang="scss" scoped>
 .base-input {
   width: v-bind("inputWidth");
+  :deep(.el-input__inner) {
+    &[type="password"] {
+      letter-spacing: -7px;
+    }
+  }
 }
 </style>

@@ -2,56 +2,35 @@
  * @Author: Komorebi
  * @Date: 2024-09-26 11:28:51
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-08-21 17:03:11
+ * @LastEditTime: 2025-08-22 17:00:19
 -->
 <template>
-  <component
-    :is="h(ElInput, { ...props, onKeydown }, $slots)"
+  <ElInput
+    v-bind="{ ...props, ...$attrs }"
     v-model="model"
-    @clear="emit('clear')"
-    @blur="emit('blur')"
-    @focus="emit('focus')"
-    class="base-input"
     ref="inputRef"
+    class="base-input"
+    v-slots="$slots"
   />
+  <!-- @keydown="onKeydown" -->
 </template>
 
 <script setup lang="ts">
 import type { ExtractPublicPropTypes } from "vue";
-import type { InputProps } from "element-plus";
-
+import type {
+  InputProps as ElInputProps,
+  InputInstance as ElInputInstance,
+} from "element-plus";
 // ts中使用i18n
 import i18n from "@/locales";
-import { h } from "vue";
-/**
- * * 使用这种方式引入组件
- * * 需要额外引入css
- */
-import { ElInput } from "element-plus";
-import "element-plus/theme-chalk/el-input.css";
 
-// h(ElInput, $attrs, $slots)
-/**
- * * h 函数的3个参数详解
- * * 第一个参数既可以是一个字符串 (用于原生元素) 也可以是一个 Vue 组件定义。
- * * 第二个参数是要传递的 prop，
- * * 第三个参数是子节点。
- */
-interface Props extends ExtractPublicPropTypes<InputProps> {
-  // 修饰符
-  //   modelModifiers?: {
-  //     lazy?: string;
-  //     number?: string;
-  //     trim?: string;
-  //     // 非负整数
-  //     nonnegative?: string;
-  //     // 小数
-  //     decimal?: string;
-  //   };
+interface InputProps extends ExtractPublicPropTypes<ElInputProps> {
   // 自定义组件宽度
   width?: number | string;
   // 阻止输入框的键盘事件
   preventKeyboardEvent?: boolean;
+  // 键盘事件
+  keyboardList?: KeyboardEvent["key"][];
 }
 
 /**
@@ -59,14 +38,17 @@ interface Props extends ExtractPublicPropTypes<InputProps> {
  * * const { t } = useI18n(); 这里的t也是属于变量
  * * 所以不能直接 placeholder: t("xxx")
  */
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<InputProps>(), {
   placeholder: i18n.global.t(`Components.inputPlaceholder`),
-  size: "default",
-  resize: "none",
   width: 198,
   preventKeyboardEvent: false,
+  keyboardList: () => [],
 });
-const emit = defineEmits(["focus", "blur", "clear", "keydown"]);
+// 声明 emit 类型
+const emit = defineEmits<{
+  (e: "keydown", event: KeyboardEvent): void;
+  // 可补充其他事件，如输入变化等
+}>();
 
 /**
  * * Vue3.4以上才能使用 defineModel
@@ -81,88 +63,40 @@ const [model, modifiers] = defineModel({
   set(value) {
     // nonnegative 非负整数
     if (modifiers.nonnegative) {
-      value = value.replace(/\D/g, "");
-      return value;
+      return value.replace(/\D/g, "");
     }
     // decimal 小数
     if (modifiers.decimal) {
       // 清除数字和小数点和负号以外的字符
-      value = value.replace(/[^\d.-]/g, "");
+      let val = value.replace(/[^\d.-]/g, "");
       // 只保留第一个负号
-      value = value
+      val = val
         .replace(/^-/, "$#$") // 仅以负号开头,才用 "$#$" 进行代替
         .replace(/-/g, "") // 清除其他负号
         .replace("$#$", "-"); // 换回来
       // 不能以小数点开头
-      value = value.replace(/^\./, "");
-      // 只保留第一个小数点
-      value = value
-        .replace(".", "$#$") // 第一个小数点以 "$#$" 进行代替
-        .replace(/\./g, "") // 清除其他小数点
-        .replace("$#$", "."); // 换回来
-      return value;
+      // value = value.replace(/^\./, "");
+      // // 只保留第一个小数点
+      // value = value
+      //   .replace(".", "$#$") // 第一个小数点以 "$#$" 进行代替
+      //   .replace(/\./g, "") // 清除其他小数点
+      //   .replace("$#$", "."); // 换回来
+      // return value;
+      // 限制小数点只能有一个，且不能在开头（除非前面有负号）
+      val = val.replace(/^\./, "").replace(/(\.\d*)\./g, "$1");
+      // 移除末尾多余的小数点（如 "123." → "123"）
+      return val.replace(/\.$/, "");
     }
     return value;
   },
 });
-
-// 计算输入框的宽度
-const inputWidth = computed(() => {
-  const width = props.width;
-  if (typeof width === "number") {
-    return `${width}px`;
-  }
-  if (typeof width === "string") {
-    // 以 "px" 或 "%" 结尾
-    if (width.endsWith("px") || width.endsWith("%")) {
-      return width;
-    }
-    let num = Number(width);
-    if (!isNaN(num) && num > 0) {
-      return `${width}px`;
-    }
-  }
-});
-
-/**
- * 键盘事件
- */
-const onKeydown = (e: any) => {
-  const keyList = ["ArrowUp", "ArrowDown"];
-  if (props.preventKeyboardEvent && keyList.includes(e.key)) {
-    e.preventDefault();
-    emit("keydown", e);
-  }
-};
 
 /**
  * 获取子组件的 ref
  * * 必须通过defineExpose 暴露子组件
  * * 才能在父组件中通过ref调用
  */
-const inputRef = ref();
-defineExpose(
-  new Proxy(
-    {},
-    {
-      get(_target, prop) {
-        return inputRef.value?.[prop];
-      },
-      has(_target, prop) {
-        return prop in inputRef.value;
-      },
-    }
-  )
-);
+const inputRef = ref<ElInputInstance | null>(null);
 </script>
 
-<style lang="scss" scoped>
-.base-input {
-  width: v-bind("inputWidth");
-  :deep(.el-input__inner) {
-    &[type="password"] {
-      letter-spacing: -7px;
-    }
-  }
-}
-</style>
+<style scoped lang="scss"></style>

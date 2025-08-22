@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-02-24 15:35:02
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-08-20 15:33:22
+ * @LastEditTime: 2025-08-22 14:43:48
 -->
 <template>
   <BaseDialog
@@ -23,6 +23,7 @@
         @keyup.down="searchDown"
         @keyup.enter="searchEnter"
         preventKeyboardEvent
+        :keyboardList="['ArrowUp', 'ArrowDown']"
       >
         <ElIcon #prefix>
           <Search />
@@ -160,7 +161,7 @@ const stopWatchInput = watchDebounced(
   keyword,
   (val) => {
     let _searchList: SearchItem[] = getRecursResult(optionList.value, val);
-    /** 
+    /**
      * * 剔除有子路由的项目
      * * 当有子路由时, 跳转的是Layout组件, 而不是具体的路由组件
      */

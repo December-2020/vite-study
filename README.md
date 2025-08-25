@@ -401,6 +401,11 @@ methods: {
 - [html2canvas文档](https://www.html2canvas.cn/html2canvas-getStart.html)
 - [snapDom的github地址](https://github.com/zumerlab/snapdom?tab=readme-ov-file#readme)
 
+23. 模糊搜索
+
+- [Fuse.js(适用于英文)](https://www.fusejs.io/demo.html)
+- [Pinyin-match(适用于中文)](https://github.com/xmflswood/pinyin-match)
+
 ## 十一、github 上一些有趣开源的项目
 
 1. FreeTube 是一款开源的桌面 YouTube 播放器，考虑到了隐私，可以在没有广告的情况下使用 YouTube，并阻止谷歌使用其 cookie 和 JavaScript 跟踪您。
@@ -422,3 +427,7 @@ methods: {
   ```
   irm https://raw.githubusercontent.com/yeongpin/cursor-free-vip/main/scripts/install.ps1 | iex
   ```
+
+4. 自学计算机科学的最佳资源
+
+- [学习路线](https://github.com/izackwu/TeachYourselfCS-CN/blob/master/TeachYourselfCS-CN.md)

@@ -2,10 +2,14 @@
  * @Author: Komorebi
  * @Date: 2024-09-26 11:28:51
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-08-27 17:14:59
+ * @LastEditTime: 2025-08-28 17:13:54
 -->
 <template>
-  <ElInput class="base-input" @keydown="handleKeydown"></ElInput>
+  <ElInput
+    v-bind="merged"
+    @keydown="handleKeydown"
+    ref="inputRef"
+  ></ElInput>
 </template>
 
 <script setup lang="ts">
@@ -43,6 +47,7 @@ const props = withDefaults(defineProps<InputProps>(), {
  *
  */
 const emit = defineEmits(["keydown"]);
+const merged = mergeProps(props, { class: "base-input" });
 
 /**
  * 计算输入框的宽度
@@ -75,6 +80,29 @@ const handleKeydown = (e: KeyboardEvent | Event) => {
     emit("keydown", e);
   }
 };
+
+/**
+ * 获取子组件的 ref
+ * * 必须通过defineExpose 暴露子组件
+ * * 才能在父组件中通过ref调用
+ */
+const inputRef = ref<ElInputInstance | null>(null);
+defineExpose<ElInputInstance>(
+  new Proxy(
+    {},
+    {
+      get: (_target, prop) => inputRef.value?.[prop as keyof ElInputInstance],
+      /**
+       * v-if 由 true 变为 false 时,
+       * 再通过 ref 调用子组件的方法或属性,
+       * 此时会报错, 因为子组件已经被销毁了,
+       * 所以需要在 has 方法中判断子组件是否存在,
+       * 不存在则返回 false, 否则返回 true
+       */
+      has: (_target, prop) => prop in (inputRef.value || {}),
+    }
+  ) as ElInputInstance
+);
 </script>
 
 <style scoped lang="scss">
@@ -82,7 +110,7 @@ const handleKeydown = (e: KeyboardEvent | Event) => {
   width: v-bind("inputWidth");
   :deep(.el-input__inner) {
     &[type="password"] {
-      letter-spacing: -7px;
+      // letter-spacing: -7px;
     }
   }
 }

@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-12 09:33:16
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-08-27 14:32:19
+ * @LastEditTime: 2025-08-28 11:16:21
 -->
 <template>
   <div class="wrapper">
@@ -13,8 +13,6 @@
         width="300"
         clearable
         v-model="testIptVal"
-        @clear="handleClear"
-      
       >
         <template #prepend>Http://</template>
         <template #append>.com</template>

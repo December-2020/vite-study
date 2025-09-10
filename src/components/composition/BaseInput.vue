@@ -2,16 +2,16 @@
  * @Author: Komorebi
  * @Date: 2024-09-26 11:28:51
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-08-29 17:05:02
+ * @LastEditTime: 2025-09-10 14:31:19
 -->
 <template>
   <ElInput
-    v-bind="merged"
+    v-bind="mergedProps"
     @keydown="handleKeydown"
     ref="inputRef"
     v-model="model"
   >
-    <template v-for="(_, name) in $slots" #[name]="scope">
+    <template v-for="(_, name) in $slots" #[name]="scope" :key="name">
       <slot :name="name" v-bind="scope" />
     </template>
   </ElInput>
@@ -53,25 +53,24 @@ const props = withDefaults(defineProps<InputProps>(), {
  *
  */
 const emit = defineEmits(["keydown"]);
-const merged = mergeProps(props, { class: "base-input" });
+const mergedProps = mergeProps(props, { class: "base-input" });
 
 /**
  * 计算输入框的宽度
  */
 const inputWidth = computed(() => {
-  const width = props.width;
+  const { width } = props;
   if (typeof width === "number") {
     return `${width}px`;
   }
-  if (typeof width === "string") {
-    let num = Number(width);
-    if (!isNaN(num) && num > 0) {
-      return `${width}px`;
-    }
-    // px % rem em 'auto'
-    return width;
+  // 匹配一个由纯数字组成的、非空的字符串
+  if (typeof width === "string" && /^\d+$/.test(width)) {
+    return `${width}px`;
   }
+  // px % rem em 'auto'
+  return width;
 });
+
 /**
  * 阻止的键盘事件
  */
@@ -86,6 +85,24 @@ const handleKeydown = (e: KeyboardEvent | Event) => {
     emit("keydown", e);
   }
 };
+
+// 正则常量
+const REGEX = {
+  // 非数字
+  NON_DIGIT: /\D/g,
+  // 仅有数字和小数点
+  NON_DECIMAL: /[^\d.-]/g,
+  // 负号开头
+  LEADING_MINUS: /^-/,
+  // 多个负号
+  MULTIPLE_MINUS: /-/g,
+  // 小数点开头
+  LEADING_DOT: /^\./,
+  // 多个小数点
+  MULTIPLE_DOT: /(\.\d*)\./g,
+  // 小数点结尾
+  TRAILING_DOT: /\.$/,
+};
 /**
  * * Vue3.4以上才能使用 defineModel
  */
@@ -99,29 +116,25 @@ const [model, modifiers] = defineModel({
   set(value) {
     // nonnegative 非负整数
     if (modifiers.nonnegative) {
-      return value.replace(/\D/g, "");
+      return value.replace(REGEX.NON_DIGIT, "");
     }
     // decimal 小数
     if (modifiers.decimal) {
       // 清除数字和小数点和负号以外的字符
-      let val = value.replace(/[^\d.-]/g, "");
+      let val = value.replace(REGEX.NON_DECIMAL, "");
       // 只保留第一个负号
       val = val
-        .replace(/^-/, "$#$") // 仅以负号开头,才用 "$#$" 进行代替
-        .replace(/-/g, "") // 清除其他负号
+        .replace(REGEX.LEADING_MINUS, "$#$") // 仅以负号开头,才用 "$#$" 进行代替
+        .replace(REGEX.MULTIPLE_MINUS, "") // 清除其他负号
         .replace("$#$", "-"); // 换回来
-      // 不能以小数点开头
-      // value = value.replace(/^\./, "");
-      // // 只保留第一个小数点
-      // value = value
-      //   .replace(".", "$#$") // 第一个小数点以 "$#$" 进行代替
-      //   .replace(/\./g, "") // 清除其他小数点
-      //   .replace("$#$", "."); // 换回来
-      // return value;
+
       // 限制小数点只能有一个，且不能在开头（除非前面有负号）
-      val = val.replace(/^\./, "").replace(/(\.\d*)\./g, "$1");
-      // 移除末尾多余的小数点（如 "123." → "123"）
-      return val.replace(/\.$/, "");
+      val = val
+        .replace(REGEX.LEADING_DOT, "") // 不能以小数点开头
+        .replace(REGEX.MULTIPLE_DOT, "$1"); // 清除其他小数点
+      // TODO： 移除末尾多余的小数点（如 "123." → "123"）
+      // return val.replace(REGEX.TRAILING_DOT, "");
+      return val;
     }
     return value;
   },
@@ -158,11 +171,5 @@ defineSlots<InputSlots>();
 <style scoped lang="scss">
 .base-input {
   width: v-bind("inputWidth");
-  // :deep(.el-input__inner) {
-  //   &[type="password"] {
-  //     // -7px
-  //     letter-spacing: normal;
-  //   }
-  // }
 }
 </style>

@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-10-12 09:33:16
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-09-10 14:00:11
+ * @LastEditTime: 2025-09-10 16:55:05
 -->
 <template>
   <div class="wrapper">
@@ -19,11 +19,11 @@
         <template #append>.com</template>
       </BaseInput>
 
-      <p>仅能填正整数</p>
-      <BaseInput  v-model.nonnegative="testIptVal1" />
-
       <p>可填整数、小数</p>
       <BaseInput  v-model.decimal="testIptVal2" />
+
+      <p>原生的number</p>
+      <BaseInput  v-model.number="testIptVal3" />
     </div>
   </div>
 </template>
@@ -36,9 +36,8 @@ const handleClear = () => {
   console.log("clear");
 };
 
-const testIptVal1 = ref("");
-
 const testIptVal2 = ref("");
+const testIptVal3 = ref("");
 </script>
 
 <style scoped lang="scss"></style>

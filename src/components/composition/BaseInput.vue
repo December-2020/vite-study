@@ -2,12 +2,13 @@
  * @Author: Komorebi
  * @Date: 2024-09-26 11:28:51
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-09-10 14:31:19
+ * @LastEditTime: 2025-09-11 11:18:33
 -->
 <template>
   <ElInput
     v-bind="mergedProps"
     @keydown="handleKeydown"
+    @blur="handleBlur"
     ref="inputRef"
     v-model="model"
   >
@@ -49,10 +50,8 @@ const props = withDefaults(defineProps<InputProps>(), {
   // 需要阻止的键盘事件列表
   keyboardList: () => [],
 });
-/**
- *
- */
-const emit = defineEmits(["keydown"]);
+
+const emit = defineEmits(["keydown", "blur"]);
 const mergedProps = mergeProps(props, { class: "base-input" });
 
 /**
@@ -89,19 +88,19 @@ const handleKeydown = (e: KeyboardEvent | Event) => {
 // 正则常量
 const REGEX = {
   // 非数字
-  NON_DIGIT: /\D/g,
+  nonDigit: /\D/g,
   // 仅有数字和小数点
-  NON_DECIMAL: /[^\d.-]/g,
+  nonDecimal: /[^\d.-]/g,
   // 负号开头
-  LEADING_MINUS: /^-/,
+  leadingMinus: /^-/,
   // 多个负号
-  MULTIPLE_MINUS: /-/g,
+  multipleMinus: /-/g,
   // 小数点开头
-  LEADING_DOT: /^\./,
+  leadingDot: /^\./,
   // 多个小数点
-  MULTIPLE_DOT: /(\.\d*)\./g,
+  multipleDot: /(\.\d*)\./g,
   // 小数点结尾
-  TRAILING_DOT: /\.$/,
+  trailingDot: /\.$/,
 };
 /**
  * * Vue3.4以上才能使用 defineModel
@@ -114,31 +113,34 @@ const [model, modifiers] = defineModel({
    */
   default: "",
   set(value) {
-    // nonnegative 非负整数
-    if (modifiers.nonnegative) {
-      return value.replace(REGEX.NON_DIGIT, "");
-    }
     // decimal 小数
     if (modifiers.decimal) {
       // 清除数字和小数点和负号以外的字符
-      let val = value.replace(REGEX.NON_DECIMAL, "");
+      let val = value.replace(REGEX.nonDecimal, "");
       // 只保留第一个负号
       val = val
-        .replace(REGEX.LEADING_MINUS, "$#$") // 仅以负号开头,才用 "$#$" 进行代替
-        .replace(REGEX.MULTIPLE_MINUS, "") // 清除其他负号
+        .replace(REGEX.leadingMinus, "$#$") // 仅以负号开头,才用 "$#$" 进行代替
+        .replace(REGEX.multipleMinus, "") // 清除其他负号
         .replace("$#$", "-"); // 换回来
 
       // 限制小数点只能有一个，且不能在开头（除非前面有负号）
       val = val
-        .replace(REGEX.LEADING_DOT, "") // 不能以小数点开头
-        .replace(REGEX.MULTIPLE_DOT, "$1"); // 清除其他小数点
-      // TODO： 移除末尾多余的小数点（如 "123." → "123"）
-      // return val.replace(REGEX.TRAILING_DOT, "");
+        .replace(REGEX.leadingDot, "") // 不能以小数点开头
+        .replace(REGEX.multipleDot, "$1"); // 清除其他小数点
       return val;
     }
     return value;
   },
 });
+// 处理失去焦点时的小数点结尾问题
+const handleBlur = (e: FocusEvent) => {
+  // 只有当使用decimal修饰符且有值时才处理
+  if (modifiers.decimal && model.value) {
+    // 清除结尾的小数点
+    model.value = model.value.replace(REGEX.trailingDot, "");
+  }
+  emit("blur", e);
+};
 
 /**
  * 获取子组件的 ref

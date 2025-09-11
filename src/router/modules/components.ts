@@ -42,6 +42,14 @@ const Comp: AppRouteRecordRaw = {
       },
       component: () => import("@/views/comp/screenshot/index.vue"),
     },
+    {
+      path: "input",
+      name: "CompInput",
+      meta: {
+        title: "components.input",
+      },
+      component: () => import("@/views/comp/input/index.vue"),
+    },
   ],
 };
 

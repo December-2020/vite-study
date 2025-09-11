@@ -47,6 +47,7 @@ export default {
       dialog: "Dialog",
       editor: "Rich text",
       screenshot: "Screenshot",
+      input: "Input",
     },
   },
 

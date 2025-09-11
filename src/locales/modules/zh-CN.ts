@@ -48,6 +48,7 @@ export default {
       dialog: "弹窗",
       editor: "富文本",
       screenshot: "截图",
+      input: "输入框",
     },
   },
 

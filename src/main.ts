@@ -19,6 +19,7 @@ import "virtual:uno.css";
 import "animate.css";
 // 引入全局样式
 import "@/styles/handle.scss";
+import "@/styles/global.scss";
 // 引入element内组件的暗色主题
 import "element-plus/theme-chalk/dark/css-vars.css";
 // 引入i18n

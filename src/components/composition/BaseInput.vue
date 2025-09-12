@@ -34,6 +34,8 @@ interface InputProps extends ExtractPublicPropTypes<ElInputProps> {
   keyboardList?: KeyboardEvent["key"][];
 }
 type InputSlots = ElInputInstance["$slots"];
+// 自带的修饰符
+type InputModifiers = "trim" | "lazy" | "number" | "decimal";
 
 /**
  * * props中使用i18n
@@ -105,7 +107,7 @@ const REGEX = {
 /**
  * * Vue3.4以上才能使用 defineModel
  */
-const [model, modifiers] = defineModel({
+const [model, modifiers] = defineModel<string, InputModifiers>({
   /**
    * ! 如果为 defineModel prop 设置了一个 default 值
    * ! 且父组件没有为该 prop 提供任何值

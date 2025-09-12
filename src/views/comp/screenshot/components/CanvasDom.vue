@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-07-19 11:58:25
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-07-30 16:39:49
+ * @LastEditTime: 2025-09-12 16:14:16
 -->
 <template>
   <div class="wrapper" ref="domRef">
@@ -225,6 +225,17 @@ defineExpose({ domRef, clearCanvas });
   .signature-canvas {
     width: 100%;
     height: v-bind(canvasHeight);
+    /** 
+    * canvas 作为行内块元素，会按照文本基线对齐，
+    * 导致其底部与 div 底部之间产生空隙
+    * （约 4px，具体大小与字体和 line-height 相关）
+    * 
+    * 可以给父盒子设置 line-height: 0 来消除这个空隙;
+    * 或者给canvas如下设置: (二选一即可)
+    * display: block;
+    * vertical-align: bottom;
+    */
+    vertical-align: bottom;
   }
 }
 </style>

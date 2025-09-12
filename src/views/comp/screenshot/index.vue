@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-07-04 11:16:32
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-07-30 16:46:27
+ * @LastEditTime: 2025-09-12 16:23:46
 -->
 <template>
   <div class="wrapper">
@@ -115,9 +115,8 @@ const canvasDomUrl = ref<string>("");
 const handleCapture3 = async () => {
   // 获取设备像素比 (同canvas)
   const dpr = window.devicePixelRatio || 1;
-  const res = await snapdom(canvasDom.value?.domRef, {
-    dpr,
-  });
+  console.log("🚀 ~ handleCapture3 ~ dpr:", dpr);
+  const res = await snapdom(canvasDom.value?.domRef, { dpr });
   canvasDomUrl.value = res.url;
 };
 const handleDownload3 = () => {

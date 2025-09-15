@@ -41,6 +41,7 @@ export default {
     example: {
       title: "example",
       ellipsis: "Text omission",
+      frame: "External",
     },
     components: {
       title: "Components",

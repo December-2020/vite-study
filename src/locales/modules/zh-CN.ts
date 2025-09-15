@@ -42,6 +42,7 @@ export default {
     example: {
       title: "例子",
       ellipsis: "文本省略",
+      frame: "外部页面",
     },
     components: {
       title: "组件",

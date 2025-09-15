@@ -1,7 +1,7 @@
 <template>
   <div class="container position-absolute top-40% left-50% h-auto">
     <div class="http-404 flex position-relative w-100% overflow-hidden">
-      <div class="pic-404 position-relative w-600px overflow-hidden float-left">
+      <div class="pic-404 position-relative overflow-hidden float-left">
         <img
           src="@/assets/images/404.png"
           alt="404"
@@ -24,7 +24,7 @@
         />
       </div>
       <div
-        class="bullshit position-relative float-left w-300px overflow-hidden"
+        class="bullshit position-relative float-left overflow-hidden"
       >
         <div class="bullshit__oops font-size-32px font-bold op-0 mb-20px">
           {{ $t("404.title") }}
@@ -60,11 +60,15 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .container {
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -40%);
   .http-404 {
     display: flex;
     justify-content: center;
+    align-items: center;
+    // display: block;
     .pic-404 {
+      border: solid 1px skyblue;
+      max-width: 600px;
       &__child {
         position: absolute;
         &.left {
@@ -174,12 +178,9 @@ onMounted(() => {
       }
     }
     .bullshit {
-      padding: {
-        top: 30px;
-        right: 0;
-        bottom: 30px;
-        left: 20px;
-      }
+      border: solid 1px orange;
+      padding: 30px 20px;
+      max-width: 300px;
       &__oops {
         line-height: 40px;
         color: #1482f0;
@@ -189,7 +190,8 @@ onMounted(() => {
       }
       &__headline {
         line-height: 24px;
-        color: #222;
+        // color: #222;
+        color: var(--content-font-color);
         animation-name: slideUp;
         animation-duration: 0.5s;
         animation-delay: 0.1s;
@@ -243,6 +245,12 @@ onMounted(() => {
   }
   a {
     text-decoration: none;
+  }
+}
+// 仅pc端生效
+@media (max-width: 768px) {
+  .http-404 {
+    flex-direction: column;
   }
 }
 </style>

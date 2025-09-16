@@ -1,7 +1,8 @@
 <template>
   <div class="container position-absolute top-40% left-50% h-auto">
     <div class="http-404 flex position-relative w-100% overflow-hidden">
-      <div class="pic-404 position-relative overflow-hidden float-left">
+      <!-- float-left -->
+      <div class="pic-404 position-relative overflow-hidden">
         <img
           src="@/assets/images/404.png"
           alt="404"
@@ -23,9 +24,7 @@
           class="pic-404__child right"
         />
       </div>
-      <div
-        class="bullshit position-relative float-left overflow-hidden"
-      >
+      <div class="bullshit position-relative float-left overflow-hidden">
         <div class="bullshit__oops font-size-32px font-bold op-0 mb-20px">
           {{ $t("404.title") }}
         </div>
@@ -60,17 +59,19 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .container {
-  transform: translate(-50%, -40%);
+  transform: translate(-50%, -42%);
   .http-404 {
     display: flex;
     justify-content: center;
     align-items: center;
     // display: block;
+    padding: 20px 0;
+    box-sizing: border-box;
     .pic-404 {
-      border: solid 1px skyblue;
-      max-width: 600px;
+      max-width: 640px;
       &__child {
         position: absolute;
+        // animation-iteration-count: infinite;
         &.left {
           width: 80px;
           top: 17px;
@@ -178,9 +179,9 @@ onMounted(() => {
       }
     }
     .bullshit {
-      border: solid 1px orange;
+      // border: solid 1px orange;
       padding: 30px 20px;
-      max-width: 300px;
+      max-width: 320px;
       &__oops {
         line-height: 40px;
         color: #1482f0;
@@ -247,10 +248,106 @@ onMounted(() => {
     text-decoration: none;
   }
 }
-// 仅pc端生效
+
+// 仅移动端生效
 @media (max-width: 768px) {
   .http-404 {
     flex-direction: column;
+    .pic-404 {
+      padding: 0 14px;
+      box-sizing: border-box;
+      &__child {
+        &.left {
+          width: 40px !important;
+          top: 2vw;
+          left: 60vw;
+        }
+        &.middle {
+          width: 23px !important;
+          top: 1.5vw;
+          left: 80vw;
+        }
+        &.right {
+          width: 31px !important;
+          top: 12vw;
+          left: 85vw;
+        }
+      }
+    }
+    .bullshit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  @keyframes cloudLeft {
+    0% {
+      top: 2vw;
+      left: 60vw;
+      opacity: 0;
+    }
+    20% {
+      top: 4vw;
+      left: 50vw;
+      opacity: 1;
+    }
+    80% {
+      top: 10vw;
+      left: 25vw;
+      opacity: 1;
+    }
+    100% {
+      top: 12vw;
+      left: 15vw;
+      opacity: 0;
+    }
+  }
+
+  @keyframes cloudMid {
+    0% {
+      top: 1.5vw;
+      left: 80vw;
+      opacity: 0;
+    }
+    20% {
+      top: 5vw;
+      left: 68vw;
+      opacity: 1;
+    }
+    70% {
+      top: 16vw;
+      left: 35vw;
+      opacity: 1;
+    }
+    100% {
+      top: 20vw;
+      left: 25vw;
+      opacity: 0;
+    }
+  }
+
+  @keyframes cloudRight {
+    0% {
+      top: 12vw;
+      left: 85vw;
+      opacity: 0;
+    }
+    20% {
+      top: 15vw;
+      left: 75vw;
+      opacity: 1;
+    }
+    80% {
+      top: 22vw;
+      left: 50vw;
+      opacity: 1;
+    }
+    100% {
+      top: 25vw;
+      left: 40vw;
+      opacity: 0;
+    }
   }
 }
 </style>

@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-12-24 15:56:16
  * @LastEditors: Komorebi
- * @LastEditTime: 2024-12-24 17:10:07
+ * @LastEditTime: 2025-09-19 15:40:50
  */
 /**
  * 这个函数的主要作用是为指定的元素添加事件监听器，
@@ -17,13 +17,13 @@ import { useThrottleFn, useDebounceFn } from "@vueuse/core";
 // 定义一个类型 RemoveEventFn，表示一个无参数无返回值的函数类型
 export type RemoveEventFn = () => void;
 
-export interface UseEventParams {
+export interface UseEventParams<T extends Event = Event> {
   // 事件绑定的元素，可以是 Element、Ref 或 Window
   el?: Element | Ref<Element | undefined> | Window | any;
   // 事件名称
   name: string;
   // 事件监听器
-  listener: EventListener;
+  listener: (e: T) => void;
   // 事件监听选项
   options?: boolean | AddEventListenerOptions;
   // 是否自动移除事件监听器
@@ -34,7 +34,7 @@ export interface UseEventParams {
   wait?: number;
 }
 
-export function useEventListener({
+export function useEventListener<T extends Event = Event>({
   el = window,
   name,
   listener,
@@ -42,7 +42,7 @@ export function useEventListener({
   autoRemove = true,
   isDebounce = true,
   wait = 80,
-}: UseEventParams): { removeEvent: RemoveEventFn } {
+}: UseEventParams<T>): { removeEvent: RemoveEventFn } {
   // 初始化 remove 函数为空函数
   let remove: RemoveEventFn = () => {};
   // 用于跟踪事件监听器是否已添加
@@ -53,23 +53,27 @@ export function useEventListener({
     const element = ref(el as Element) as Ref<Element>;
     // 根据 isDebounce 决定使用防抖函数还是节流函数
     const handler = isDebounce
-      ? useDebounceFn(listener, wait)
-      : useThrottleFn(listener, wait);
+      ? useDebounceFn(listener as unknown as EventListener, wait)
+      : useThrottleFn(listener as unknown as EventListener, wait);
     // 如果有等待时间，则使用处理后的函数，否则使用原始监听器
-    const realHandler = wait ? handler : listener;
+    const realHandler = wait ? handler : (listener as unknown as EventListener);
 
     // 定义移除事件监听器的函数
     const removeEventListener = (e: Element) => {
-      // 标记事件监听器已添加
-      isAddRef.value = true;
-      // 移除事件监听器
-      e.removeEventListener(name, realHandler, options);
+      if (isAddRef.value) {
+        // 移除事件监听器
+        e.removeEventListener(name, realHandler, options);
+        isAddRef.value = false;
+      }
     };
 
     // 定义添加事件监听器的函数
-    const addEventListener = (e: Element) =>
-      e.addEventListener(name, realHandler, options);
-
+    const addEventListener = (e: Element) => {
+      if (!isAddRef.value) {
+        e.addEventListener(name, realHandler, options);
+        isAddRef.value = true;
+      }
+    };
     // 监听 element 的变化
     const removeWatch = watch(
       element,

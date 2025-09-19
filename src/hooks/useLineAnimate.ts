@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-01-21 16:55:56
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-18 10:53:59
+ * @LastEditTime: 2025-09-19 17:20:57
  */
 /**
  * 实现登录页面的背景动画
@@ -16,42 +16,34 @@ import { tryOnMounted, tryOnUnmounted, useTimeoutFn } from "@vueuse/core";
 import { useEventListener } from "@/hooks/useEventListener";
 
 interface CanvasOptions {
-  // elRef?: Ref<HTMLCanvasElement>;
   // 画布宽高
   width?: number;
   height?: number;
-  // 点的个数
+  // 点数量
   dotNum?: number;
   // 圆点半径
   dotRadius?: number;
   // 线条及圆点颜色
   color?: string;
-  /** 
-   * 背景颜色
-   * * 已交给页面内父盒子控制
-   */
-  // bgColor?: string;
-  // 触发连线距离
+  // 连线最大距离
   distance?: number;
+  adsorbConfig?: {
+    triggerRatio: number; // 吸附触发比例（距离占maxDistance的比例）
+    speedRatio: number; // 吸附速度系数（越小越快）
+  };
 }
 interface IDot {
   x: number | null;
   y: number | null;
-  ax?: number;
-  ay?: number;
-  isMouse?: boolean;
+  ax?: number; // x轴加速度
+  ay?: number; // y轴加速度
+  isMouse?: boolean; // 是否为鼠标点
 }
 
 // 定制明暗主题
 const Theme = {
-  [ThemeEnum.DARK]: {
-    // bgColor: "#1b1b1f",
-    fontColor: "#dfdfd6",
-  },
-  [ThemeEnum.LIGHT]: {
-    // bgColor: "#eee",
-    fontColor: "#3c3c43",
-  },
+  [ThemeEnum.DARK]: { fontColor: "#dfdfd6" },
+  [ThemeEnum.LIGHT]: { fontColor: "#3c3c43" },
 };
 
 /**
@@ -72,296 +64,350 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
   // 当前是否为pc端
   const isPC = computed(() => store.appSet.isPC);
 
+  // 画布上下文
   let canvasCtx = ref(null) as Ref<CanvasRenderingContext2D | null>;
   let canvasOptions = ref({}) as Ref<CanvasOptions>;
   // 关键帧动画, 控制canvas的动画效果
   let rqeAnimateFrameId: number;
   // canvas中的点列表
-  let dotList: IDot[] = [];
+  const dotList = ref<IDot[]>([]);
   // canvas中鼠标坐标
-  let mouseDot = ref({ x: null, y: null, isMouse: true }) as Ref<IDot>;
-  // 重置canvas大小
-  let resizeFn: Fn = resizeCanvas;
-  let removeResizeFn: Fn = () => {};
+  const mouseDot = ref<IDot>({ x: null, y: null, isMouse: true });
+  // 清除函数列表
+  const cleanupList = ref<(() => void)[]>([]);
 
   // 通用配置
-  function commonOptions() {
+  const commonOptions = () => {
     let width = window.innerWidth;
     let height = window.innerHeight;
     // 描点的个数
-    let dotNum = isPC.value ? 100 : 30;
+    let dotNum = isPC.value ? 50 : 30;
     // 描点相连的最大距离
     let distance = isPC.value ? 100 : 60;
-    return { width, height, dotNum, distance };
-  }
-  // 初始化配置
-  function initOptions() {
-    let { width, height, dotNum, distance } = commonOptions();
-    // 初始配置
-    let _options: CanvasOptions = {
-      // 画布宽高
+    return {
       width,
       height,
-      // 点的个数
       dotNum,
-      // 点半径
-      dotRadius: 0.5,
+      distance,
+      adsorbConfig: {
+        triggerRatio: 0.5, // 距离超过maxDistance的30%即触发吸附
+        speedRatio: 40, // 吸附速度（原50，数值越小越快）
+      },
+    };
+  };
+  // 初始化配置
+  const mergeOptions = (userOptions?: CanvasOptions) => {
+    let defOptions = commonOptions();
+    // 初始配置
+    let _options: CanvasOptions = {
+      ...defOptions,
+      // 点半径 0.5
+      dotRadius: 2,
       // 颜色
       color: theme.value.fontColor,
-      // 背景颜色
-      // bgColor: theme.value.bgColor,
-      // 描点间连线的最大距离
-      distance,
+      ...userOptions,
     };
     canvasOptions.value = _options;
-    const elRefVal = elRef.value;
-    if (elRefVal) {
-      elRefVal.width = _options.width as number;
-      elRefVal.height = _options.height as number;
-      // 鼠标相关事件
-      elRefVal.onmousemove = (e) => {
-        mouseDot.value.x = e.clientX - elRefVal.offsetLeft;
-        mouseDot.value.y = e.clientY - elRefVal.offsetTop;
-      };
-      elRefVal.onmouseout = () => {
-        mouseDot.value.x = null;
-        mouseDot.value.y = null;
-      };
-    }
-    startAnimate();
-  }
-  // 配置选项
-  function setOptions(options: CanvasOptions) {
-    canvasOptions.value = { ...canvasOptions.value, ...options };
-    clearCanvas();
-    stopAnimate();
-    startAnimate();
-  }
+  };
   // 初始化画布
-  function initCanvas() {
+  const initCanvas = () => {
     const el = unref(elRef);
     if (!el || !unref(el)) return;
 
-    canvasCtx.value = el.getContext("2d");
-    // 初始化配置
-    initOptions();
+    // 获取画布上下文
+    const ctx = el.getContext("2d");
+    if (!ctx) {
+      console.warn("Canvas 2D上下文获取失败，可能不支持该浏览器");
+      return;
+    }
+    canvasCtx.value = ctx;
 
-    const { removeEvent } = useEventListener({
-      el: window,
-      name: "resize",
-      listener: resizeFn,
-    });
-    removeResizeFn = removeEvent;
-  }
+    // 设置画布尺寸
+    const { width, height } = canvasOptions.value;
+    el.width = width as number;
+    el.height = height as number;
+
+    // 初始化例子
+    initDots();
+  };
   // 清空画布
-  function clearCanvas() {
-    let _width = canvasOptions.value.width ?? 0;
-    let _height = canvasOptions.value.height ?? 0;
-    canvasCtx.value?.clearRect(0, 0, _width, _height);
-  }
-  function resizeCanvas() {
-    // 重置画布大小
-    const elRefVal = elRef.value;
-    if (!elRefVal) return;
-    let { width, height, dotNum, distance } = commonOptions();
-    elRefVal.width = width;
-    elRefVal.height = height;
-    // 重置配置
-    setOptions({ width, height, dotNum, distance });
-  }
+  const clearCanvas = () => {
+    const el = unref(elRef);
+    if (!el || !canvasCtx.value) return;
+    canvasCtx.value.clearRect(0, 0, el.width, el.height);
+  };
+  // 重置画布大小
+  const resizeCanvas = () => {
+    mergeOptions();
+    initCanvas();
+    stopAnimate();
+    startAnimate();
+  };
 
-  // 开始动画
-  function startAnimate() {
-    // 保证dotList为空
-    dotList = [];
-    // 添加点
-    addDots();
-    useTimeoutFn(() => {
-      animate();
-    }, 100);
-  }
-  // 暂停动画
-  function stopAnimate() {
-    rqeAnimateFrameId && window.cancelAnimationFrame(rqeAnimateFrameId);
-  }
-  // 动画效果
-  function animate() {
-    clearCanvas();
-    // drawLine([]);
-    // drawLine(dotList);
-    drawLine([...dotList, mouseDot.value]);
-    rqeAnimateFrameId = window.requestAnimationFrame(animate);
-  }
+  // 初始化粒子（避开登录盒子区域）
+  const initDots = () => {
+    dotList.value = [];
+    const { width, height, dotNum } = canvasOptions.value;
+    const { leftTop, rightBottom } = getDotRange(width!, height!);
 
-  // 新增点
-  function addDots() {
-    let dot: IDot;
-    let num = canvasOptions.value.dotNum ?? 0;
-    let _width = canvasOptions.value.width ?? 0;
-    let _height = canvasOptions.value.height ?? 0;
-    let _radius = canvasOptions.value.dotRadius ?? 0;
-    let { leftTop, rightBottom } = dotRange(_width, _height);
-    while (dotList.length < num) {
-      let dotX = Math.floor(Math.random() * _width) - _radius;
-      let dotY = Math.floor(Math.random() * _height) - _radius;
-      dot = {
-        x: dotX,
-        y: dotY,
-        ax: (Math.random() * 2 - 1) / 1.5,
-        ay: (Math.random() * 2 - 1) / 1.5,
-      };
+    // 确保生成足够数量的粒子（避免死循环，最多尝试500次）
+    let tryCount = 0;
+    while (dotList.value.length < dotNum! && tryCount < 500) {
+      tryCount++;
+      // 随机生成粒子位置
+      const x = Math.random() * width!;
+      const y = Math.random() * height!;
       /**
        * 界面是 "回" 字形
        * 限制点的范围
        */
       if (
-        dotX < leftTop.x ||
-        dotX > rightBottom.x ||
-        dotY < leftTop.y ||
-        dotY > rightBottom.y
+        x < leftTop.x ||
+        x > rightBottom.x ||
+        y < leftTop.y ||
+        y > rightBottom.y
       ) {
-        dotList.push(dot);
+        dotList.value.push({
+          x,
+          y,
+          ax: (Math.random() * 2 - 1) / 1.5, // 随机x轴加速度（-0.67~0.67）
+          ay: (Math.random() * 2 - 1) / 1.5, // 随机y轴加速度
+        });
       }
     }
-  }
-  // 点运动
-  function dotMove(dot: IDot) {
-    let dotAx = dot.ax ?? 0;
-    let dotAy = dot.ay ?? 0;
-    let dotX = dot.x ?? 0;
-    let dotY = dot.y ?? 0;
-    dot.x = dotX + dotAx;
-    dot.y = dotY + dotAy;
-    let canvasValue = canvasOptions.value;
-    let _dotRadius = canvasValue.dotRadius ?? 0;
-    let _canvasWidth = canvasValue.width ?? 0;
-    let _canvasHeight = canvasValue.height ?? 0;
-    let { leftTop, rightBottom } = dotRange(_canvasWidth, _canvasHeight);
-    // 点碰到边缘返回
-    dot.ax =
-      dotAx *
-      (dot.x > _canvasWidth - _dotRadius ||
-      dot.x < _dotRadius ||
-      (leftTop.x < dot.x && dot.x < rightBottom.x)
-        ? -1
-        : 1);
-    dot.ay =
-      dotAy *
-      (dot.y > _canvasHeight - _dotRadius ||
-      dot.y < _dotRadius ||
-      (leftTop.y < dot.y && dot.y < rightBottom.y)
-        ? -1
-        : 1);
-    // 绘制点
-    let canvasCtxValue = canvasCtx.value;
-    if (!canvasCtxValue) return;
-    canvasCtxValue.beginPath();
-    // 更改颜色
-    canvasCtxValue.strokeStyle = canvasValue.color as string;
-    /**
-     * 绘制圆弧
-     * x: 圆的中心的 x 坐标
-     * y: 圆的中心的 y 坐标
-     * radius: 圆的半径
-     * startAngle: 起始角，以弧度计。（弧的圆形的三点钟位置是 0 度）
-     * endAngle: 结束角，以弧度计
-     * anticlockwise: 可选。规定应该逆时针还是顺时针绘图。false = 顺时针，true = 逆时针
-     */
-    canvasCtxValue.arc(dot.x, dot.y, _dotRadius, 0, Math.PI * 2, true);
-    canvasCtxValue.stroke();
-  }
-  // 点之间画线
-  function drawLine(dots: IDot[]) {
-    let currDot;
-    /**
-     * ? 自己的思路：遍历两次所有的点，比较点之间的距离，函数的触发放在animate里
-     */
-    dotList.forEach((dotItem) => {
-      dotMove(dotItem);
-      for (let i = 0; i < dots.length; i++) {
-        currDot = dots[i];
-        let _dotItemStr = JSON.stringify(dotItem);
-        let _currDotStr = JSON.stringify(currDot);
-        // 排除自身及x或y不存在的点
-        if (
-          _currDotStr === _dotItemStr ||
-          currDot.x === null ||
-          currDot.y === null
-        )
-          continue;
-        // 别的点-当前点坐标
-        let distanceX = (dotItem.x ?? 0) - currDot.x;
-        let distanceY = (dotItem.y ?? 0) - currDot.y;
-        // 两点间的距离
-        let distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-        // 最大距离
-        let _canvasDistanceMax = canvasOptions.value.distance ?? 0;
-        if (distance > _canvasDistanceMax) continue;
-        // 粒子向鼠标移动 鼠标跟随效果
-        if (currDot.isMouse && distance > _canvasDistanceMax / 2) {
-          dotItem.x = dotItem.x! - distanceX / 50;
-          dotItem.y = dotItem.y! - distanceY / 50;
-        }
-        // 比例
-        let ratio = (_canvasDistanceMax - distance) / _canvasDistanceMax;
-        let canvasCtxValue = canvasCtx.value;
-        // 如果不存在,则不执行
-        if (!canvasCtxValue) return;
-        canvasCtxValue.beginPath();
-        canvasCtxValue.lineWidth = ratio / 2;
-        canvasCtxValue.strokeStyle = `rgba(${canvasOptions.value.color}, 
-        ${parseFloat(ratio + (0.2).toFixed(1))})`;
-        canvasCtxValue.moveTo(dotItem.x ?? 0, dotItem.y ?? 0);
-        canvasCtxValue.lineTo(currDot.x, currDot.y);
-        // 不描边看不出效果
-        canvasCtxValue.stroke();
-      }
-    });
-  }
+  };
+  /**
+   * 登录盒子
+   * pc端:
+   *    宽400 + 2(边框) = 402
+   *    高270 + 2(边框) = 272
+   * 移动端:
+   *    宽 100vw - 20px(左右各10px的margin)
+   *    高 同pc端
+   */
   // 点坐标的范围
-  function dotRange(canvasWidth: number, canvasHeight: number) {
-    /**
-     * 登录盒子
-     * pc端:
-     *    宽400 + 2(边框) = 402
-     *    高270 + 2(边框) = 272
-     * 移动端:
-     *    宽 100vw - 20px
-     *    高 同pc端
-     */
+  const getDotRange = (canvasWidth: number, canvasHeight: number) => {
+    // 登录盒子
+    let boxWidth = isPC.value ? 402 : canvasWidth - 10 * 2;
+    let boxHeight = 272;
     /* 登录盒子最左上角的坐标 */
-    let leftTopX = (canvasWidth - (isPC.value ? 402 : 20)) / 2;
-    let leftTopY = (canvasHeight - 272) / 2;
+    let leftTopX = (canvasWidth - boxWidth) / 2;
+    let leftTopY = (canvasHeight - boxHeight) / 2;
     /* 登录盒子最右下角的坐标 */
-    let rightBottomX = isPC.value ? leftTopX + 402 : canvasWidth - 20 / 2;
-    let rightBottomY = leftTopY + 272;
+    let rightBottomX = leftTopX + boxWidth;
+    let rightBottomY = leftTopY + boxHeight;
     return {
       leftTop: { x: leftTopX, y: leftTopY },
       rightBottom: { x: rightBottomX, y: rightBottomY },
     };
-  }
+  };
+  // 粒子移动（边缘反弹 + 鼠标吸附）
+  const dotMove = (dot: IDot) => {
+    const {
+      width,
+      height,
+      dotRadius,
+      adsorbConfig,
+      distance: maxDistance,
+    } = canvasOptions.value;
+    const { triggerRatio, speedRatio } = adsorbConfig!;
+    const { leftTop, rightBottom } = getDotRange(width!, height!);
+    const { x: mouseX, y: mouseY } = mouseDot.value;
+    // let { x: dotX, y: dotY, ax: dotAx, ay: dotAy } = dot;
+    // console.log("🚀 ~ dotMove ~ dot:", dot)
+
+    // 1. 鼠标吸附逻辑（距离超过maxDistance*triggerRatio时触发）
+    /* const dx = dot.x! - mouseX!;
+    const dy = dot.y! - mouseY!;
+    // 两点间距离
+    const dotMouseDistance = Math.sqrt(dx * dx + dy * dy);
+    if (dotMouseDistance > maxDistance! * triggerRatio) {
+      // 粒子向鼠标方向移动
+      dot.x! -= dx / speedRatio!;
+      dot.y! -= dy / speedRatio!;
+    } */
+
+    // 2. 边缘反弹逻辑
+    /* 
+    || // 最小边界
+      (leftTop.x < dot.x! && dot.x! < rightBottom.x) // 登录框区域
+    */
+    if (
+      dot.x! > width! - dotRadius! || // 最大边界
+      dot.x! < dotRadius!
+    ) {
+      dot.ax! *= -1;
+    }
+    /* 
+    || // 最小边界
+      (leftTop.y < dot.y! && dot.y! < rightBottom.y) // 登录框区域
+    */
+    if (
+      dot.y! > height! - dotRadius! || // 最大边界
+      dot.y! < dotRadius!
+    ) {
+      dot.ay! *= -1;
+    }
+    if (
+      leftTop.x < dot.x! &&
+      dot.x! < rightBottom.x &&
+      leftTop.y < dot.y! &&
+      dot.y! < rightBottom.y
+    ) {
+      dot.ax! *= -1;
+      dot.ay! *= -1;
+    }
+
+    // 更新粒子位置
+    dot.x! += dot.ax!;
+    dot.y! += dot.ay!;
+  };
+  // 点之间画线 dots: IDot[]
+  const drawElements = () => {
+    const { color, dotRadius, distance: maxDistance } = canvasOptions.value;
+    const ctx = canvasCtx.value;
+    if (!ctx) return;
+
+    const allDotList = [...dotList.value, mouseDot.value];
+    // 绘制粒子
+    allDotList.forEach((dot) => {
+      // 鼠标点不绘制，只作为吸附目标
+      if (dot.isMouse) return;
+      // 绘制点
+      ctx.beginPath();
+      ctx.fillStyle = color!;
+      ctx.arc(dot.x!, dot.y!, dotRadius!, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    // 2. 绘制连线
+    /* dotList.value.forEach((dot, index) => {
+      // 只比较粒子与其他点
+      for (let i = index + 1; i < allDotList.length; i++) {
+        const targetDot = allDotList[i];
+        // 鼠标移动到画布外时不连线
+        if (targetDot.x === null || targetDot.y === null) continue;
+        const dx = dot.x! - targetDot.x!;
+        const dy = dot.y! - targetDot.y!;
+        const dotDistance = Math.sqrt(dx * dx + dy * dy);
+        // 超过最大距离不连线
+        if (dotDistance > maxDistance!) continue;
+        // 连线透明度/宽度：距离越近，越粗越明显
+        const opacity = (maxDistance! - dotDistance) / maxDistance!;
+        const lineWidth = opacity / 2;
+        // 绘制线
+        ctx.beginPath();
+        ctx.strokeStyle = `${color!.replace(
+          /[^,]+(?=\))/,
+          opacity.toFixed(2)
+        )}`;
+        ctx.lineWidth = lineWidth;
+        ctx.moveTo(dot.x!, dot.y!);
+        ctx.lineTo(targetDot.x!, targetDot.y!);
+        ctx.stroke();
+      }
+    }); */
+  };
+
+  // 动画主循环
+  const animate = () => {
+    clearCanvas();
+    // 更新所有粒子位置
+    dotList.value.forEach((dot) => dotMove(dot));
+    // 绘制粒子和连线
+    drawElements();
+    // 继续下一帧
+    rqeAnimateFrameId = window.requestAnimationFrame(animate);
+  };
+  // 开始动画
+  const startAnimate = () => {
+    // 确保画布初始化完成
+    nextTick(() => {
+      stopAnimate(); // 先停止旧动画
+      animate(); // 启动新动画
+    });
+  };
+  // 停止动画
+  const stopAnimate = () => {
+    rqeAnimateFrameId && window.cancelAnimationFrame(rqeAnimateFrameId);
+  };
+
+  // 初始化鼠标事件
+  const initMouseEvents = () => {
+    const el = unref(elRef);
+    if (!el) return;
+
+    // 鼠标移动：更新鼠标点位置
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = el.getBoundingClientRect();
+      mouseDot.value.x = e.clientX - rect.left;
+      mouseDot.value.y = e.clientY - rect.top;
+    };
+    // 鼠标离开：鼠标点移到屏幕外
+    const handleMouseOut = () => {
+      mouseDot.value.x = null;
+      mouseDot.value.y = null;
+    };
+
+    const { removeEvent: removeMouseMove } = useEventListener({
+      el,
+      name: "mousemove",
+      listener: handleMouseMove,
+      isDebounce: false,
+      wait: 100,
+    });
+    cleanupList.value.push(removeMouseMove);
+    const { removeEvent: removeMouseOut } = useEventListener({
+      el,
+      name: "mouseout",
+      listener: handleMouseOut,
+      isDebounce: false,
+      wait: 100,
+    });
+    cleanupList.value.push(removeMouseOut);
+  };
 
   // 主题切换
   const themeWatch = watch(
     () => theme.value,
     (newTheme) => {
-      // setOptions({ color: newTheme.fontColor, bgColor: newTheme.bgColor });
-      setOptions({ color: newTheme.fontColor });
+      mergeOptions({ color: newTheme.fontColor });
+      startAnimate(); // 重启动画应用新颜色
     }
   );
 
   /* 生命周期 */
   tryOnMounted(() => {
-    initCanvas();
+    mergeOptions(); // 初始化配置
+    initCanvas(); // 初始化画布
+    initMouseEvents(); // 初始化鼠标事件
+    startAnimate(); // 启动动画
+
+    // 监听Resize事件
+    const { removeEvent } = useEventListener({
+      el: window,
+      name: "resize",
+      listener: resizeCanvas,
+      wait: 100,
+    });
+    cleanupList.value.push(removeEvent);
   });
   tryOnUnmounted(() => {
     stopAnimate();
-    removeResizeFn();
-    canvasCtx.value = null;
+    // 清理所有事件
+    cleanupList.value.forEach((cleanup) => cleanup());
+    // 停止主题监听
     themeWatch();
+    // 清空状态
+    dotList.value = [];
+    canvasCtx.value = null;
   });
 
-  return {
-    setOptions,
+  const setOptions = (userOptions: CanvasOptions) => {
+    mergeOptions(userOptions);
+    initCanvas();
+    stopAnimate();
+    startAnimate();
   };
+
+  return { setOptions };
 }

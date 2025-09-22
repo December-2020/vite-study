@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-01-21 16:55:56
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-09-22 10:50:44
+ * @LastEditTime: 2025-09-19 17:20:57
  */
 /**
  * 实现登录页面的背景动画
@@ -12,7 +12,7 @@ import type { Ref } from "vue";
 
 import store from "@/store";
 import { ThemeEnum } from "@/enums/app";
-import { tryOnMounted, tryOnUnmounted, useTimeoutFn } from "@vueuse/core";
+import { tryOnMounted, tryOnUnmounted } from "@vueuse/core";
 import { useEventListener } from "@/hooks/useEventListener";
 
 interface CanvasOptions {
@@ -81,7 +81,7 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
     let width = window.innerWidth;
     let height = window.innerHeight;
     // 描点的个数
-    let dotNum = isPC.value ? 100 : 30;
+    let dotNum = isPC.value ? 50 : 30;
     // 描点相连的最大距离
     let distance = isPC.value ? 100 : 60;
     return {
@@ -90,8 +90,8 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
       dotNum,
       distance,
       adsorbConfig: {
-        triggerRatio: 0.5, // 距离超过maxDistance的50%即触发吸附
-        speedRatio: 80, // 吸附速度（原50，数值越小越快）
+        triggerRatio: 0.5, // 距离超过maxDistance的30%即触发吸附
+        speedRatio: 40, // 吸附速度（原50，数值越小越快）
       },
     };
   };
@@ -101,8 +101,8 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
     // 初始配置
     let _options: CanvasOptions = {
       ...defOptions,
-      // 点半径
-      dotRadius: 1,
+      // 点半径 0.5
+      dotRadius: 2,
       // 颜色
       color: theme.value.fontColor,
       ...userOptions,
@@ -157,15 +157,19 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
       // 随机生成粒子位置
       const x = Math.random() * width!;
       const y = Math.random() * height!;
+      
       /**
        * 界面是 "回" 字形
        * 粒子应该在回字形区域外生成（避开登录盒子区域）
        */
-      const isInLoginBox =
+      const isInLoginBox = (
         x >= leftTop.x &&
         x <= rightBottom.x &&
         y >= leftTop.y &&
-        y <= rightBottom.y;
+        y <= rightBottom.y
+      );
+      
+      // 只有在登录盒子区域外才添加粒子
       if (!isInLoginBox) {
         dotList.value.push({
           x,
@@ -220,27 +224,31 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
       const dy = dot.y! - mouseY;
       // 两点间距离
       const dotMouseDistance = Math.sqrt(dx * dx + dy * dy);
-      if (dotMouseDistance <= maxDistance! * triggerRatio) {
+      if (dotMouseDistance > maxDistance! * triggerRatio) {
         // 粒子向鼠标方向移动
         dot.x! -= dx / speedRatio!;
         dot.y! -= dy / speedRatio!;
       }
     }
 
-    // 2. 边缘反弹逻辑 检查是否超出画布边界
-    if (dot.x! >= width! - dotRadius! || dot.x! <= dotRadius!) {
+    // 2. 边缘反弹逻辑
+    // 检查是否超出画布边界
+    if (dot.x! <= dotRadius! || dot.x! >= width! - dotRadius!) {
       dot.ax! *= -1;
     }
-    if (dot.y! >= height! - dotRadius! || dot.y! <= dotRadius!) {
+    if (dot.y! <= dotRadius! || dot.y! >= height! - dotRadius!) {
       dot.ay! *= -1;
     }
 
     // 3. 登录盒子区域边界检测
-    const isInLoginBox =
+    // 检查粒子是否进入登录盒子区域
+    const isInLoginBox = (
       dot.x! >= leftTop.x &&
       dot.x! <= rightBottom.x &&
       dot.y! >= leftTop.y &&
-      dot.y! <= rightBottom.y;
+      dot.y! <= rightBottom.y
+    );
+
     if (isInLoginBox) {
       // 如果粒子在登录盒子内，需要将其推出并反弹
       // 计算粒子到登录盒子各边的距离
@@ -250,12 +258,7 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
       const distToBottom = rightBottom.y - dot.y!;
 
       // 找到最近的边
-      const minDist = Math.min(
-        distToLeft,
-        distToRight,
-        distToTop,
-        distToBottom
-      );
+      const minDist = Math.min(distToLeft, distToRight, distToTop, distToBottom);
 
       if (minDist === distToLeft) {
         // 从左边推出
@@ -276,7 +279,7 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
       }
     }
 
-    // 更新粒子位置
+    // 4. 更新粒子位置
     dot.x! += dot.ax!;
     dot.y! += dot.ay!;
 
@@ -301,7 +304,8 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
       ctx.arc(dot.x!, dot.y!, dotRadius!, 0, Math.PI * 2);
       ctx.fill();
     });
-    // 2. 绘制连线
+    
+    // 绘制连线
     dotList.value.forEach((dot, index) => {
       // 只比较粒子与其他点
       for (let i = index + 1; i < allDotList.length; i++) {

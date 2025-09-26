@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-02-11 11:10:31
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-09-26 15:50:50
+ * @LastEditTime: 2025-09-26 16:02:26
 -->
 <template>
   <el-dialog
@@ -80,12 +80,6 @@ const props = withDefaults(defineProps<ModalProps>(), {
    *    解决方案：使用虚线滚动优化长列表弹窗，确保弹窗内组件按需加载
    */
   destroyOnClose: true,
-  // 官方默认
-  modal: true,
-  lockScroll: true,
-  closeOnClickModal: true,
-  closeOnPressEscape: true,
-  showClose: true,
   // 动态调整默认宽度
   width: () => (store.appSet.isPC ? "50%" : "90%"),
   // 自定义
@@ -96,10 +90,6 @@ const props = withDefaults(defineProps<ModalProps>(), {
   isContentScroll: true,
   // 内容区域最大高度 (isContentScroll为true时生效)
   contentMaxHeight: "70vh",
-  /**
-   * 更多参数参考element-plus文档
-   * @see https://element-plus.org/zh-CN/component/scrollbar.html
-   */
 });
 
 const emit = defineEmits([

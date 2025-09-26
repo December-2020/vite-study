@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:08:25
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-06-23 15:46:12
+ * @LastEditTime: 2025-09-26 16:50:11
 -->
 <template>
   <div class="wrapper">
@@ -36,7 +36,8 @@
         <div class="border-rd-4px overflow-hidden">
           <div ref="pieRef" class="h-60"></div>
         </div>
-        <div class="border-rd-4px overflow-hidden">
+        <!-- 由于提示弹窗太长, 移动端不能设置隐藏 -->
+        <div class="border-rd-4px">
           <div ref="radarRef" class="h-60"></div>
         </div>
       </div>

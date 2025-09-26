@@ -250,7 +250,7 @@ onMounted(() => {
 }
 
 // 仅移动端生效
-@media (max-width: 768px) {
+@media (max-width: 640px) {
   .http-404 {
     flex-direction: column;
     .pic-404 {

@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:28:06
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-09-22 16:07:20
+ * @LastEditTime: 2025-09-26 14:22:59
 -->
 <template>
   <div class="wrapper overflow-hidden">
@@ -137,8 +137,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     position: absolute;
     width: 400px;
     height: 270px;
-    left: calc(50% - 200px);
-    top: calc(50% - 135px);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     border: solid 1px #eee;
     background-color: var(--content-bg-color);
     color: var(--content-font-color);
@@ -158,10 +159,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     }
   }
   /* 仅移动端生效 */
-  @media (max-width: 768px) {
+  @media (max-width: 640px) {
     .login-wrapper {
-      width: calc(100vw - 20px);
-      left: 10px;
+      width: calc(100vw - 22px);
     }
   }
 }

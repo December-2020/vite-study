@@ -105,7 +105,7 @@ const changeRoute = (e: TabPaneName) => {
 }
 
 /* 仅移动端生效 */
-@media (max-width: 768px) {
+@media (max-width: 640px) {
   .wrapper {
     :deep(.el-tabs__header) {
       .el-tabs__nav {

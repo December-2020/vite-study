@@ -2,17 +2,23 @@
  * @Author: Komorebi
  * @Date: 2025-01-21 16:55:56
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-09-22 10:50:44
+ * @LastEditTime: 2025-09-26 10:34:34
  */
 /**
  * 实现登录页面的背景动画
  * 动态背景并跟随鼠标移动, 且具有吸附鼠标的效果
+ *
+ * # TODO：标记代码中需要实现的功能或任务。
+ * # FIXME：标记代码中需要修复的问题或缺陷。
+ * # BUG：标记已知的Bug或错误。
+ * # XXX：标记需要警惕或需要重点关注的代码块。
+ * # HACK：标记临时性修复或不优雅的解决方案。
  */
 import type { Ref } from "vue";
 
 import store from "@/store";
 import { ThemeEnum } from "@/enums/app";
-import { tryOnMounted, tryOnUnmounted, useTimeoutFn } from "@vueuse/core";
+import { tryOnMounted, tryOnUnmounted } from "@vueuse/core";
 import { useEventListener } from "@/hooks/useEventListener";
 
 interface CanvasOptions {
@@ -62,7 +68,7 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
     return Theme[_type];
   });
   // 当前是否为pc端
-  const isPC = computed(() => store.appSet.isPC);
+  // const isPC = computed(() => store.appSet.isPC);
 
   // 画布上下文
   let canvasCtx = ref(null) as Ref<CanvasRenderingContext2D | null>;
@@ -80,15 +86,15 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
   const commonOptions = () => {
     let width = window.innerWidth;
     let height = window.innerHeight;
-    // 描点的个数
-    let dotNum = isPC.value ? 100 : 30;
-    // 描点相连的最大距离
-    let distance = isPC.value ? 100 : 60;
     return {
       width,
       height,
-      dotNum,
-      distance,
+      dotNum: 10,
+      distance: 10,
+      // 点半径
+      dotRadius: 1,
+      // 颜色
+      color: theme.value.fontColor,
       adsorbConfig: {
         triggerRatio: 0.5, // 距离超过maxDistance的50%即触发吸附
         speedRatio: 80, // 吸附速度（原50，数值越小越快）
@@ -98,13 +104,19 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
   // 初始化配置
   const mergeOptions = (userOptions?: CanvasOptions) => {
     let defOptions = commonOptions();
+    let { width, height } = defOptions;
+    /* console.log(
+      "🚀 ~ mergeOptions ~ canvasOptions.value:",
+      canvasOptions.value
+    ); */
     // 初始配置
     let _options: CanvasOptions = {
       ...defOptions,
-      // 点半径
-      dotRadius: 1,
-      // 颜色
-      color: theme.value.fontColor,
+      // 若已有配置，则保留已有配置
+      ...canvasOptions.value,
+      // 确保是最新的
+      width,
+      height,
       ...userOptions,
     };
     canvasOptions.value = _options;
@@ -139,6 +151,7 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
   // 重置画布大小
   const resizeCanvas = () => {
     mergeOptions();
+    // console.log("🚀 ~ resizeCanvas ~ resizeCanvas: 执行了mergeOptions");
     initCanvas();
     stopAnimate();
     startAnimate();
@@ -188,7 +201,7 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
   // 点坐标的范围
   const getDotRange = (canvasWidth: number, canvasHeight: number) => {
     // 登录盒子
-    let boxWidth = isPC.value ? 402 : canvasWidth - 10 * 2;
+    let boxWidth = store.appSet.isPC ? 402 : canvasWidth - 10 * 2;
     let boxHeight = 272;
     /* 登录盒子最左上角的坐标 */
     let leftTopX = (canvasWidth - boxWidth) / 2;
@@ -393,6 +406,7 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
     () => theme.value,
     (newTheme) => {
       mergeOptions({ color: newTheme.fontColor });
+      // console.log("🚀 ~ themeWatch ~ themeWatch: 监听后执行了mergeOptions");
       startAnimate(); // 重启动画应用新颜色
     }
   );
@@ -400,6 +414,7 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
   /* 生命周期 */
   tryOnMounted(() => {
     mergeOptions(); // 初始化配置
+    // console.log("🚀 ~ tryOnMounted ~ tryOnMounted: 初始化了mergeOptions");
     initCanvas(); // 初始化画布
     initMouseEvents(); // 初始化鼠标事件
     startAnimate(); // 启动动画
@@ -426,6 +441,7 @@ export function useLineAnimate(elRef: Ref<HTMLCanvasElement | null>) {
 
   const setOptions = (userOptions: CanvasOptions) => {
     mergeOptions(userOptions);
+    // console.log("🚀 ~ setOptions ~ setOptions: 设置后执行了mergeOptions");
     initCanvas();
     stopAnimate();
     startAnimate();

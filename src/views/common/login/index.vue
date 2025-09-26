@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2024-09-27 10:28:06
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-28 09:18:10
+ * @LastEditTime: 2025-09-22 16:07:20
 -->
 <template>
   <div class="wrapper overflow-hidden">
@@ -62,7 +62,14 @@ interface RuleForm {
 
 /* canvas */
 const canvasRef = ref<HTMLCanvasElement | null>(null);
-useLineAnimate(canvasRef);
+const { setOptions } = useLineAnimate(canvasRef);
+watchEffect(() => {
+  let isPC = store.appSet.isPC;
+  setOptions({
+    dotNum: isPC ? 100 : 30,
+    distance: isPC ? 100 : 60,
+  });
+});
 
 /* 表单相关 */
 const { t } = i18n.global;

@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-02-11 11:10:31
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-02-21 13:46:59
+ * @LastEditTime: 2025-09-26 15:50:50
 -->
 <template>
   <el-dialog
@@ -47,6 +47,7 @@
 import type { ModalProps, ModalMethods } from "#/modal";
 
 import i18n from "@/locales";
+import store from "@/store";
 import { omit } from "lodash";
 
 const props = withDefaults(defineProps<ModalProps>(), {
@@ -85,6 +86,8 @@ const props = withDefaults(defineProps<ModalProps>(), {
   closeOnClickModal: true,
   closeOnPressEscape: true,
   showClose: true,
+  // 动态调整默认宽度
+  width: () => (store.appSet.isPC ? "50%" : "90%"),
   // 自定义
   hideFooter: false,
   cancelText: i18n.global.t(`Components.dialogCancelText`),
@@ -127,7 +130,7 @@ defineExpose(
 );
 
 const loadingRef = ref(false);
-/** 
+/**
  * v-model:visible
  * defineModel("visible")
  * * 为什么不用ref?

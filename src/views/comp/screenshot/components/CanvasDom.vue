@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-07-19 11:58:25
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-09-12 16:14:16
+ * @LastEditTime: 2025-09-28 11:59:05
 -->
 <template>
   <div class="wrapper" ref="domRef">
@@ -13,11 +13,11 @@
       @mousemove="draw"
       @mouseup="stopDrawing"
       @mouseleave="stopDrawing"
+      @touchstart.prevent="startDrawing"
+      @touchmove.prevent="draw"
+      @touchend.prevent="stopDrawing"
+      @touchcancel.prevent="stopDrawing"
     ></canvas>
-    <!-- @touchstart="startTouchDrawing"
-      @touchmove="touchDraw"
-      @touchend="stopDrawing"
-      @touchcancel="stopDrawing" -->
   </div>
 </template>
 
@@ -72,40 +72,43 @@ onUnmounted(() => {
 });
 
 // 开始绘制
-const startDrawing = (e: MouseEvent) => {
-  // console.log(e);
+const startDrawing = (e: MouseEvent | TouchEvent) => {
   if (!canvasRef.value || !canvasCtx.value) return;
   isDraw.value = true;
   isDrawing.value = true;
-
-  // 获取鼠标点击位置的坐标
-  const { clientX, clientY } = e;
-  // 获取画布的左上角坐标
-  const { left, top } = canvasRef.value.getBoundingClientRect();
-  // 计算鼠标点击位置相对于画布的坐标
-  const x = clientX - left;
-  const y = clientY - top;
   // 保存鼠标点击位置的坐标
-  lastPoint.value = { x, y };
+  lastPoint.value = getPoint(e);
 };
-const draw = (e: MouseEvent) => {
-  // console.log(e);
+const draw = (e: MouseEvent | TouchEvent) => {
   if (!isDrawing.value || !canvasRef.value || !canvasCtx.value) return;
-
-  // 获取鼠标点击位置的坐标
-  const { clientX, clientY } = e;
-  // 获取画布的左上角坐标
-  const { left, top } = canvasRef.value.getBoundingClientRect();
-  // 计算鼠标点击位置相对于画布的坐标
-  const currentPoint = { x: clientX - left, y: clientY - top };
+  const currentPoint = getPoint(e);
   // 绘制线条
   drawLine(lastPoint.value, currentPoint);
   // 保存鼠标点击位置的坐标
   lastPoint.value = currentPoint;
 };
-const stopDrawing = (e: MouseEvent) => {
+const stopDrawing = (e: MouseEvent | TouchEvent) => {
   // console.log(e);
   isDrawing.value = false;
+};
+// 获取坐标
+const getPoint = (e: MouseEvent | TouchEvent): Point => {
+  const canvasEl = canvasRef.value;
+  if (!canvasEl) return { x: 0, y: 0 };
+  // 获取画布的左上角坐标
+  const { left, top } = canvasEl.getBoundingClientRect();
+  if (e instanceof MouseEvent) {
+    // 鼠标位置相对于画布的坐标
+    return {
+      x: e.clientX - left,
+      y: e.clientY - top,
+    };
+  } else {
+    return {
+      x: e.touches[0].clientX - left,
+      y: e.touches[0].clientY - top,
+    };
+  }
 };
 
 // 初始化画布
@@ -121,9 +124,9 @@ const initCanvas = () => {
   const { removeEvent } = useEventListener({
     el: window,
     name: "resize",
-    /** 
+    /**
      * ! 暂时还有问题，
-     * * 3次f12 
+     * * 3次f12
      */
     listener: () => {
       nextTick(() => {

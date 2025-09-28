@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-07-18 14:07:04
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-07-19 11:34:53
+ * @LastEditTime: 2025-09-28 14:38:47
 -->
 <template>
   <div class="wrapper" ref="domRef">
@@ -40,24 +40,20 @@ defineExpose({ domRef });
 @keyframes bounceScaleCard {
   0%,
   100% {
-    transform: translateY(0) scale(1) rotate(-1deg);
+    transform: translateY(0) scale(1) rotate(0deg);
     box-shadow: 0 4px 24px 0 rgba(30, 42, 80, 0.12);
   }
-  20% {
+  25% {
     transform: translateY(-18px) scale(1.02) rotate(1deg);
     box-shadow: 0 16px 32px 0 rgba(30, 42, 80, 0.18);
   }
-  40% {
-    transform: translateY(0) scale(1) rotate(-1deg);
+  50% {
+    transform: translateY(0) scale(1) rotate(0deg);
     box-shadow: 0 4px 24px 0 rgba(30, 42, 80, 0.12);
   }
-  60% {
-    transform: translateY(-10px) scale(0.96) rotate(1deg);
-    box-shadow: 0 8px 28px 0 rgba(30, 42, 80, 0.15);
-  }
-  80% {
-    transform: translateY(0) scale(1) rotate(-1deg);
-    box-shadow: 0 4px 24px 0 rgba(30, 42, 80, 0.12);
+  75% {
+    transform: translateY(-18px) scale(1.02) rotate(-1deg);
+    box-shadow: 0 16px 32px 0 rgba(30, 42, 80, 0.18);
   }
 }
 
@@ -92,15 +88,14 @@ defineExpose({ domRef });
     box-shadow: 0 4px 16px 0 rgba(30, 42, 80, 0.12);
     text-align: center;
     transition: box-shadow 0.3s;
-    // animation: colorChange 3s linear infinite alternate,
-    //   bounceScaleCard 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
-    // TODO: 暂时先不写动画
+    animation: colorChange 3s linear infinite alternate,
+      bounceScaleCard 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
     background: linear-gradient(90deg, #3ee8ff, #00e0ff);
     .emoji {
       display: inline-block;
       font-size: 1.6rem;
       /* emoji 独立上下跳动动画，和卡片略有错位更有趣 */
-      // animation: bounceEmoji 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+      animation: bounceEmoji 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
     }
     .desc {
       margin-top: 16px;

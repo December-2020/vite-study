@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-07-04 11:16:32
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-09-12 16:23:46
+ * @LastEditTime: 2025-09-28 16:17:41
 -->
 <template>
   <div class="wrapper">
@@ -15,7 +15,7 @@
           <span>{{ $t("Comp.screenshot.basicExample") }}</span>
         </div>
       </template>
-      <BasicDom ref="basicDom" />
+      <BasicDom ref="basicDom" class="hover-transform-scale-101" />
       <ButtonWrap
         @capture="handleCapture1"
         @download="handleDownload1"
@@ -69,6 +69,26 @@
         </div>
       </template>
     </el-card>
+
+    <!-- 裁剪案例 -->
+    <el-card class="m-t-10px">
+      <template #header>
+        <div class="card-header">
+          <span>clip</span>
+        </div>
+      </template>
+      <ClipDom ref="clipDom" />
+      <ButtonWrap
+        @capture="handleCapture4"
+        @download="handleDownload4"
+        class="mt-4"
+      />
+      <template #footer>
+        <div class="preview_img flex h-160px">
+          <img :src="clipDomUrl" class="transform-scale-80" />
+        </div>
+      </template>
+    </el-card>
   </div>
 </template>
 
@@ -78,6 +98,7 @@ import BasicDom from "./components/BasicDom.vue";
 import ButtonWrap from "./components/ButtonWrap.vue";
 import AnimateDom from "./components/AnimateDom.vue";
 import CanvasDom from "./components/CanvasDom.vue";
+import ClipDom from "./components/ClipDom.vue";
 import { snapdom } from "@zumer/snapdom";
 import { ElMessage } from "element-plus";
 import { formatDateTime } from "@/utils/date";
@@ -88,10 +109,7 @@ defineOptions({ name: "snapDom" });
 const basicDom = ref<ComponentPublicInstance<typeof BasicDom> | null>(null);
 const basicDomUrl = ref<string>("");
 const handleCapture1 = async () => {
-  // console.log("🚀 ~ handleCapture1 ~ basicDom:", basicDom.value);
-  // console.log("🚀 ~ handleCapture1 ~ basicDom:", basicDom.value.domRef);
   const res = await snapdom(basicDom.value?.domRef);
-  // console.log("🚀 ~ handleCapture1 ~ res:", res.url)
   basicDomUrl.value = res.url;
 };
 const handleDownload1 = () => {
@@ -115,7 +133,7 @@ const canvasDomUrl = ref<string>("");
 const handleCapture3 = async () => {
   // 获取设备像素比 (同canvas)
   const dpr = window.devicePixelRatio || 1;
-  console.log("🚀 ~ handleCapture3 ~ dpr:", dpr);
+  // console.log("🚀 ~ handleCapture3 ~ dpr:", dpr);
   const res = await snapdom(canvasDom.value?.domRef, { dpr });
   canvasDomUrl.value = res.url;
 };
@@ -124,6 +142,17 @@ const handleDownload3 = () => {
 };
 const clearCanvas = () => {
   canvasDom.value?.clearCanvas();
+};
+
+// 裁剪案例
+const clipDom = ref<ComponentPublicInstance<typeof ClipDom> | null>(null);
+const clipDomUrl = ref<string>("");
+const handleCapture4 = async () => {
+  const res = await snapdom(clipDom.value?.domRef);
+  clipDomUrl.value = res.url;
+};
+const handleDownload4 = () => {
+  downloadImg(clipDomUrl.value);
 };
 
 // 下载图片

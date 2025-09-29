@@ -2,10 +2,10 @@
  * @Author: Komorebi
  * @Date: 2025-07-04 11:16:32
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-09-28 16:17:41
+ * @LastEditTime: 2025-09-29 15:28:35
 -->
 <template>
-  <div class="wrapper">
+  <div class="wrapper" ref="fullPage">
     <h3 class="mt-0">使用snapDOM进行截图</h3>
 
     <!-- 基础案例 -->
@@ -89,6 +89,25 @@
         </div>
       </template>
     </el-card>
+
+    <!-- 全屏案例 -->
+    <el-card class="m-t-10px exclude">
+      <template #header>
+        <div class="card-header">
+          <span>{{ $t("Comp.screenshot.fullPage") }}</span>
+        </div>
+      </template>
+      <ButtonWrap
+        @capture="handleCaptureFull"
+        @download="handleDownloadFull"
+        class="mt-4"
+      />
+      <template #footer>
+        <div class="min-h-160px  full-wrap">
+          <img :src="fullPageUrl" class="transform-scale-50" />
+        </div>
+      </template>
+    </el-card>
   </div>
 </template>
 
@@ -155,6 +174,19 @@ const handleDownload4 = () => {
   downloadImg(clipDomUrl.value);
 };
 
+// 全屏案例
+const fullPage = ref<HTMLElement | null>(null);
+const fullPageUrl = ref<string>("");
+const handleCaptureFull = async () => {
+  const res = await snapdom(fullPage.value!, {
+    exclude: [".exclude"],
+  });
+  fullPageUrl.value = res.url;
+};
+const handleDownloadFull = () => {
+  downloadImg(fullPageUrl.value);
+};
+
 // 下载图片
 function downloadImg(imgUrl: string) {
   if (!imgUrl) {
@@ -210,5 +242,16 @@ function downloadImg(imgUrl: string) {
     align-items: center;
     justify-content: center;
   }
+  // .full-wrap{
+  //   position: relative;
+  //   img{
+  //     position: absolute;
+  //     top: 0;
+  //     left: 0;
+  //     width: 100%;
+  //     height: 100%;
+  //     // transform: translate(-50%, -50%);
+  //   }
+  // }
 }
 </style>

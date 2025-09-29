@@ -108,6 +108,7 @@ export default {
       dynamicExample: "Dynamic Example",
       canvas: "Canvas",
       clip: "Clip",
+      fullPage: "Full Page",
     },
   },
 };

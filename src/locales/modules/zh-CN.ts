@@ -108,6 +108,7 @@ export default {
       dynamicExample: "动态案例",
       canvas: "画布",
       clip: "裁剪",
+      fullPage: "全屏",
     },
   },
 };

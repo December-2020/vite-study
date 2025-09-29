@@ -2,7 +2,7 @@
  * @Author: Komorebi
  * @Date: 2025-09-28 15:24:41
  * @LastEditors: Komorebi
- * @LastEditTime: 2025-09-28 17:12:33
+ * @LastEditTime: 2025-09-29 09:11:31
 -->
 <template>
   <div class="wrapper" ref="domRef">
@@ -39,7 +39,7 @@ defineExpose({ domRef });
       top: 50%;
       width: 0;
       height: 0;
-      border-left: 14px solid #ff7043;
+      border-left: 6px solid #ff7043;
       border-right: 14px solid transparent;
       border-bottom: 14px solid transparent;
       border-top: 14px solid transparent;

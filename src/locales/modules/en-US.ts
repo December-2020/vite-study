@@ -107,6 +107,7 @@ export default {
       basicExample: "Basic Example",
       dynamicExample: "Dynamic Example",
       canvas: "Canvas",
+      clip: "Clip",
     },
   },
 };

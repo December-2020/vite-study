@@ -74,7 +74,7 @@
     <el-card class="m-t-10px">
       <template #header>
         <div class="card-header">
-          <span>clip</span>
+          <span>{{ $t("Comp.screenshot.clip") }}</span>
         </div>
       </template>
       <ClipDom ref="clipDom" />

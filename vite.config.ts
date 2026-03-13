@@ -48,6 +48,9 @@ export default defineConfig(({ command, mode }) => {
   const isDev = command === "serve";
 
   return {
+    /* github page */
+    base: isDev ? "" : "/vite-study/",
+
     /* 共享选项 */
     plugins: [
       vue(),

@@ -1,1 +1,0 @@
-import{d as e,o as t,e as n}from"./index-CrXC7reR.js";const o={class:"wrapper"},_=e({name:"Test-3",__name:"index3",setup(s){return(a,r)=>(t(),n("div",o," 测试页面333333333333333333 "))}});export{_ as default};

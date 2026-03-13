@@ -1,0 +1,1 @@
+import{d as s,aE as c,g as p,o as u,e as i}from"./index-CrXC7reR.js";const f=s({name:"Redirect",__name:"index",setup(_){const{currentRoute:a,replace:n}=c(),{params:r,query:o}=p(a),{path:e}=r;Reflect.deleteProperty(r,"path");const t=Array.isArray(e)?e.join("/"):e;return n({path:t.startsWith("/")?t:"/"+t,query:o}),(m,d)=>(u(),i("div"))}});export{f as default};
